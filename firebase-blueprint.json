@@ -1,0 +1,135 @@
+{
+  "$schema": "https://raw.githubusercontent.com/firebase/firebase-blueprint/main/schema.json",
+  "entities": {
+    "Job": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "company": { "type": "string" },
+        "location": { "type": "string" },
+        "type": { "type": "string" },
+        "department": { "type": "string" },
+        "salary": { "type": "string" },
+        "postedDate": { "type": "string" },
+        "deadline": { "type": "string" },
+        "featured": { "type": "boolean" },
+        "requiresVideoInterview": { "type": "boolean" },
+        "description": { "type": "string" },
+        "requirements": { "type": "array", "items": { "type": "string" } },
+        "benefits": { "type": "array", "items": { "type": "string" } },
+        "applicantsCount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "company", "description"]
+    },
+    "Application": {
+      "type": "object",
+      "properties": {
+        "jobId": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "role": { "type": "string" },
+        "experienceYears": { "type": "number" },
+        "currentCompany": { "type": "string" },
+        "status": { "type": "string" },
+        "matchScore": { "type": "number" },
+        "appliedDate": { "type": "string" }
+      },
+      "required": ["name", "email", "phone"]
+    },
+    "PaymentInvoice": {
+      "type": "object",
+      "properties": {
+        "invoiceNumber": { "type": "string" },
+        "date": { "type": "string" },
+        "customerName": { "type": "string" },
+        "companyName": { "type": "string" },
+        "email": { "type": "string" },
+        "packageName": { "type": "string" },
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "vatAmount": { "type": "number" },
+        "totalWithVat": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["invoiceNumber", "amount", "totalWithVat"]
+    },
+    "OwnerFinancialSettings": {
+      "type": "object",
+      "properties": {
+        "ownerName": { "type": "string" },
+        "ownerEmail": { "type": "string" },
+        "merchantBusinessName": { "type": "string" },
+        "crNumber": { "type": "string" },
+        "vatNumber": { "type": "string" },
+        "bankName": { "type": "string" },
+        "iban": { "type": "string" },
+        "accountNumber": { "type": "string" },
+        "swiftCode": { "type": "string" },
+        "payoutSchedule": { "type": "string" },
+        "gatewayMode": { "type": "string" },
+        "merchantKeyId": { "type": "string" },
+        "totalEarningsSAR": { "type": "number" },
+        "availableBalanceSAR": { "type": "number" },
+        "totalPayoutsWithdrawnSAR": { "type": "number" }
+      },
+      "required": ["ownerEmail", "iban", "bankName"]
+    },
+    "MarketingCampaign": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "platform": { "type": "string" },
+        "targetAudience": { "type": "string" },
+        "objective": { "type": "string" },
+        "adContent": { "type": "string" },
+        "hashtags": { "type": "array", "items": { "type": "string" } },
+        "cta": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "platform", "adContent"]
+    },
+    "SupportTicket": {
+      "type": "object",
+      "properties": {
+        "userEmail": { "type": "string" },
+        "userName": { "type": "string" },
+        "issueType": { "type": "string" },
+        "message": { "type": "string" },
+        "aiSolution": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["issueType", "message", "status"]
+    }
+  },
+  "firestore": {
+    "jobs/{jobId}": {
+      "schema": { "$ref": "#/entities/Job" },
+      "description": "Public recruitment job postings"
+    },
+    "applications/{appId}": {
+      "schema": { "$ref": "#/entities/Application" },
+      "description": "Candidate job applications"
+    },
+    "invoices/{invoiceId}": {
+      "schema": { "$ref": "#/entities/PaymentInvoice" },
+      "description": "Customer payments and billing transactions"
+    },
+    "owner_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/OwnerFinancialSettings" },
+      "description": "Owner financial credentials, IBAN, and payout balances"
+    },
+    "marketing_campaigns/{campaignId}": {
+      "schema": { "$ref": "#/entities/MarketingCampaign" },
+      "description": "AI-generated marketing campaigns and social media ads"
+    },
+    "support_tickets/{ticketId}": {
+      "schema": { "$ref": "#/entities/SupportTicket" },
+      "description": "User queries, troubleshooting tickets, and automated AI solutions"
+    }
+  }
+}
