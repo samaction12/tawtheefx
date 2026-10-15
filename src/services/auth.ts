@@ -5,7 +5,7 @@ import {
   signOut,
   onIdTokenChanged,
   GoogleAuthProvider,
-  signInWithPopup,
+  signInWithRedirect,
 } from 'firebase/auth';
 
 import { app } from './firebase';
@@ -18,7 +18,7 @@ export const adminSignIn = (email: string, password: string) =>
 
 // تسجيل دخول المستخدم العادي بجوجل
 export const googleSignIn = () =>
-  signInWithPopup(auth(), new GoogleAuthProvider());
+  signInWithRedirect(auth(), new GoogleAuthProvider());
 
 // تسجيل الخروج
 export const adminSignOut = () => signOut(auth());
