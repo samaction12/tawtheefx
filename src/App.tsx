@@ -406,7 +406,9 @@ export default function App() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenJobPost={() => setIsJobPostModalOpen(true)}
-        onOpenReminders={() => setIsReminderModalOpen(true)}
+        onOpenReminders={() => setIsReminderModalOpen(true)} 
+        onGoogleLogin={handleGoogleLogin}
+userEmail={userEmail}
         remindersCount={reminders.length}
         onOpenOwnerFinancials={openOwnerArea}
         ownerFinancials={ownerFinancials}
