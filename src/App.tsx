@@ -155,15 +155,23 @@ export default function App() {
   };
 
   const openOwnerArea = () => (isAdmin ? setIsOwnerFinancialsOpen(true) : setIsLoginOpen(true));
-  const handleGoogleLogin = async () => {
+  
+const handleGoogleLogin = async () => {
+  showToast('تم الضغط على زر Google، جارٍ فتح تسجيل الدخول...');
+
   try {
     await googleSignIn();
     showToast('تم تسجيل الدخول بجوجل بنجاح.');
   } catch (error) {
     console.error('Google sign-in error:', error);
-    showToast('تعذّر تسجيل الدخول. حاول مرة أخرى.');
+
+    const message =
+      error instanceof Error ? error.message : String(error);
+
+    showToast(`خطأ Google: ${message}`);
   }
 };
+
 
   useEffect(() => onAdminChange(setIsAdmin), []);
   useEffect(() => {
