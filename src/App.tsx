@@ -48,6 +48,7 @@ import {
   SupportTicket
 } from './types';
 import {
+  app,
   syncJobToCloud,
   loadJobsFromCloud,
   syncApplicantToCloud,
