@@ -129,6 +129,7 @@ export default function App() {
   const [isOwnerFinancialsOpen, setIsOwnerFinancialsOpen] = useState(false);
   const [isAIOperationsOpen, setIsAIOperationsOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isAdminToolsOpen, setIsAdminToolsOpen] = useState(false);
   const [announcement, setAnnouncement] = useState('');
@@ -154,8 +155,22 @@ export default function App() {
   };
 
   const openOwnerArea = () => (isAdmin ? setIsOwnerFinancialsOpen(true) : setIsLoginOpen(true));
+  const handleGoogleLogin = async () => {
+  try {
+    await googleSignIn();
+    showToast('تم تسجيل الدخول بجوجل بنجاح.');
+  } catch (error) {
+    console.error('Google sign-in error:', error);
+    showToast('تعذّر تسجيل الدخول. حاول مرة أخرى.');
+  }
+};
 
   useEffect(() => onAdminChange(setIsAdmin), []);
+  useEffect(() => {
+  return onAuthStateChanged(getAuth(app), (user) => {
+    setUserEmail(user?.email ?? null);
+  });
+}, []);
 
   // Public data + return from hosted card checkout (?order=...)
   useEffect(() => {
