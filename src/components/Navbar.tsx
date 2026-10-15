@@ -90,9 +90,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             )}
 
-            <button
-              onClick={onOpenAIOperations}
-              className="px-2.5 py-1.5 rounded-lg border border-indigo-200 bg-indigo-50 text-indigo-700 text-xs font-semibold flex items-center gap-1.5"
+     <button
+  type="button"
+  onClick={onGoogleLogin}
+  className="relative z-[101] pointer-events-auto touch-manipulation px-3 py-2 rounded-lg border border-indigo-200 bg-white hover:bg-indigo-50 text-indigo-700 text-xs font-semibold flex items-center gap-1.5"
+>
               title="مركز العمليات الذكي"
             >
               <Bot className="w-4 h-4" />
