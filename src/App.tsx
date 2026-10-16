@@ -358,7 +358,7 @@ export default function App() {
       role: job ? job.title : 'متقدم وظيفي',
       experienceYears: 4,
       currentCompany: 'مستقل / باحث عن فرصة',
-      avatar: '/images/avatar_candidate_talent_1791989553197.jpg', // ✅ تم إصلاح المسار هنا
+      avatar: '/images/avatar_candidate_talent_1791989553197.jpg',
       appliedDate: new Date().toISOString().split('T')[0],
       status: job?.requiresVideoInterview ? 'مؤهل للمقابلة' : 'جديد',
       matchScore: Math.floor(85 + Math.random() * 12),
@@ -383,7 +383,7 @@ export default function App() {
 
     triggerBrowserPush(
       'طلب توظيف جديد وارد!',
-      `تلقيت طلب تقديم من ${candidateData.name} لدور "${job ? job.title : 'شاغر'}".`, // ✅ تم إصلاح الخطأ المطبعي هنا
+      `تلقيت طلب تقديم من ${candidateData.name} لدور "${job ? job.title : 'شاغر'}".`,
       'application',
       () => setActiveTab('employer')
     );
@@ -547,4 +547,8 @@ export default function App() {
       {isJobPostModalOpen && (
         <JobPostModal
           onClose={() => setIsJobPostModalOpen(false)}
-          onProceedToPayment={handleJobPostSub
+          onProceedToPayment={handleJobPostSubmit}
+        />
+      )}
+
+      {/* ✅ تم إصلاح الخصائص هن
