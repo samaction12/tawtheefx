@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { getDb, CATALOG, VAT_RATE, str } from './_lib';
+import { getDb, CATALOG, VAT_RATE, str } from './_lib.js';
 import { FieldValue } from 'firebase-admin/firestore';
 
 export default async function handler(req: any, res: any) {
