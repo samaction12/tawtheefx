@@ -164,7 +164,7 @@ export default function App() {
       {isPaymentModalOpen && (<PaymentModal packageToBuy={packageForPayment} onClose={() => setIsPaymentModalOpen(false)} currency={currencyForPayment} pendingJob={pendingJobPost} onPaymentSuccess={handlePaymentSuccess} />)}
       {isInterviewRoomOpen && (<OnlineInterviewRoom isOpen={isInterviewRoomOpen} onClose={() => setIsInterviewRoomOpen(false)} candidate={interviewCandidate} onSaveEvaluation={handleSaveEvaluation} />)}
       {isReminderModalOpen && (<ReminderModal isOpen={isReminderModalOpen} onClose={() => setIsReminderModalOpen(false)} candidate={interviewCandidate} onSendReminder={handleSendReminder} />)}
-      {isOwnerFinancialsOpen && (<OwnerFinancialsModal isOpen={isOwnerFinancialsOpen} onClose={() => setIsOwnerFinancialsOpen(false)} financials={ownerFinancials} onRequestPayout={handleRequestPayout} />)}
+      {isOwnerFinancialsOpen && (<OwnerFinancialsModal isOpen={isOwnerFinancialsOpen} onClose={() => setIsOwnerFinancialsOpen(false)} financials={ownerFinancials || INITIAL_OWNER_FINANCIALS} onRequestPayout={handleRequestPayout} />)}
       {isAdmin && isAdminToolsOpen && (<AdminToolsModal isOpen={isAdminToolsOpen} onClose={() => setIsAdminToolsOpen(false)} />)}
       {isLoginOpen && (<AdminLoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLoginSuccess={() => setIsAdmin(true)} />)}
       {isAIOperationsOpen && (<AIOperationsModal isOpen={isAIOperationsOpen} onClose={() => setIsAIOperationsOpen(false)} campaigns={campaigns} supportTickets={supportTickets} />)}

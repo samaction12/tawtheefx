@@ -61,8 +61,8 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
   const [iban, setIban] = useState(profile?.iban);
   const [accountNumber, setAccountNumber] = useState(profile?.accountNumber);
   const [swiftCode, setSwiftCode] = useState(profile?.swiftCode || 'RJHISARI');
-  const [payoutSchedule, setPayoutSchedule] = useState<'daily' | 'weekly' | 'monthly'>(profile.payoutSchedule);
-  const [gatewayMode, setGatewayMode] = useState<'live' | 'sandbox'>(profile.gatewayMode);
+  const [payoutSchedule, setPayoutSchedule] = useState<'daily' | 'weekly' | 'monthly'>(profile?.payoutSchedule);
+  const [gatewayMode, setGatewayMode] = useState<'live' | 'sandbox'>(profile?.gatewayMode);
   const [merchantKeyId, setMerchantKeyId] = useState(profile?.merchantKeyId || 'MID-TAWTHEEFX-994821094');
 
   // Payout request simulation state
@@ -124,10 +124,10 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
   };
 
   const handleInstantPayout = () => {
-    if (profile.availableBalanceSAR <= 0) return;
+    if (profile?.availableBalanceSAR <= 0) return;
     setIsTransferring(true);
     setTimeout(() => {
-      onRequestPayout(profile.availableBalanceSAR);
+      onRequestPayout(profile?.availableBalanceSAR);
       setIsTransferring(false);
       setTransferSuccess(true);
       setTimeout(() => setTransferSuccess(false), 3000);
@@ -199,7 +199,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
               <span className="text-[10px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-bold font-mono">100% للمالك</span>
             </div>
             <div className="text-2xl font-bold text-slate-900 font-mono tabular-nums">
-              {profile.totalEarningsSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} ر.س
+              {profile?.totalEarningsSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} ر.س
             </div>
             <div className="text-[10px] text-slate-400 font-mono">شامل كافة مبيعات الباقات وإعلانات التوظيف</div>
           </div>
@@ -210,7 +210,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
               <span className="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-mono">جاهز للصرف</span>
             </div>
             <div className="text-2xl font-bold text-indigo-700 font-mono tabular-nums">
-              {profile.availableBalanceSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} ر.س
+              {profile?.availableBalanceSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} ر.س
             </div>
             <div className="text-[10px] text-slate-500 font-mono">
               سيتم التحويل للآيبان: {iban.slice(0, 4)} **** {iban.slice(-4)}
@@ -220,7 +220,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
           <div className="flex flex-col gap-2">
             <button
               onClick={handleInstantPayout}
-              disabled={isTransferring || profile.availableBalanceSAR <= 0}
+              disabled={isTransferring || profile?.availableBalanceSAR <= 0}
               className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
             >
               <ArrowDownLeft className="w-4 h-4" />
