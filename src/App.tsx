@@ -358,7 +358,7 @@ export default function App() {
       role: job ? job.title : 'متقدم وظيفي',
       experienceYears: 4,
       currentCompany: 'مستقل / باحث عن فرصة',
-      avatar: '/src/assets/images/avatar_candidate_talent_1791989553197.jpg',
+      avatar: '/images/avatar_candidate_talent_1791989553197.jpg', // ✅ تم إصلاح المسار هنا
       appliedDate: new Date().toISOString().split('T')[0],
       status: job?.requiresVideoInterview ? 'مؤهل للمقابلة' : 'جديد',
       matchScore: Math.floor(85 + Math.random() * 12),
@@ -383,7 +383,7 @@ export default function App() {
 
     triggerBrowserPush(
       'طلب توظيف جديد وارد!',
-      `تلقيت طلب تقديم من ${candidateData.name} لدور "${job ? job.title : 'شاغر'}".`,
+      `تلقيت طلب تقديم من ${candidateData.name} لدور "${job ? job.title : 'شاغر'}".`, // ✅ تم إصلاح الخطأ المطبعي هنا
       'application',
       () => setActiveTab('employer')
     );
@@ -547,82 +547,4 @@ export default function App() {
       {isJobPostModalOpen && (
         <JobPostModal
           onClose={() => setIsJobPostModalOpen(false)}
-          onProceedToPayment={handleJobPostSubmit}
-        />
-      )}
-
-      {isPaymentModalOpen && (
-        <PaymentModal
-          isOpen={isPaymentModalOpen}
-          onClose={() => setIsPaymentModalOpen(false)}
-          selectedPackage={packageForPayment}
-          currency={currencyForPayment}
-          pendingJob={pendingJobPost}
-          onSuccess={handlePaymentSuccess}
-        />
-      )}
-
-      {isInterviewRoomOpen && (
-        <OnlineInterviewRoom
-          isOpen={isInterviewRoomOpen}
-          onClose={() => setIsInterviewRoomOpen(false)}
-          candidate={interviewCandidate}
-          onSaveEvaluation={handleSaveEvaluation}
-        />
-      )}
-
-      {isReminderModalOpen && (
-        <ReminderModal
-          isOpen={isReminderModalOpen}
-          onClose={() => setIsReminderModalOpen(false)}
-          candidate={interviewCandidate}
-          onSendReminder={handleSendReminder}
-        />
-      )}
-
-      {isOwnerFinancialsOpen && (
-        <OwnerFinancialsModal
-          isOpen={isOwnerFinancialsOpen}
-          onClose={() => setIsOwnerFinancialsOpen(false)}
-          financials={ownerFinancials}
-          onRequestPayout={handleRequestPayout}
-        />
-      )}
-
-      {isAdmin && isAdminToolsOpen && (
-        <AdminToolsModal
-          isOpen={isAdminToolsOpen}
-          onClose={() => setIsAdminToolsOpen(false)}
-        />
-      )}
-
-      {isLoginOpen && (
-        <AdminLoginModal
-          isOpen={isLoginOpen}
-          onClose={() => setIsLoginOpen(false)}
-          onLoginSuccess={() => setIsAdmin(true)}
-        />
-      )}
-
-      {isAIOperationsOpen && (
-        <AIOperationsModal
-          isOpen={isAIOperationsOpen}
-          onClose={() => setIsAIOperationsOpen(false)}
-          campaigns={campaigns}
-          supportTickets={supportTickets}
-        />
-      )}
-
-      {browserNotification && (
-        <BrowserNotificationBanner
-          notification={browserNotification}
-          onClose={() => setBrowserNotification(null)}
-          onRequestPermission={handleRequestBrowserPermission}
-          permission={browserPermission}
-        />
-      )}
-
-      <FloatingSupportBot />
-    </div>
-  );
-}
+          onProceedToPayment={handleJobPostSub
