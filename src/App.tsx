@@ -551,3 +551,6 @@ export default function App() {
           packageToBuy={packageForPayment}
           onClose={() => setIsPaymentModalOpen(false)}
   
+    </div>
+  );
+      }
