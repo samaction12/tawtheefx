@@ -85,7 +85,7 @@ export default function App() {
       setApplicants(apps); setCampaigns(camps); setSupportTickets(tix);
       setTransactions(inv.map((i: any) => ({ ...i, id: i.orderId || i.id, companyName: i.customerName })) as PaymentTransaction[]);
       const earned = inv.reduce((n: number, i: any) => n + (i.amount || 0), 0);
-      const base = owner || INITIAL_OWNER_FINANCIALS;
+      const base = owner || INITIAL_OWNER_FINANCIALS || {};
       setOwnerFinancials({ ...base, totalEarningsSAR: earned, availableBalanceSAR: Math.max(0, earned - (base.totalPayoutsWithdrawnSAR || 0)) });
     })();
   }, [isAdmin]);
