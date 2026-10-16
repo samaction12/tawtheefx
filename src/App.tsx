@@ -147,7 +147,7 @@ export default function App() {
     setTimeout(() => setToastMessage(null), 4000);
   };
 
-const openOwnerArea = () => setIsOwnerFinancialsOpen(true);
+const openOwnerArea = () => (isAdmin ? setIsOwnerFinancialsOpen(true) : setIsLoginOpen(true));
   // ===== Google Login =====
   const handleGoogleLogin = async () => {
     showToast('جارٍ فتح تسجيل الدخول بجوجل...');
