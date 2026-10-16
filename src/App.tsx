@@ -85,7 +85,7 @@ export default function App() {
       platform: 'linkedin',
       targetAudience: 'مدراء الموارد البشرية ومسؤولي التوظيف في الرياض وجدة',
       objective: 'packages_sales',
-      adContent: `🚀 هل ما زلت تقضي أسابيع في فرز السير الذاتية وتنسيق المقابلات؟\n\nمع منصة توظيف إكسبرتس TawtheefX أعدنا ابتكار التوظيف الذكي في المملكة:\n✅ نشر الوظائف والوصول لآلاف المهنيين في دقائق.\n✅ قاعات فيديو رقمية مشفرة بدون تحميل تطبيقات.\n✅ تذكيرات آلية للمرشحين قبل الموعد بـ 60 دقيقة.\n✅ فواتير ضريبية فورية معتمدة وفق متطلبات ZATCA.`,
+      adContent: '🚀 هل ما زلت تقضي أسابيع في فرز السير الذاتية وتنسيق المقابلات؟\n\nمع منصة توظيف إكسبرتس TawtheefX أعدنا ابتكار التوظيف الذكي في المملكة:\n✅ نشر الوظائف والوصول لآلاف المهنيين في دقائق.\n✅ قاعات فيديو رقمية مشفرة بدون تحميل تطبيقات.\n✅ تذكيرات آلية للمرشحين قبل الموعد بـ 60 دقيقة.\n✅ فواتير ضريبية فورية معتمدة وفق متطلبات ZATCA.',
       suggestedVisualPrompt: 'لوحة قيادة توظيف حديثة بالألوان الكحلية والزمردية مع رسومات تفاعلية لكاميرا المقابلة',
       hashtags: ['#الموارد_البشرية', '#توظيف_السعودية', '#مقابلات_رقمية', '#رؤية_2030'],
       cta: 'اختر باقة التوظيف المناسبة واطلق إعلانك اليوم',
@@ -104,7 +104,7 @@ export default function App() {
       userRole: 'شركة / صاحب عمل',
       issueCategory: 'interview_audio_video',
       message: 'الكاميرا لم تفتح في قاعة المقابلة أثناء اختبار الاتصال',
-      aiSolution: `مرحباً سلطان، تم فحص الاتصال وتطبيق الحل التلقائي:\n1. تم إرشاد المتصفح لإعادة طلب أذونات الكاميرا والميكروفون بنجاح.\n2. تم التأكد من عدم استخدام الكاميرا بواسطة برامج أخرى (Zoom/Teams).\n3. قاعة المقابلة الآن جاهزة للبث عالي الدقة HD.`,
+      aiSolution: 'مرحباً سلطان، تم فحص الاتصال وتطبيق الحل التلقائي:\n1. تم إرشاد المتصفح لإعادة طلب أذونات الكاميرا والميكروفون بنجاح.\n2. تم التأكد من عدم استخدام الكاميرا بواسطة برامج أخرى (Zoom/Teams).\n3. قاعة المقابلة الآن جاهزة للبث عالي الدقة HD.',
       status: 'تم الحل آلياً بواسطة البوت',
       diagnosticStepsTaken: ['فحص إذن الكاميرا بالمستعرض', 'التحقق من توفر مسار الصوت WebRTC', 'إعادة تهيئة مدخلات الأجهزة'],
       createdAt: 'اليوم، 10:15 صباحاً',
@@ -423,7 +423,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-indigo-600 selection:text-white">
-      {/* Toast */}
       {toastMessage && (
         <div className="fixed bottom-5 left-5 z-50 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2.5 border border-slate-700 animate-in fade-in slide-in-from-bottom-2 duration-200">
           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -431,7 +430,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Navbar */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -452,7 +450,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Clean Slate Banner */}
       {isAdmin && isCleanSlateActive && (
         <div className="bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 text-white px-4 py-2.5 text-xs border-b border-indigo-800 flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -480,7 +477,6 @@ export default function App() {
         </div>
       )}
 
-      {/* Main Content */}
       <main className="flex-1">
         {activeTab === 'jobs' && (
           <>
@@ -543,7 +539,6 @@ export default function App() {
 
       <Footer onNavigate={setActiveTab} />
 
-      {/* Modals */}
       {isJobPostModalOpen && (
         <JobPostModal
           onClose={() => setIsJobPostModalOpen(false)}
@@ -551,4 +546,8 @@ export default function App() {
         />
       )}
 
-      
+      {isPaymentModalOpen && (
+        <PaymentModal
+          packageToBuy={packageForPayment}
+          onClose={() => setIsPaymentModalOpen(false)}
+  
