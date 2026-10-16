@@ -52,18 +52,18 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
   const [activeTab, setActiveTab] = useState<'bank' | 'gateway' | 'code' | 'payouts'>('bank');
 
   // Form states
-  const [ownerName, setOwnerName] = useState(profile.ownerName);
-  const [ownerEmail, setOwnerEmail] = useState(profile.ownerEmail);
-  const [merchantBusinessName, setMerchantBusinessName] = useState(profile.merchantBusinessName);
-  const [crNumber, setCrNumber] = useState(profile.crNumber);
-  const [vatNumber, setVatNumber] = useState(profile.vatNumber);
-  const [bankName, setBankName] = useState(profile.bankName);
-  const [iban, setIban] = useState(profile.iban);
-  const [accountNumber, setAccountNumber] = useState(profile.accountNumber);
-  const [swiftCode, setSwiftCode] = useState(profile.swiftCode || 'RJHISARI');
+  const [ownerName, setOwnerName] = useState(profile?.ownerName || "");
+  const [ownerEmail, setOwnerEmail] = useState(profile?.ownerEmail);
+  const [merchantBusinessName, setMerchantBusinessName] = useState(profile?.merchantBusinessName);
+  const [crNumber, setCrNumber] = useState(profile?.crNumber);
+  const [vatNumber, setVatNumber] = useState(profile?.vatNumber);
+  const [bankName, setBankName] = useState(profile?.bankName);
+  const [iban, setIban] = useState(profile?.iban);
+  const [accountNumber, setAccountNumber] = useState(profile?.accountNumber);
+  const [swiftCode, setSwiftCode] = useState(profile?.swiftCode || 'RJHISARI');
   const [payoutSchedule, setPayoutSchedule] = useState<'daily' | 'weekly' | 'monthly'>(profile.payoutSchedule);
   const [gatewayMode, setGatewayMode] = useState<'live' | 'sandbox'>(profile.gatewayMode);
-  const [merchantKeyId, setMerchantKeyId] = useState(profile.merchantKeyId || 'MID-TAWTHEEFX-994821094');
+  const [merchantKeyId, setMerchantKeyId] = useState(profile?.merchantKeyId || 'MID-TAWTHEEFX-994821094');
 
   // Payout request simulation state
   const [isTransferring, setIsTransferring] = useState(false);
