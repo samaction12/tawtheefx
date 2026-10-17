@@ -53,32 +53,12 @@ export default async function handler(req: any, res: any) {
     });
   }
 
-  const key = process.env.MOYASAR_SECRET_KEY;
-  if (!key) return res.status(503).json({ error: 'card_payments_not_configured' });
-
-  const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/$/, '');
-  const r = await fetch('https://api.moyasar.com/v1/invoices', {
-    method: 'POST',
-    headers: {
-      Authorization: 'Basic ' + Buffer.from(key + ':').toString('base64'),
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      amount: Math.round(total * 100),
-      currency: 'SAR',
-      description: pkg.name + ' - ' + reference,
-      callback_url: publicUrl + '/api/webhooks/moyasar',
-      success_url: publicUrl + '/?order=' + id,
-      back_url: publicUrl,
-      metadata: { orderId: id },
-    }),
+  // Card Payment via Paddle
+  await db.collection('orders').doc(id).set({ ...base, status: 'pending_payment' });
+  return res.json({
+    orderId: id,
+    reference,
+    total,
+    checkoutUrl: 'https://tawtheefx-app.paddle.com/checkout?_ptxn=pri_01m54pby61c5yn0svcqpp5dw21'
   });
-
-  if (!r.ok) {
-    console.error('moyasar', r.status, await r.text());
-    return res.status(502).json({ error: 'gateway_error' });
-  }
-  const inv: any = await r.json();
-  await db.collection('orders').doc(id).set({ ...base, status: 'pending_payment', invoiceId: inv.id });
-  res.json({ orderId: id, reference, total, checkoutUrl: 'https://tawtheefx-app.paddle.com/checkout?_ptxn=pri_01m54pby61c5yn0svcqpp5dw21' });
 }
