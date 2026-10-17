@@ -33,7 +33,7 @@ export const OnlineInterviewRoom: React.FC<OnlineInterviewRoomProps> = ({
   // Candidate info fallback
   const activeCandidate = candidate || {
     id: 'app-sarah',
-    name: 'سارة عبد الله الشمري',
+    name: 'مرشح تجريبي',
     email: 'sarah.alshammari@example.com',
     role: 'مهندس أول حلول سحابية وبرمجيات',
     experienceYears: 6,
