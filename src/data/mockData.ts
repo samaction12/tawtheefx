@@ -70,7 +70,7 @@ export const PACKAGES: JobPackage[] = [
   }
 ];
 
-export const INITIAL_JOBS: JobListing[] = [
+export const INITIAL_JOBS: JobListing[] = []; const _IGNORED_JOBS = [
   {
     id: 'job-1',
     title: 'مهندس أول حلول سحابية وبرمجيات (Senior Cloud Engineer)',
@@ -198,7 +198,7 @@ export const INITIAL_JOBS: JobListing[] = [
   }
 ];
 
-export const INITIAL_APPLICANTS: Applicant[] = [
+export const INITIAL_APPLICANTS: Applicant[] = []; const _IGNORED_APPLICANTS = [
   {
     id: 'app-1',
     name: 'سارة عبد الله الشمري',
