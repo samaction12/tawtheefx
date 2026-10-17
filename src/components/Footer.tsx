@@ -1,121 +1,71 @@
 import React from 'react';
-import { Briefcase, ShieldCheck, Mail, Phone, MapPin } from 'lucide-react';
+import { ShieldCheck, Mail, Globe, Lock, CreditCard } from 'lucide-react';
 
-interface FooterProps {
-  onNavigate: (tab: 'jobs' | 'packages' | 'interviews' | 'employer' | 'billing') => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+export const Footer = ({ onNavigate }: { onNavigate: (tab: any) => void }) => {
   return (
-    <footer className="bg-slate-900 text-slate-400 text-xs border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Brand Info */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-white font-bold text-base">
-              <div className="w-7 h-7 rounded bg-indigo-600 flex items-center justify-center">
-                <Briefcase className="w-4 h-4 text-white" />
-              </div>
-              <span>توظيف ذكي ThakiHire</span>
-            </div>
-            <p className="text-slate-400 leading-relaxed text-xs">
-              المنصة المتكاملة لخدمات نشر إعلانات الوظائف وإجراء المقابلات الوظيفية الرقمية المباشرة مع نظام دفع إلكتروني آمن وموثوق.
-            </p>
-            <div className="text-[11px] text-slate-500 font-mono">
-              
-            </div>
-          </div>
-
-          {/* Quick Nav */}
-          <div className="space-y-3">
-            <h4 className="text-white font-semibold text-xs">روابط المنصة</h4>
-            <ul className="space-y-2">
-              <li>
-                <button
-                  onClick={() => onNavigate('jobs')}
-                  className="hover:text-white transition-colors"
-                >
-                  استكشاف أحدث الوظائف
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('packages')}
-                  className="hover:text-white transition-colors"
-                >
-                  باقات إعلانات الوظائف والأسعار
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('interviews')}
-                  className="hover:text-white transition-colors"
-                >
-                  منظومة المقابلات الإلكترونية
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('employer')}
-                  className="hover:text-white transition-colors"
-                >
-                  لوحة تحكم جهة العمل (ATS)
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('billing')}
-                  className="hover:text-white transition-colors"
-                >
-                  سجل الفواتير وسندات الدفع
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Security & Payment */}
-          <div className="space-y-3">
-            <h4 className="text-white font-semibold text-xs">الأمان والمدفوعات</h4>
-            <div className="space-y-2 text-[11px] text-slate-400">
-              <div className="flex items-center gap-1.5 text-emerald-400">
-                <ShieldCheck className="w-4 h-4 shrink-0" />
-                <span>شهادة تشفير 256-Bit SSL المعتمدة</span>
-              </div>
-              <div>متوافق مع معايير الأمان المصرفي PCI-DSS</div>
-              <div>بوابات دفع معتمدة: مدى، فيزا، ماستركارد، Apple Pay، stc pay</div>
-              <div>فواتير ضريبية فورية مطابقة لهيئة الزكاة والضريبة والجمارك (ZATCA)</div>
-            </div>
-          </div>
-
-          {/* Contact */}
-          <div className="space-y-3">
-            <h4 className="text-white font-semibold text-xs">المساعدة وخدمة العملاء</h4>
-            <div className="space-y-2 text-[11px] text-slate-400">
-              <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-indigo-400" />
-                <span>support@thakihire.com</span>
-              </div>
-              <div className="flex items-center gap-2 font-mono tabular-nums">
-                <Phone className="w-3.5 h-3.5 text-indigo-400" />
-                <span>support@thakihire.com</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-indigo-400" />
-                <span>منصة عالمية - Global Platform</span>
-              </div>
-            </div>
+    <footer className="bg-slate-900 text-slate-300 py-12 border-t border-slate-800 font-sans">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        {/* Brand & Description */}
+        <div className="space-y-4">
+          <h3 className="text-xl font-bold text-white flex items-center gap-2">
+            <span className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold">T</span>
+            توظيف ذكي | ThakiHire
+          </h3>
+          <p className="text-sm leading-relaxed text-slate-400">
+            The global, AI-powered platform for smart recruitment, job posting, and seamless digital video interviews. Connecting top talent with world-class companies.
+          </p>
+          <div className="flex items-center gap-2 text-sm text-slate-400 mt-4">
+            <Globe className="w-4 h-4 text-indigo-400" />
+            <span>Serving clients globally.</span>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
-          <div>
-            جميع الحقوق محفوظة © {new Date().getFullYear()} منصة توظيف ذكي لخدمات التوظيف الرقمية.
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="hover:text-slate-400 cursor-pointer">سياسة الخصوصية وحماية البيانات</span>
-            <span aria-hidden="true">·</span>
-            <span className="hover:text-slate-400 cursor-pointer">شروط الاستخدام والخدمة</span>
-          </div>
+        {/* Quick Links */}
+        <div>
+          <h4 className="text-white font-bold mb-4">Platform</h4>
+          <ul className="space-y-2 text-sm">
+            <li><button onClick={() => onNavigate('jobs')} className="hover:text-indigo-400 transition-colors">Explore Latest Jobs</button></li>
+            <li><button onClick={() => onNavigate('packages')} className="hover:text-indigo-400 transition-colors">Pricing & Packages</button></li>
+            <li><button onClick={() => onNavigate('interviews')} className="hover:text-indigo-400 transition-colors">Digital Interviews</button></li>
+            <li><button onClick={() => onNavigate('employer')} className="hover:text-indigo-400 transition-colors">Employer Dashboard</button></li>
+            <li><button onClick={() => onNavigate('billing')} className="hover:text-indigo-400 transition-colors">Invoices & Billing</button></li>
+          </ul>
+        </div>
+
+        {/* Security & Payments */}
+        <div>
+          <h4 className="text-white font-bold mb-4">Security & Payments</h4>
+          <ul className="space-y-3 text-sm">
+            <li className="flex items-center gap-2 text-emerald-400"><ShieldCheck className="w-4 h-4" /> 256-Bit SSL Encrypted</li>
+            <li className="flex items-center gap-2"><Lock className="w-4 h-4 text-slate-400" /> PCI-DSS Compliant</li>
+            <li className="flex items-center gap-2"><CreditCard className="w-4 h-4 text-slate-400" /> Global Gateways (Visa, Mastercard)</li>
+            <li className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-slate-400" /> Instant Certified Invoices</li>
+          </ul>
+        </div>
+
+        {/* Contact */}
+        <div>
+          <h4 className="text-white font-bold mb-4">Customer Support</h4>
+          <ul className="space-y-3 text-sm text-slate-400">
+            <li className="flex items-center gap-2">
+              <Mail className="w-4 h-4 text-indigo-400" /> 
+              <a href="mailto:support@thakihire.com" className="hover:text-white">support@thakihire.com</a>
+            </li>
+            <li className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-indigo-400" /> 
+              <span>Global Support (24/7)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      {/* Bottom Bar */}
+      <div className="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+        <p>© 2026 ThakiHire (توظيف ذكي). All rights reserved globally.</p>
+        <div className="flex gap-4">
+          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
         </div>
       </div>
     </footer>
