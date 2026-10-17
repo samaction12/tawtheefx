@@ -193,7 +193,7 @@ export const InvoicesTab: React.FC<InvoicesTabProps> = ({
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="font-bold text-slate-900">
-                      {ownerFinancials?.merchantBusinessName || 'منصة توظيف إكسبرتس لتقنية المعلومات'}
+                      {ownerFinancials?.merchantBusinessName || 'منصة توظيف ذكي لتقنية المعلومات'}
                     </div>
                     <div className="text-[11px] text-slate-500 mt-0.5">
                       الرقم الضريبي: {ownerFinancials?.vatNumber || '31094829100003'} · السجل التجاري: {ownerFinancials?.crNumber || '1010784920'}

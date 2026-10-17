@@ -3,7 +3,7 @@ import { initializeApp, cert, applicationDefault, getApps } from 'firebase-admin
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 
-export const VAT_RATE = 0.15;
+export const VAT_RATE = 0;
 export const CATALOG: Record<string, { name: string; price: number }> = {
   'pkg-standard': { name: 'باقة النشر القياسية (Standard)', price: 299 },
   'pkg-pro-interview': { name: 'باقة التميز والمقابلات الرقمية (Pro Hire)', price: 699 },
@@ -61,7 +61,7 @@ export async function markPaid(orderId: string, method: string, ref: string) {
       orderId, customerName: d.company, email: d.email,
       packageName: d.packageName, packageId: d.packageId,
       amount: d.amount, vatAmount: d.vat, totalWithVat: d.total,
-      currency: 'SAR', paymentMethod: method, paymentRef: ref,
+      currency: 'USD', paymentMethod: method, paymentRef: ref,
       status: 'مكتمل', date: new Date().toISOString().slice(0, 10),
     });
     tx.update(oRef, { status: 'paid', paidAt: FieldValue.serverTimestamp(), paymentMethod: method });

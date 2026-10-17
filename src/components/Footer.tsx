@@ -16,7 +16,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <div className="w-7 h-7 rounded bg-indigo-600 flex items-center justify-center">
                 <Briefcase className="w-4 h-4 text-white" />
               </div>
-              <span>توظيف إكسبرتس TawtheefX</span>
+              <span>توظيف ذكي ThakiHire</span>
             </div>
             <p className="text-slate-400 leading-relaxed text-xs">
               المنصة المتكاملة لخدمات نشر إعلانات الوظائف وإجراء المقابلات الوظيفية الرقمية المباشرة مع نظام دفع إلكتروني آمن وموثوق.
@@ -109,7 +109,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
           <div>
-            جميع الحقوق محفوظة © {new Date().getFullYear()} منصة توظيف إكسبرتس لخدمات التوظيف الرقمية.
+            جميع الحقوق محفوظة © {new Date().getFullYear()} منصة توظيف ذكي لخدمات التوظيف الرقمية.
           </div>
           <div className="flex items-center gap-4">
             <span className="hover:text-slate-400 cursor-pointer">سياسة الخصوصية وحماية البيانات</span>

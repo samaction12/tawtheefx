@@ -273,7 +273,7 @@ export const AIOperationsModal: React.FC<AIOperationsModalProps> = ({
                       <option value="packages_sales">بيع باقات التوظيف والمقابلات الرقمية للشركات</option>
                       <option value="enterprise_lead">استقطاب شركات كبرى ومؤسسات لباقة Enterprise</option>
                       <option value="job_promotion">ترويج شاغر وظيفي وجلب كفاءات نوعية</option>
-                      <option value="brand_awareness">نشر العلامة التجارية لمنصة توظيف إكسبرتس</option>
+                      <option value="brand_awareness">نشر العلامة التجارية لمنصة توظيف ذكي</option>
                     </select>
                   </div>
                 </div>

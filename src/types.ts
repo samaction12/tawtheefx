@@ -1,4 +1,4 @@
-export type Currency = 'SAR' | 'AED' | 'USD';
+export type Currency = 'USD';
 
 export interface JobPackage {
   id: string;
@@ -91,7 +91,7 @@ export interface PaymentTransaction {
   packageName: string;
   packageId: string;
   amount: number;
-  currency: Currency;
+  currency: 'USD';
   vatAmount: number;
   totalWithVat: number;
   paymentMethod: 'mada' | 'visa' | 'mastercard' | 'apple_pay' | 'stc_pay';

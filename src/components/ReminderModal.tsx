@@ -57,7 +57,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
   const roomCode = currentApplicant?.interviewScheduled?.roomCode || 'TX-ROOM-8821';
   const meetingLink = `https://tawtheefx.sa/room/${roomCode}`;
 
-  const smsText = `تذكير موعد المقابلة (منصة TawtheefX): عزيزي/عزيزتي ${currentApplicant?.name}، نود تذكيرك بأن موعد مقابلتك الوظيفية مع جهة العمل سيبدأ بعد ساعة واحدة (${interviewTime}).\nرابط الدخول المباشر: ${meetingLink}\nيرجى التواجد في مكان هادئ والتأكد من عمل الكاميرا والصوت.`;
+  const smsText = `تذكير موعد المقابلة (منصة ThakiHire): عزيزي/عزيزتي ${currentApplicant?.name}، نود تذكيرك بأن موعد مقابلتك الوظيفية مع جهة العمل سيبدأ بعد ساعة واحدة (${interviewTime}).\nرابط الدخول المباشر: ${meetingLink}\nيرجى التواجد في مكان هادئ والتأكد من عمل الكاميرا والصوت.`;
 
   const emailSubjectText = `تذكير: موعد مقابلتك الوظيفية الرقمية بعد ساعة واحدة - ${currentApplicant?.role}`;
 
@@ -77,7 +77,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
         candidatePhone: currentApplicant.phone,
         candidateEmail: currentApplicant.email,
         jobTitle: currentApplicant.role,
-        companyName: currentApplicant.currentCompany || 'منصة توظيف إكسبرتس',
+        companyName: currentApplicant.currentCompany || 'منصة توظيف ذكي',
         roomCode,
         scheduledTime: interviewTime,
         channel: 'both',
@@ -221,7 +221,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
                   <div>
                     <div className="w-20 h-3 bg-slate-300 rounded-full mx-auto mb-3"></div>
                     <div className="text-center pb-2 border-b border-slate-200">
-                      <div className="font-bold text-slate-900">TawtheefX Alert</div>
+                      <div className="font-bold text-slate-900">ThakiHire Alert</div>
                       <div className="text-[10px] text-slate-400 font-mono">
                         مرسل عبر شبكة الاتصالات السعودية المعتمدة
                       </div>
@@ -329,7 +329,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
               <div className="p-4 bg-slate-50 rounded-xl space-y-4 text-slate-700">
                 <div className="flex items-center justify-between">
                   <div className="font-bold text-sm text-indigo-700">
-                    منصة توظيف إكسبرتس | TawtheefX
+                    منصة توظيف ذكي | ThakiHire
                   </div>
                   <div className="text-[11px] font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                     تذكير رسمي آلي

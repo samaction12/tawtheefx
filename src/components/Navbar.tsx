@@ -53,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <span className="font-bold text-base sm:text-lg hidden xs:inline">
-              توظيف إكسبرتس <span className="text-xs text-indigo-600">TawtheefX</span>
+              توظيف ذكي <span className="text-xs text-indigo-600">ThakiHire</span>
             </span>
           </button>
 
