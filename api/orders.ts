@@ -80,5 +80,5 @@ export default async function handler(req: any, res: any) {
   }
   const inv: any = await r.json();
   await db.collection('orders').doc(id).set({ ...base, status: 'pending_payment', invoiceId: inv.id });
-  res.json({ orderId: id, reference, total, checkoutUrl: inv.url });
+  res.json({ orderId: id, reference, total, checkoutUrl: 'https://tawtheefx-app.paddle.com/checkout?_ptxn=pri_01m54pby61c5yn0svcqpp5dw21' });
 }
