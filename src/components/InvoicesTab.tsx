@@ -199,7 +199,7 @@ export const InvoicesTab: React.FC<InvoicesTabProps> = ({
                       الرقم الضريبي: {ownerFinancials?.vatNumber || '31094829100003'} · السجل التجاري: {ownerFinancials?.crNumber || '1010784920'}
                     </div>
                     <div className="text-[10px] text-slate-400 font-mono">
-                      حساب التحصيل: {ownerFinancials?.bankName || ''} ({ownerFinancials??.iban || ''})
+                      حساب التحصيل: {ownerFinancials?.bankName || ''} ({ownerFinancials?.iban || ''})
                     </div>
                   </div>
 
