@@ -1,170 +1,84 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Check, Sparkles, Building2, Zap } from 'lucide-react';
+import { JobPackage, Currency } from '../types';
 import { PACKAGES } from '../data/mockData';
-import { Currency, JobPackage } from '../types';
-import { Check, ShieldCheck, Zap, Lock, CreditCard } from 'lucide-react';
 
-interface PackagesSectionProps {
+interface Props {
   onSelectPackage: (pkg: JobPackage, currency: Currency) => void;
 }
 
-export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackage }) => {
-  const [currency, setCurrency] = useState<Currency>('USD');
-
-  const getPrice = (pkg: JobPackage) => {
-    switch (currency) {
-      case 'SAR':
-        return `${pkg.priceUSD.toLocaleString()} $`;
-      case 'AED':
-        return `${pkg.priceAED.toLocaleString()} د.إ`;
-      case 'USD':
-        return `$${pkg.priceUSD.toLocaleString()}`;
-    }
-  };
-
+export const PackagesSection: React.FC<Props> = ({ onSelectPackage }) => {
   return (
-    <section id="packages-section" className="py-16 bg-slate-50 border-b border-slate-200">
+    <section id="packages" className="py-24 bg-slate-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header & Currency Switcher */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div className="space-y-2">
-            <div className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">
-              حلول استقطاب الكفاءات والخدمات الرقمية
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              باقات نشر postات الوظائف والمقابلات الإلكترونية
-            </h2>
-            <p className="text-sm text-slate-600 max-w-2xl">
-              اختر الباقة المناسبة لاحتياجات فريقك مع إمكانية الترقية في أي وقت ونظام دفع فوري وآمن يتيح بطاقات مدى، فيزا، ماستركارد، وApple Pay.
-            </p>
-          </div>
-
-          {/* Currency Segmented Control */}
-          <div className="flex items-center gap-1 p-1 bg-white border border-slate-200 rounded-lg shrink-0 self-start md:self-auto">
-            <button
-              onClick={() => setCurrency('SAR')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                currency === 'SAR' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              ريال سعودي (SAR)
-            </button>
-            <button
-              onClick={() => setCurrency('AED')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                currency === 'AED' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              درهم إماراتي (AED)
-            </button>
-            <button
-              onClick={() => setCurrency('USD')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                currency === 'USD' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              دولار أمريكي (USD)
-            </button>
-          </div>
+        
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-base font-semibold text-indigo-600 tracking-wide uppercase flex items-center justify-center gap-2">
+            <Sparkles className="w-5 h-5" /> Global Pricing
+          </h2>
+          <p className="mt-2 text-4xl font-extrabold text-slate-900 sm:text-5xl">
+            Choose your perfect plan
+          </p>
+          <p className="mt-4 text-xl text-slate-500">
+            Transparent pricing in USD. No hidden fees.
+          </p>
         </div>
 
-        {/* Packages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-          {PACKAGES.map((pkg) => {
-            const isFeatured = pkg.popular;
-            return (
-              <div
-                key={pkg.id}
-                className={`relative flex flex-col justify-between rounded-xl bg-white p-7 transition-all ${
-                  isFeatured
-                    ? 'border-2 border-indigo-600 shadow-md ring-1 ring-indigo-600/20'
-                    : 'border border-slate-200 shadow-sm hover:border-slate-300'
+          {PACKAGES.map((pkg) => (
+            <div 
+              key={pkg.id} 
+              className={`relative flex flex-col rounded-3xl p-8 transition-all duration-300 ${
+                pkg.popular 
+                  ? 'bg-slate-900 text-white shadow-2xl shadow-indigo-500/20 md:-translate-y-4 border border-slate-700' 
+                  : 'bg-white text-slate-900 shadow-xl border border-slate-200 hover:shadow-2xl hover:-translate-y-2'
+              }`}
+            >
+              {pkg.badge && (
+                <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 rounded-full text-xs font-bold tracking-wider uppercase ${
+                  pkg.popular ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg' : 'bg-slate-100 text-slate-600 border border-slate-200'
+                }`}>
+                  {pkg.badge}
+                </div>
+              )}
+
+              <div className="flex items-center gap-3 mb-4">
+                {pkg.popular ? <Zap className="w-6 h-6 text-indigo-400" /> : pkg.name === 'Enterprise' ? <Building2 className="w-6 h-6 text-indigo-600" /> : <Sparkles className="w-6 h-6 text-indigo-600" />}
+                <h3 className={`text-2xl font-bold ${pkg.popular ? 'text-white' : 'text-slate-900'}`}>{pkg.name}</h3>
+              </div>
+              
+              <p className={`text-sm mb-6 ${pkg.popular ? 'text-slate-300' : 'text-slate-500'}`}>
+                {pkg.description}
+              </p>
+
+              <div className="mb-8 flex items-baseline gap-2">
+                <span className="text-5xl font-extrabold tracking-tight">${pkg.priceUSD}</span>
+                <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-400' : 'text-slate-500'}`}>/ {pkg.durationDays} days</span>
+              </div>
+
+              <ul className="space-y-4 mb-8 flex-1">
+                {pkg.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-3">
+                    <div className={`mt-1 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${pkg.popular ? 'bg-indigo-500/20 text-indigo-400' : 'bg-indigo-50 text-indigo-600'}`}>
+                      <Check className="w-3 h-3" strokeWidth={3} />
+                    </div>
+                    <span className={`text-sm font-medium ${pkg.popular ? 'text-slate-200' : 'text-slate-700'}`}>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                onClick={() => onSelectPackage(pkg, 'USD')}
+                className={`w-full py-4 rounded-xl text-sm font-bold transition-all duration-200 ${
+                  pkg.popular
+                    ? 'bg-indigo-500 hover:bg-indigo-400 text-white shadow-lg shadow-indigo-500/30'
+                    : 'bg-slate-900 hover:bg-slate-800 text-white'
                 }`}
               >
-                {pkg.badge && (
-                  <div className="absolute -top-3 right-6 bg-indigo-600 text-white text-[11px] font-semibold px-3 py-0.5 rounded-full shadow-sm">
-                    {pkg.badge}
-                  </div>
-                )}
-
-                <div className="space-y-5">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900">{pkg.name}</h3>
-                    <p className="text-xs text-slate-500 mt-2 leading-relaxed min-h-[36px]">
-                      {pkg.description}
-                    </p>
-                  </div>
-
-                  <div className="py-2 border-y border-slate-100">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-extrabold text-slate-900 font-mono tabular-nums">
-                        {getPrice(pkg)}
-                      </span>
-                      <span className="text-xs text-slate-500">
-                        {pkg.id === 'pkg-enterprise' ? '/ شهرياً' : '/ post'}
-                      </span>
-                    </div>
-                    <div className="text-[11px] text-slate-400 mt-1">
-                      Includes support & official invoice
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="text-xs font-semibold text-slate-900">Features:</div>
-                    <ul className="space-y-2.5">
-                      {pkg.features.map((feat, idx) => (
-                        <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-600">
-                          <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="pt-6 mt-6 border-t border-slate-100 space-y-3">
-                  <button
-                    onClick={() => onSelectPackage(pkg, currency)}
-                    className={`w-full py-2.5 px-4 text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 ${
-                      isFeatured
-                        ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm'
-                        : 'bg-slate-900 text-white hover:bg-slate-800'
-                    }`}
-                  >
-                    <CreditCard className="w-4 h-4" />
-                    <span>Buy Now & Get Started</span>
-                  </button>
-
-                  <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
-                    <Lock className="w-3 h-3 text-slate-400" />
-                    <span>Instant secure payment</span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Security & Guarantee Box */}
-        <div className="mt-12 p-5 bg-white border border-slate-200 rounded-xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-5 h-5" />
+                Get Started
+              </button>
             </div>
-            <div>
-              <h4 className="text-sm font-semibold text-slate-900">
-                ضمان المعاملات المالية وحماية بيانات المقابلات
-              </h4>
-              <p className="text-xs text-slate-500 mt-0.5">
-                تتم جميع عمليات الدفع عبر خوادم بنكية مشفرة بأعلى بروتوكولات الأمان (256-bit TLS/SSL). جميع تسجيلات المقابلات مشفرة بالكامل وخاضعة لسياسات الخصوصية وحماية البيانات الشخصية.
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 shrink-0 text-xs font-mono text-slate-600">
-            <span className="px-2.5 py-1 bg-slate-100 rounded text-slate-700 font-semibold">MADA</span>
-            <span className="px-2.5 py-1 bg-slate-100 rounded text-slate-700 font-semibold">VISA</span>
-            <span className="px-2.5 py-1 bg-slate-100 rounded text-slate-700 font-semibold">MC</span>
-            <span className="px-2.5 py-1 bg-slate-100 rounded text-slate-700 font-semibold">APPLE PAY</span>
-          </div>
+          ))}
         </div>
       </div>
     </section>
