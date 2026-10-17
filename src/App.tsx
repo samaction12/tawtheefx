@@ -141,7 +141,7 @@ export default function App() {
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-indigo-600 selection:text-white">
       {toastMessage && (<div className="fixed bottom-5 left-5 z-50 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2.5 border border-slate-700"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /><span>{toastMessage}</span></div>)}
 
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} onOpenJobPost={() => setIsJobPostModalOpen(true)} onOpenReminders={() => setIsReminderModalOpen(true)} onGoogleLogin={handleGoogleLogin} userEmail={userEmail} remindersCount={reminders.length} onOpenOwnerFinancials={openOwnerArea} ownerFinancials={ownerFinancials} onOpenAIOperations={() => setIsAIOperationsOpen(true)} isCleanSlateActive={isCleanSlateActive} />
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} onOpenJobPost={() => setIsJobPostModalOpen(true)} onOpenReminders={() => setIsReminderModalOpen(true)} onGoogleLogin={handleGoogleLogin} userEmail={userEmail} remindersCount={reminders?.length || 0} onOpenOwnerFinancials={openOwnerArea} ownerFinancials={ownerFinancials} onOpenAIOperations={() => setIsAIOperationsOpen(true)} isCleanSlateActive={isCleanSlateActive} />
 
       {announcement && (<div className="bg-indigo-600 text-white text-center text-xs py-2 px-4">{announcement}</div>)}
 

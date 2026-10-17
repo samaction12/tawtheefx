@@ -41,7 +41,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
   onRequestPermission,
   onTriggerPush,
 }) => {
-  const scheduledApplicants = applicants.filter((a) => a.interviewScheduled);
+  const scheduledApplicants = applicants?.filter((a) => a.interviewScheduled);
   const [selectedApplicantId, setSelectedApplicantId] = useState<string>(
     scheduledApplicants[0]?.id || applicants[0]?.id || ''
   );
@@ -52,7 +52,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
 
   if (!isOpen) return null;
 
-  const currentApplicant = applicants.find((a) => a.id === selectedApplicantId) || applicants[0];
+  const currentApplicant = applicants?.find((a) => a.id === selectedApplicantId) || applicants[0];
   const interviewTime = currentApplicant?.interviewScheduled?.date || 'اليوم، 11:30 صباحاً';
   const roomCode = currentApplicant?.interviewScheduled?.roomCode || 'TX-ROOM-8821';
   const meetingLink = `https://tawtheefx.sa/room/${roomCode}`;
@@ -135,7 +135,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
               onChange={(e) => setSelectedApplicantId(e.target.value)}
               className="px-3 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600 font-medium text-slate-900"
             >
-              {applicants.map((app) => (
+              {applicants?.map((app) => (
                 <option key={app.id} value={app.id}>
                   {app.name} ({app.role}) {app.interviewScheduled ? '— موعد مجدول' : ''}
                 </option>
@@ -399,7 +399,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
                   لا توجد تذكيرات مرسلة حتى الآن.
                 </div>
               ) : (
-                reminders.map((rem) => (
+                reminders?.map((rem) => (
                   <div
                     key={rem.id}
                     className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-xs"
