@@ -213,7 +213,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
               {profile?.availableBalanceSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} ر.س
             </div>
             <div className="text-[10px] text-slate-500 font-mono">
-              سيتم التحويل للآيبان: {iban.slice(0, 4)} **** {iban.slice(-4)}
+              سيتم التحويل للآيبان: {iban?.slice(0, 4)} **** {iban?.slice(-4)}
             </div>
           </div>
 
