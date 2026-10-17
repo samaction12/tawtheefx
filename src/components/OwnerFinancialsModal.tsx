@@ -58,9 +58,9 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
   const [crNumber, setCrNumber] = useState(profile?.crNumber);
   const [vatNumber, setVatNumber] = useState(profile?.vatNumber);
   const [bankName, setBankName] = useState(profile?.bankName);
-  const [iban, setIban] = useState(profile?.iban);
+  const [iban, setIban] = useState(profile??.iban);
   const [accountNumber, setAccountNumber] = useState(profile?.accountNumber);
-  const [swiftCode, setSwiftCode] = useState(profile?.swiftCode || 'RJHISARI');
+  const [swiftCode, setSwiftCode] = useState(profile??.swiftCode || 'RJHISARI');
   const [payoutSchedule, setPayoutSchedule] = useState<'daily' | 'weekly' | 'monthly'>(profile?.payoutSchedule);
   const [gatewayMode, setGatewayMode] = useState<'live' | 'sandbox'>(profile?.gatewayMode);
   const [merchantKeyId, setMerchantKeyId] = useState(profile?.merchantKeyId || 'MID-TAWTHEEFX-994821094');
@@ -512,7 +512,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
                     <span className="text-slate-400">آخر فحص: {pingResult.lastChecked}</span>
                   </div>
                   <div className="text-[11px] text-slate-600">
-                    تم التحقق من ربط المستفيد: <span className="font-semibold text-slate-800">{pingResult.ownerBeneficiary}</span> | حساب الإيداع: <span className="font-mono font-semibold">{pingResult.ibanMasked}</span> ({pingResult.bankName})
+                    تم التحقق من ربط المستفيد: <span className="font-semibold text-slate-800">{pingResult.ownerBeneficiary}</span> | حساب الإيداع: <span className="font-mono font-semibold">{pingResult?.ibanMasked}</span> ({pingResult.bankName})
                   </div>
                 </div>
               )}
@@ -731,7 +731,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
                       <td className="py-3 px-3 font-bold text-slate-900">
                         {po.amountSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} ر.س
                       </td>
-                      <td className="py-3 px-3 text-slate-500">{po.ibanMasked} ({po.bankName})</td>
+                      <td className="py-3 px-3 text-slate-500">{po?.ibanMasked} ({po.bankName})</td>
                       <td className="py-3 px-3 font-sans">
                         <span className="text-emerald-700 font-semibold flex items-center gap-1 text-[11px]">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 inline" />

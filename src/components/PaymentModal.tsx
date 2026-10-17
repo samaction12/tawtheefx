@@ -93,8 +93,8 @@ export const PaymentModal: React.FC<Props> = ({ packageToBuy, onClose, onPayment
               <div className="rounded-xl border p-4 space-y-2 bg-slate-50">
                 <div>البنك: <b>{bank.bank.name}</b></div>
                 <div>اسم الحساب: <b>{bank.bank.accountName}</b></div>
-                <div className="flex items-center justify-between gap-2" dir="ltr"><span className="font-mono">{bank.bank.iban}</span>
-                  <button type="button" onClick={() => copy(bank.bank.iban)} aria-label="نسخ">{copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}</button></div>
+                <div className="flex items-center justify-between gap-2" dir="ltr"><span className="font-mono">{bank.bank?.iban}</span>
+                  <button type="button" onClick={() => copy(bank.bank?.iban)} aria-label="نسخ">{copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}</button></div>
                 <div>رقم المرجع: <b className="font-mono">{bank.reference}</b></div>
               </div>
               <p className="text-xs text-slate-500">سيُفعَّل طلبك وتصدر الفاتورة بعد تأكيد وصول الحوالة (عادةً خلال يوم عمل). يمكنك إغلاق النافذة؛ سنراسلك على بريدك.</p>

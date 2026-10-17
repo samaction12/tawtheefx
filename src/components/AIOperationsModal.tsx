@@ -230,7 +230,7 @@ export const AIOperationsModal: React.FC<AIOperationsModalProps> = ({
                 <div className="text-xs text-indigo-900 space-y-1">
                   <p className="font-bold">المساعد التسويقي الذكي للمنصة (Marketing Growth Agent):</p>
                   <p className="leading-relaxed">
-                    يقوم هذا الوكيل بصياغة نصوص إعلانية احترافية مهيأة لخوارزميات منصات التواصل، مخصصة لجلب عملاء يدفعون في باقات التوظيف المربحة للمالك عبر الآيبان ({ownerFinancials.iban})، دون الحاجة لتوظيف مسوق خارجي.
+                    يقوم هذا الوكيل بصياغة نصوص إعلانية احترافية مهيأة لخوارزميات منصات التواصل، مخصصة لجلب عملاء يدفعون في باقات التوظيف المربحة للمالك عبر الآيبان ({ownerFinancials?.iban})، دون الحاجة لتوظيف مسوق خارجي.
                   </p>
                 </div>
               </div>
@@ -640,7 +640,7 @@ export const AIOperationsModal: React.FC<AIOperationsModalProps> = ({
                   </h4>
                 </div>
                 <p className="text-xs text-emerald-900 leading-relaxed">
-                  حساب المالك المالي ({ownerFinancials.ownerEmail}) وبيانات التحويل البنكي والآيبان ({ownerFinancials.iban}) وبوابة الدفع مثبتة رسمياً ومحمية في السحابة. لا تتأثر بعمليات تفريغ بيانات الوظائف، وجميع عوائد الاشتراكات تحول مباشرة لرصيد المالك.
+                  حساب المالك المالي ({ownerFinancials.ownerEmail}) وبيانات التحويل البنكي والآيبان ({ownerFinancials?.iban}) وبوابة الدفع مثبتة رسمياً ومحمية في السحابة. لا تتأثر بعمليات تفريغ بيانات الوظائف، وجميع عوائد الاشتراكات تحول مباشرة لرصيد المالك.
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs pt-1">
                   <div className="p-2 bg-white rounded border border-emerald-200">

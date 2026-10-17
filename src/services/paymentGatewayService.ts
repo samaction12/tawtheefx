@@ -29,7 +29,7 @@ export async function testGatewayConnection(config: PaymentGatewayConfig): Promi
   return {
     status: rails.length ? 'connected' : 'error', latencyMs: Date.now() - t0, environment: 'مفاتيح الخادم',
     merchantId: s.card ? 'مضبوط' : 'غير مضبوط', ownerBeneficiary: config.ownerName, ownerEmail: config.ownerEmail,
-    ibanMasked: s.ibanMasked || '—', bankName: s.bankName || '—', paymentRails: rails,
+    ibanMasked: s?.ibanMasked || '—', bankName: s.bankName || '—', paymentRails: rails,
     zatcaCompliance: false, lastChecked: new Date().toLocaleTimeString('ar-SA'),
   };
 }
@@ -41,6 +41,6 @@ export function getBackendIntegrationCode(_c: PaymentGatewayConfig) {
 
 export function profileToGatewayConfig(p: OwnerFinancialProfile): PaymentGatewayConfig {
   return { ...DEFAULT_OWNER_GATEWAY_CONFIG, ownerName: p.ownerName, ownerEmail: p.ownerEmail, merchantBusinessName: p.merchantBusinessName,
-    crNumber: p.crNumber, vatNumber: p.vatNumber, bankName: p.bankName, iban: p.iban, accountNumber: p.accountNumber, swiftCode: p.swiftCode,
+    crNumber: p.crNumber, vatNumber: p.vatNumber, bankName: p.bankName, iban: p?.iban, accountNumber: p.accountNumber, swiftCode: p?.swiftCode,
     payoutSchedule: p.payoutSchedule, environment: p.gatewayMode, merchantId: p.merchantKeyId };
 }
