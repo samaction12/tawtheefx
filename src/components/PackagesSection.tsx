@@ -8,12 +8,12 @@ interface PackagesSectionProps {
 }
 
 export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackage }) => {
-  const [currency, setCurrency] = useState<Currency>('SAR');
+  const [currency, setCurrency] = useState<Currency>('USD');
 
   const getPrice = (pkg: JobPackage) => {
     switch (currency) {
       case 'SAR':
-        return `${pkg.priceSAR.toLocaleString()} ر.س`;
+        return `${pkg.priceUSD.toLocaleString()} $`;
       case 'AED':
         return `${pkg.priceAED.toLocaleString()} د.إ`;
       case 'USD':
@@ -31,7 +31,7 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackag
               حلول استقطاب الكفاءات والخدمات الرقمية
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
-              باقات نشر إعلانات الوظائف والمقابلات الإلكترونية
+              باقات نشر postات الوظائف والمقابلات الإلكترونية
             </h2>
             <p className="text-sm text-slate-600 max-w-2xl">
               اختر الباقة المناسبة لاحتياجات فريقك مع إمكانية الترقية في أي وقت ونظام دفع فوري وآمن يتيح بطاقات مدى، فيزا، ماستركارد، وApple Pay.
@@ -100,16 +100,16 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackag
                         {getPrice(pkg)}
                       </span>
                       <span className="text-xs text-slate-500">
-                        {pkg.id === 'pkg-enterprise' ? '/ شهرياً' : '/ إعلان'}
+                        {pkg.id === 'pkg-enterprise' ? '/ شهرياً' : '/ post'}
                       </span>
                     </div>
                     <div className="text-[11px] text-slate-400 mt-1">
-                      شامل الدعم الفني وتوليد فاتورة ضريبية رسمية
+                      Includes support & official invoice
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <div className="text-xs font-semibold text-slate-900">المزايا المشمولة في الباقة:</div>
+                    <div className="text-xs font-semibold text-slate-900">Features:</div>
                     <ul className="space-y-2.5">
                       {pkg.features.map((feat, idx) => (
                         <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-600">
@@ -131,12 +131,12 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({ onSelectPackag
                     }`}
                   >
                     <CreditCard className="w-4 h-4" />
-                    <span>شراء الباقة والبدء فوراً</span>
+                    <span>Buy Now & Get Started</span>
                   </button>
 
                   <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
                     <Lock className="w-3 h-3 text-slate-400" />
-                    <span>تأكيد فوري عبر بوابة الدفع الآمنة</span>
+                    <span>Instant secure payment</span>
                   </div>
                 </div>
               </div>
