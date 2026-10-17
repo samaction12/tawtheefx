@@ -6,14 +6,14 @@ export interface PaymentGatewayConfig {
   gatewayProvider: string; merchantId: string; ownerName: string; ownerEmail: string; merchantBusinessName: string;
   crNumber: string; vatNumber: string; bankName: string; iban: string; accountNumber: string; swiftCode: string;
   apiKeyLive: string; apiSecretLive: string; webhookEndpoint: string; webhookSecret: string;
-  environment: 'live' | 'sandbox'; settlementCurrency: 'SAR'; payoutSchedule: 'instant' | 'daily' | 'weekly' | 'monthly';
+  environment: 'live' | 'sandbox'; settlementCurrency: 'USD'; payoutSchedule: 'instant' | 'daily' | 'weekly' | 'monthly';
   autoDisburseToIban: boolean; commissionFeePercent: number;
 }
 
 export const DEFAULT_OWNER_GATEWAY_CONFIG: PaymentGatewayConfig = {
   gatewayProvider: 'Moyasar', merchantId: '', ownerName: '', ownerEmail: '', merchantBusinessName: '', crNumber: '', vatNumber: '',
   bankName: '', iban: '', accountNumber: '', swiftCode: '', apiKeyLive: '', apiSecretLive: '', webhookEndpoint: '/api/webhooks/moyasar',
-  webhookSecret: '', environment: 'live', settlementCurrency: 'SAR', payoutSchedule: 'weekly', autoDisburseToIban: false, commissionFeePercent: 0,
+  webhookSecret: '', environment: 'live', settlementCurrency: 'USD', payoutSchedule: 'weekly', autoDisburseToIban: false, commissionFeePercent: 0,
 };
 
 export interface GatewayPingResult {
