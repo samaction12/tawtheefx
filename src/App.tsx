@@ -32,6 +32,7 @@ export default function App() {
   const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [transactions, setTransactions] = useState<PaymentTransaction[]>(INITIAL_TRANSACTIONS);
   const [reminders, setReminders] = useState<InterviewReminder[]>([]);
+  const [payouts, setPayouts] = useState<PayoutRecord[]>(INITIAL_PAYOUTS);
   const [ownerFinancials, setOwnerFinancials] = useState<OwnerFinancialProfile>(INITIAL_OWNER_FINANCIALS);
   const [campaigns, setCampaigns] = useState<MarketingCampaign[]>([]);
   const [supportTickets, setSupportTickets] = useState<SupportTicket[]>([]);
