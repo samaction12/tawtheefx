@@ -43,7 +43,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
 }) => {
   const scheduledApplicants = applicants?.filter((a) => a.interviewScheduled);
   const [selectedApplicantId, setSelectedApplicantId] = useState<string>(
-    scheduledApplicants[0]?.id || applicants[0]?.id || ''
+    scheduledApplicants?.[0]?.id || applicants?.[0]?.id || ''
   );
   const [activePreviewTab, setActivePreviewTab] = useState<'sms' | 'email' | 'history' | 'push'>('sms');
   const [copiedLink, setCopiedLink] = useState(false);
@@ -52,7 +52,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
 
   if (!isOpen) return null;
 
-  const currentApplicant = applicants?.find((a) => a.id === selectedApplicantId) || applicants[0];
+  const currentApplicant = applicants?.find((a) => a.id === selectedApplicantId) || applicants?.[0];
   const interviewTime = currentApplicant?.interviewScheduled?.date || 'اليوم، 11:30 صباحاً';
   const roomCode = currentApplicant?.interviewScheduled?.roomCode || 'TX-ROOM-8821';
   const meetingLink = `https://tawtheefx.sa/room/${roomCode}`;

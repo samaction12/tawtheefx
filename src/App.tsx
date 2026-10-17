@@ -133,7 +133,7 @@ export default function App() {
     showToast(`تم استلام طلب تقديم ${candidateData.name}`);
   };
 
-  const handleOpenInterviewRoom = (applicant?: Applicant) => { setInterviewCandidate(applicant || applicants[0]); setIsInterviewRoomOpen(true); };
+  const handleOpenInterviewRoom = (applicant?: Applicant) => { setInterviewCandidate(applicant || applicants?.[0]); setIsInterviewRoomOpen(true); };
   const handleSaveEvaluation = (candidateId: string, scores: any) => { setApplicants((prev) => prev.map((app) => app.id === candidateId ? { ...app, status: 'تمت المقابلة', interviewScores: scores } : app)); showToast('تم حفظ التقييم بنجاح'); };
   const handleRestoreDemoData = () => { setJobs(INITIAL_JOBS); setApplicants(INITIAL_APPLICANTS); setReminders(INITIAL_REMINDERS || []); setIsCleanSlateActive(false); };
 
@@ -153,7 +153,7 @@ export default function App() {
       )}
 
       <main className="flex-1">
-        {activeTab === 'jobs' && (<><HeroSection onPostJobClick={() => setIsJobPostModalOpen(true)} onOpenInterviewRoom={() => handleOpenInterviewRoom()} onExploreJobs={() => document.getElementById('job-listings')?.scrollIntoView({ behavior: 'smooth' })} /><JobListings jobs={jobs} onOpenInterviewRoomForJob={(job) => handleOpenInterviewRoom(applicants.find((a) => a.role === job.title) || applicants[0])} onApplySuccess={handleApplySuccess} onPostJobClick={() => setIsJobPostModalOpen(true)} /><PackagesSection onSelectPackage={handleSelectPackage} /></>)}
+        {activeTab === 'jobs' && (<><HeroSection onPostJobClick={() => setIsJobPostModalOpen(true)} onOpenInterviewRoom={() => handleOpenInterviewRoom()} onExploreJobs={() => document.getElementById('job-listings')?.scrollIntoView({ behavior: 'smooth' })} /><JobListings jobs={jobs} onOpenInterviewRoomForJob={(job) => handleOpenInterviewRoom(applicants.find((a) => a.role === job.title) || applicants?.[0])} onApplySuccess={handleApplySuccess} onPostJobClick={() => setIsJobPostModalOpen(true)} /><PackagesSection onSelectPackage={handleSelectPackage} /></>)}
         {activeTab === 'packages' && (<PackagesSection onSelectPackage={handleSelectPackage} />)}
         {activeTab === 'interviews' && (<InterviewSuiteTab onLaunchLiveRoom={(app) => handleOpenInterviewRoom(app)} applicants={applicants} onOpenReminder={(app) => { if (app) setInterviewCandidate(app); setIsReminderModalOpen(true); }} />)}
         {activeTab === 'employer' && (<EmployerDashboard applicants={applicants} jobs={jobs} onStartInterview={(app) => handleOpenInterviewRoom(app)} onPostJob={() => setIsJobPostModalOpen(true)} onOpenReminder={(app) => { if (app) setInterviewCandidate(app); setIsReminderModalOpen(true); }} />)}
