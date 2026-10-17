@@ -14,10 +14,10 @@ export const JobPostModal: React.FC<JobPostModalProps> = ({
 }) => {
   const [title, setTitle] = useState('');
   const [company, setCompany] = useState('');
-  const [location, setLocation] = useState('الرياض، المملكة العربية السعودية');
+  const [location, setLocation] = useState('الرياض، Remote / Global');
   const [department, setDepartment] = useState('الهندسة والتقنية');
-  const [type, setType] = useState<'دوام كامل' | 'عن بُعد' | 'هجين' | 'عقد'>('دوام كامل');
-  const [salary, setSalary] = useState('18,000 - 24,000 ر.س / شهرياً');
+  const [type, setType] = useState<'Full-time' | 'Remote' | 'Hybrid' | 'عقد'>('Full-time');
+  const [salary, setSalary] = useState('Competitive Salary');
   const [description, setDescription] = useState('');
   const [requirements, setRequirements] = useState('');
   const [requiresVideoInterview, setRequiresVideoInterview] = useState(true);
@@ -132,9 +132,9 @@ export const JobPostModal: React.FC<JobPostModalProps> = ({
                 onChange={(e) => setType(e.target.value as any)}
                 className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600 bg-white"
               >
-                <option value="دوام كامل">دوام كامل</option>
-                <option value="هجين">هجين</option>
-                <option value="عن بُعد">عن بُعد</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="Remote">Remote</option>
                 <option value="عقد">عقد سنوي</option>
               </select>
             </div>
@@ -222,7 +222,7 @@ export const JobPostModal: React.FC<JobPostModalProps> = ({
                     {selectedPkgId === pkg.id && <Check className="w-4 h-4 text-indigo-600" />}
                   </div>
                   <div className="text-sm font-bold font-mono tabular-nums text-slate-900">
-                    {pkg.priceSAR.toLocaleString()} ر.س
+                    {pkg.priceUSD.toLocaleString()} $
                   </div>
                   <div className="text-[10px] text-slate-500 mt-1">
                     {pkg.interviewSlots > 0
