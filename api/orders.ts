@@ -59,6 +59,6 @@ export default async function handler(req: any, res: any) {
     orderId: id,
     reference,
     total,
-    checkoutUrl: 'https://tawtheefx-app.paddle.com/checkout?_ptxn=pri_01m54pby61c5yn0svcqpp5dw21'
+    checkoutUrl: 'https://pay.paddle.io/checkout?_ptxn=pri_01m54pby61c5yn0svcqpp5dw21'
   });
 }
