@@ -1,3 +1,4 @@
+import { AdminAIAssistant } from './components/AdminAIAssistant';
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
@@ -172,6 +173,7 @@ export default function App() {
       {isAIOperationsOpen && (<AIOperationsModal isOpen={isAIOperationsOpen} onClose={() => setIsAIOperationsOpen(false)} campaigns={campaigns} supportTickets={supportTickets} />)}
       {browserNotification && (<BrowserNotificationBanner notification={browserNotification} onClose={() => setBrowserNotification(null)} onRequestPermission={handleRequestBrowserPermission} permission={browserPermission} />)}
       <FloatingSupportBot />
+      {isAdmin && <AdminAIAssistant />}
     </div>
   );
 }
