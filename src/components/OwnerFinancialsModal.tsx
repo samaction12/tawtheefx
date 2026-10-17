@@ -60,7 +60,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
   const [bankName, setBankName] = useState(profile?.bankName);
   const [iban, setIban] = useState(profile?.iban);
   const [accountNumber, setAccountNumber] = useState(profile?.accountNumber);
-  const [swiftCode, setSwiftCode] = useState(profile?.swiftCode || 'RJHISARI');
+  const [swiftCode, setSwiftCode] = useState(profile?.swiftCode || '');
   const [payoutSchedule, setPayoutSchedule] = useState<'daily' | 'weekly' | 'monthly'>(profile?.payoutSchedule);
   const [gatewayMode, setGatewayMode] = useState<'live' | 'sandbox'>(profile?.gatewayMode);
   const [merchantKeyId, setMerchantKeyId] = useState(profile?.merchantKeyId || 'MID-TAWTHEEFX-994821094');
@@ -415,7 +415,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
                   required
                   value={iban}
                   onChange={(e) => setIban(e.target.value)}
-                  placeholder="SA00 0000 0000 0000 0000 0000"
+                  placeholder="Enter Global IBAN (e.g. PS00...)"
                   className="w-full px-3 py-2 text-xs font-mono tabular-nums border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600 uppercase tracking-wider font-semibold"
                 />
               </div>
@@ -457,7 +457,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
                 ) : (
                   <span className="text-[11px] text-slate-500 flex items-center gap-1">
                     <Lock className="w-3.5 h-3.5 text-slate-400" />
-                    <span>البيانات مشفرة ومحمية وفق لوائح البنك المركزي السعودي (SAMA)</span>
+                    <span>البيانات مشفرة ومحمية وفق أعلى معايير الأمان العالمية</span>
                   </span>
                 )}
               </div>
