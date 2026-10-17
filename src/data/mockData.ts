@@ -4,7 +4,7 @@ export const PACKAGES: JobPackage[] = [
   {
     id: 'pkg-standard',
     name: 'Standard Package',
-    priceSAR: 0, priceAED: 0, priceUSD: 79,
+    priceSAR: 0, priceAED: 0, priceUSD: 19,
     description: 'Ideal for startups that need to post a job quickly and receive applications directly.',
     features: [
       '30-day active job posting',
@@ -19,7 +19,7 @@ export const PACKAGES: JobPackage[] = [
     id: 'pkg-pro-interview',
     name: 'Pro Hire Package',
     badge: 'Most Popular',
-    priceSAR: 0, priceAED: 0, priceUSD: 185,
+    priceSAR: 0, priceAED: 0, priceUSD: 49,
     description: 'Complete hiring solution with live and recorded digital video interviews.',
     features: [
       'Featured badge in search results',
@@ -34,7 +34,7 @@ export const PACKAGES: JobPackage[] = [
     id: 'pkg-enterprise',
     name: 'Enterprise Package',
     badge: 'For Large Teams',
-    priceSAR: 0, priceAED: 0, priceUSD: 499,
+    priceSAR: 0, priceAED: 0, priceUSD: 149,
     description: 'Unlimited package for HR departments with multiple interview rooms and dedicated support.',
     features: [
       'Unlimited monthly job postings',
