@@ -48,7 +48,7 @@ export const AdminToolsModal: React.FC<{ isOpen: boolean; onClose: () => void; o
               <tr key={o.id} className="border-t"><td className="p-1 font-mono">{o.reference}</td><td>{o.company}</td><td>{o.packageName}</td><td>{o.total}</td><td>{LABEL[o.status] || o.status}</td>
                 <td>{o.status === 'awaiting_transfer' && <button onClick={() => confirm(o.id)} className="bg-emerald-600 text-white rounded px-2 py-1">تأكيد وصول الحوالة</button>}</td></tr>))}
             </tbody></table></div>
-          {orders.length === 0 && <p className="text-xs text-slate-500 mt-2">لا توجد طلبات بعد.</p>}
+          {orders?.length === 0 && <p className="text-xs text-slate-500 mt-2">لا توجد طلبات بعد.</p>}
         </section>
       </div>
     </div>

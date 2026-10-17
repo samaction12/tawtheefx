@@ -142,12 +142,12 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
                 </h3>
               </div>
               <span className="text-xs text-slate-400 font-mono tabular-nums">
-                {applicants.filter((a) => a.interviewScheduled).length} مقابلات
+                {applicants.filter((a) => a.interviewScheduled)?.length} مقابلات
               </span>
             </div>
 
             <div className="space-y-3 divide-y divide-slate-100">
-              {applicants.filter((a) => a.interviewScheduled).length === 0 ? (
+              {applicants.filter((a) => a.interviewScheduled)?.length === 0 ? (
                 <div className="py-8 text-center text-xs text-slate-500 bg-slate-50 rounded-xl p-4">
                   <Video className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                   <p className="font-semibold text-slate-700">لا توجد مقابلات رقمية مجدولة حالياً</p>

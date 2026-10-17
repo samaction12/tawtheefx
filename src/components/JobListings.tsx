@@ -106,7 +106,7 @@ export const JobListings: React.FC<JobListingsProps> = ({
           </div>
 
           <div className="text-xs text-slate-500 font-mono tabular-nums">
-            إجمالي الشواغر: <span className="font-bold text-slate-900">{filteredJobs.length}</span> وظيفة
+            إجمالي الشواغر: <span className="font-bold text-slate-900">{filteredJobs?.length}</span> وظيفة
           </div>
         </div>
 
@@ -167,7 +167,7 @@ export const JobListings: React.FC<JobListingsProps> = ({
 
         {/* Jobs List */}
         <div className="space-y-4">
-          {jobs.length === 0 ? (
+          {jobs?.length === 0 ? (
             <div className="p-12 text-center bg-white border border-dashed border-indigo-200 rounded-2xl shadow-xs space-y-4">
               <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto border border-indigo-100">
                 <Briefcase className="w-7 h-7" />
@@ -190,7 +190,7 @@ export const JobListings: React.FC<JobListingsProps> = ({
                 </button>
               )}
             </div>
-          ) : filteredJobs.length === 0 ? (
+          ) : filteredJobs?.length === 0 ? (
             <div className="p-12 text-center bg-slate-50 border border-slate-200 rounded-xl">
               <Briefcase className="w-10 h-10 text-slate-400 mx-auto mb-3" />
               <h3 className="text-sm font-bold text-slate-800">لا توجد وظائف مطابقة لبحثك حالياً</h3>

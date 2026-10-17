@@ -64,7 +64,7 @@ export default function App() {
   useEffect(() => {
     (async () => {
       const cloudJobs = await loadJobsFromCloud();
-      if (cloudJobs.length > 0) { setJobs(cloudJobs); setIsCleanSlateActive(false); }
+      if (cloudJobs.length > 0) { setJobs(cloudJobs || []); setIsCleanSlateActive(false); }
       setAnnouncement((await loadSiteSettings())?.announcement || '');
       const orderId = new URLSearchParams(window.location.search).get('order');
       if (!orderId) return;
@@ -82,7 +82,7 @@ export default function App() {
     if (!isAdmin) return;
     (async () => {
       const [apps, camps, tix, inv, owner] = await Promise.all([loadApplicantsFromCloud(), loadMarketingCampaignsFromCloud(), loadSupportTicketsFromCloud(), loadTransactionsFromCloud(), loadOwnerFinancialsFromCloud()]);
-      setApplicants(apps); setCampaigns(camps); setSupportTickets(tix);
+      setApplicants(apps || []); setCampaigns(camps || []); setSupportTickets(tix || []);
       setTransactions(inv.map((i: any) => ({ ...i, id: i.orderId || i.id, companyName: i.customerName })) as PaymentTransaction[]);
       const earned = inv.reduce((n: number, i: any) => n + (i.amount || 0), 0);
       const base = owner || INITIAL_OWNER_FINANCIALS || {};
@@ -133,7 +133,7 @@ export default function App() {
 
   const handleOpenInterviewRoom = (applicant?: Applicant) => { setInterviewCandidate(applicant || applicants[0]); setIsInterviewRoomOpen(true); };
   const handleSaveEvaluation = (candidateId: string, scores: any) => { setApplicants((prev) => prev.map((app) => app.id === candidateId ? { ...app, status: 'تمت المقابلة', interviewScores: scores } : app)); showToast('تم حفظ التقييم بنجاح'); };
-  const handleRestoreDemoData = () => { setJobs(INITIAL_JOBS); setApplicants(INITIAL_APPLICANTS); setReminders(INITIAL_REMINDERS); setIsCleanSlateActive(false); };
+  const handleRestoreDemoData = () => { setJobs(INITIAL_JOBS); setApplicants(INITIAL_APPLICANTS); setReminders(INITIAL_REMINDERS || []); setIsCleanSlateActive(false); };
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-indigo-600 selection:text-white">

@@ -206,7 +206,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
             }`}
           >
             <Clock className="w-4 h-4" />
-            <span>سجل التذكيرات المرسلة ({reminders.length})</span>
+            <span>سجل التذكيرات المرسلة ({reminders?.length})</span>
           </button>
         </div>
 
@@ -394,7 +394,7 @@ export const ReminderModal: React.FC<ReminderModalProps> = ({
             </div>
 
             <div className="space-y-3">
-              {reminders.length === 0 ? (
+              {reminders?.length === 0 ? (
                 <div className="p-8 text-center bg-slate-50 rounded-xl text-xs text-slate-400">
                   لا توجد تذكيرات مرسلة حتى الآن.
                 </div>

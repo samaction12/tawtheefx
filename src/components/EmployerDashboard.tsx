@@ -85,28 +85,28 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
           <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
             <div className="text-xs text-slate-500 font-medium">الوظائف النشطة حالياً</div>
             <div className="text-2xl font-bold text-slate-900 font-mono tabular-nums">
-              {jobs.length}
+              {jobs?.length}
             </div>
           </div>
 
           <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
             <div className="text-xs text-slate-500 font-medium">إجمالي المتقدمين الجدد</div>
             <div className="text-2xl font-bold text-indigo-600 font-mono tabular-nums">
-              {applicants.length}
+              {applicants?.length}
             </div>
           </div>
 
           <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
             <div className="text-xs text-slate-500 font-medium">مقابلات رقمية مجدولة</div>
             <div className="text-2xl font-bold text-emerald-600 font-mono tabular-nums">
-              {applicants.filter((a) => a.interviewScheduled).length}
+              {applicants.filter((a) => a.interviewScheduled)?.length}
             </div>
           </div>
 
           <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
             <div className="text-xs text-slate-500 font-medium">تذكيرات أُرسلت (قبل ساعة)</div>
             <div className="text-2xl font-bold text-indigo-600 font-mono tabular-nums">
-              {applicants.filter((a) => a.interviewScheduled?.reminderSent).length}
+              {applicants.filter((a) => a.interviewScheduled?.reminderSent)?.length}
             </div>
           </div>
         </div>
@@ -137,7 +137,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
             </div>
 
             <div className="text-xs text-slate-400 font-mono tabular-nums">
-              عدد النتائج: {filteredApplicants.length}
+              عدد النتائج: {filteredApplicants?.length}
             </div>
           </div>
 
@@ -266,7 +266,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                   </tr>
                 ))}
 
-                {filteredApplicants.length === 0 && (
+                {filteredApplicants?.length === 0 && (
                   <tr>
                     <td colSpan={7} className="py-12 text-center text-slate-500 bg-slate-50/50">
                       <div className="max-w-sm mx-auto space-y-2">

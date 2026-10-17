@@ -303,7 +303,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
             }`}
           >
             <Clock className="w-4 h-4" />
-            <span>سجل التحويلات البنكية للمالك ({payouts.length})</span>
+            <span>سجل التحويلات البنكية للمالك ({payouts?.length})</span>
           </button>
         </div>
 

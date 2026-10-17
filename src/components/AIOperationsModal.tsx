@@ -182,7 +182,7 @@ export const AIOperationsModal: React.FC<AIOperationsModalProps> = ({
             <Megaphone className="w-4 h-4 text-indigo-600" />
             <span>بوت الحملات التسويقية والإعلانات</span>
             <span className="px-1.5 py-0.2 bg-indigo-100 text-indigo-700 rounded-full text-[10px]">
-              {campaigns.length}
+              {campaigns?.length}
             </span>
           </button>
 
@@ -197,7 +197,7 @@ export const AIOperationsModal: React.FC<AIOperationsModalProps> = ({
             <LifeBuoy className="w-4 h-4 text-emerald-600" />
             <span>بوت الدعم الفني وحل المشكلات</span>
             <span className="px-1.5 py-0.2 bg-emerald-100 text-emerald-700 rounded-full text-[10px]">
-              {supportTickets.length}
+              {supportTickets?.length}
             </span>
           </button>
 
@@ -278,7 +278,7 @@ export const AIOperationsModal: React.FC<AIOperationsModalProps> = ({
                   </div>
                 </div>
 
-                {objective === 'job_promotion' && jobs.length > 0 && (
+                {objective === 'job_promotion' && jobs?.length > 0 && (
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                       اختر الوظيفة المراد الترويج لها
@@ -416,9 +416,9 @@ export const AIOperationsModal: React.FC<AIOperationsModalProps> = ({
               {/* List of Active Campaigns */}
               <div className="space-y-3">
                 <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                  سجل الحملات التسويقية المحفوظة سحابياً ({campaigns.length})
+                  سجل الحملات التسويقية المحفوظة سحابياً ({campaigns?.length})
                 </h4>
-                {campaigns.length === 0 ? (
+                {campaigns?.length === 0 ? (
                   <div className="p-6 text-center border border-dashed border-slate-300 rounded-xl text-xs text-slate-500">
                     لا توجد حملات تسويقية محفوظة بعد. اضغط على زر التوليد أعلاه لإطلاق أول حملة.
                   </div>
@@ -495,11 +495,11 @@ export const AIOperationsModal: React.FC<AIOperationsModalProps> = ({
               {/* Support Tickets Stream */}
               <div className="space-y-3">
                 <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between">
-                  <span>سجل الاستفسارات والمشكلات المعالجة ({supportTickets.length})</span>
+                  <span>سجل الاستفسارات والمشكلات المعالجة ({supportTickets?.length})</span>
                   <span className="text-slate-400 font-normal">محدثة ومحفوظة سحابياً</span>
                 </h4>
 
-                {supportTickets.length === 0 ? (
+                {supportTickets?.length === 0 ? (
                   <div className="p-8 text-center border border-dashed border-slate-300 rounded-xl text-xs text-slate-500">
                     لا توجد تذاكر دعم حالياً. بوت الدعم متاح في الزاوية السفلية للمستخدمين للرد الفوري على مدار الساعة.
                   </div>
@@ -552,7 +552,7 @@ export const AIOperationsModal: React.FC<AIOperationsModalProps> = ({
                             {ticket.aiSolution}
                           </p>
 
-                          {ticket.diagnosticStepsTaken && ticket.diagnosticStepsTaken.length > 0 && (
+                          {ticket.diagnosticStepsTaken && ticket.diagnosticStepsTaken?.length > 0 && (
                             <div className="pt-1.5 border-t border-emerald-200/60 flex flex-wrap gap-2 text-[10px] text-emerald-800">
                               <span className="font-semibold">الخطوات المنفذة:</span>
                               {ticket.diagnosticStepsTaken.map((s, idx) => (
