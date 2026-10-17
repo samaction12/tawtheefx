@@ -22,7 +22,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               المنصة المتكاملة لخدمات نشر إعلانات الوظائف وإجراء المقابلات الوظيفية الرقمية المباشرة مع نظام دفع إلكتروني آمن وموثوق.
             </p>
             <div className="text-[11px] text-slate-500 font-mono">
-              الرقم الضريبي للمنصة: 31094829100003
+              
             </div>
           </div>
 
@@ -93,15 +93,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <div className="space-y-2 text-[11px] text-slate-400">
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-indigo-400" />
-                <span>support@tawtheefx.sa</span>
+                <span>support@thakihire.com</span>
               </div>
               <div className="flex items-center gap-2 font-mono tabular-nums">
                 <Phone className="w-3.5 h-3.5 text-indigo-400" />
-                <span>+966 11 800 9200</span>
+                <span>support@thakihire.com</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-indigo-400" />
-                <span>الرياض - واجهة الأعمال والتقنية</span>
+                <span>منصة عالمية - Global Platform</span>
               </div>
             </div>
           </div>
