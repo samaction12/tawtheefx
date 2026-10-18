@@ -37,8 +37,8 @@ jobs:
           git config --global user.name "Aider Agent"
           git config --global user.email "aider-agent@bot.com"
           
-          # استخدام موديل Flash المجاني
-          aider --model gemini/gemini-2.5-flash --yes --no-gitignore --message "Fix this code issue. Title: $ISSUE_TITLE. Details: $ISSUE_BODY. Please modify the relevant files to fix this." || true
+          # استخدام موديل 3.8-flash الأحدث
+          aider --model gemini/gemini-3.8-flash --yes --no-gitignore --message "Fix this code issue. Title: $ISSUE_TITLE. Details: $ISSUE_BODY. Please modify the relevant files to fix this." || true
           
           # إنشاء فرع ورفع التعديلات
           git checkout -b ai-fix-$ISSUE_NUMBER
