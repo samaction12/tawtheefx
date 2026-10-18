@@ -13,11 +13,14 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [lang, setLang] = useState<Language>('ar');
 
   useEffect(() => {
-    document.documentElement.dir = translations[lang].dir;
+    const currentDict = translations[lang] || translations['en'];
+    if (currentDict && currentDict.dir) {
+      document.documentElement.dir = currentDict.dir;
+    }
   }, [lang]);
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t: translations[lang] }}>
+    <LanguageContext.Provider value={{ lang, setLang, t: translations[lang] || translations['en'] }}>
       {children}
     </LanguageContext.Provider>
   );
