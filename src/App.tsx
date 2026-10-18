@@ -141,7 +141,8 @@ export default function App() {
   const handleRestoreDemoData = () => { setJobs(INITIAL_JOBS); setApplicants(INITIAL_APPLICANTS); setReminders(INITIAL_REMINDERS || []); setIsCleanSlateActive(false); };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-indigo-600 selection:text-white">
+    <LanguageProvider>
+      <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-indigo-600 selection:text-white">
       {toastMessage && (<div className="fixed bottom-5 left-5 z-50 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2.5 border border-slate-700"><CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" /><span>{toastMessage}</span></div>)}
 
       <div className="w-full bg-white border-b border-slate-200 py-2 px-4 flex justify-end"><LanguageSwitcher /></div>
@@ -178,5 +179,6 @@ export default function App() {
       <FloatingSupportBot />
       {isAdmin && <AdminAIAssistant />}
     </div>
+    </LanguageProvider>
   );
 }
