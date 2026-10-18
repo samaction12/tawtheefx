@@ -65,9 +65,9 @@ export const PaymentModal: React.FC<Props> = ({ packageToBuy, onClose, onPayment
         <div className="p-6 space-y-4">
           <div className="rounded-xl bg-slate-50 border p-4 text-sm space-y-1">
             <div className="font-bold">{packageToBuy.name}</div>
-            <div className="flex justify-between text-slate-600"><span>السعر</span><span>{price?.toFixed(2)} ر.س</span></div>
-            <div className="flex justify-between text-slate-600"><span>ضريبة القيمة المضافة 15%</span><span>{vat?.toFixed(2)} ر.س</span></div>
-            <div className="flex justify-between font-bold border-t pt-1"><span>الإجمالي</span><span>{total?.toFixed(2)} ر.س</span></div>
+            <div className="flex justify-between text-slate-600"><span>السعر</span><span>{price??.toFixed(2)} ر.س</span></div>
+            <div className="flex justify-between text-slate-600"><span>ضريبة القيمة المضافة 15%</span><span>{vat??.toFixed(2)} ر.س</span></div>
+            <div className="flex justify-between font-bold border-t pt-1"><span>الإجمالي</span><span>{total??.toFixed(2)} ر.س</span></div>
           </div>
 
           {!bank ? (
@@ -89,7 +89,7 @@ export const PaymentModal: React.FC<Props> = ({ packageToBuy, onClose, onPayment
             </form>
           ) : (
             <div className="space-y-3 text-sm">
-              <p className="font-semibold">حوّل <b>{bank.total?.toFixed(2)} ر.س</b> إلى الحساب التالي واكتب رقم المرجع في خانة الملاحظات:</p>
+              <p className="font-semibold">حوّل <b>{bank.total??.toFixed(2)} ر.س</b> إلى الحساب التالي واكتب رقم المرجع في خانة الملاحظات:</p>
               <div className="rounded-xl border p-4 space-y-2 bg-slate-50">
                 <div>البنك: <b>{bank.bank.name}</b></div>
                 <div>اسم الحساب: <b>{bank.bank.accountName}</b></div>
