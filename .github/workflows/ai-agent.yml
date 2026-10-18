@@ -37,8 +37,8 @@ jobs:
           git config --global user.name "Aider Agent"
           git config --global user.email "aider-agent@bot.com"
           
-          # تشغيل Aider باستخدام المتغيرات الآمنة
-          aider --model gemini/gemini-2.5-pro --yes --no-gitignore --message "Fix this code issue. Title: $ISSUE_TITLE. Details: $ISSUE_BODY. Please modify the relevant files to fix this." || true
+          # استخدام الموديل الأحدث gemini-3.1-pro-preview
+          aider --model gemini/gemini-3.1-pro-preview --yes --no-gitignore --message "Fix this code issue. Title: $ISSUE_TITLE. Details: $ISSUE_BODY. Please modify the relevant files to fix this." || true
           
           # إنشاء فرع ورفع التعديلات
           git checkout -b ai-fix-$ISSUE_NUMBER
