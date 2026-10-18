@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { X, Lock, CreditCard, Landmark, Loader2 } from 'lucide-react';
-import { JobListing, JobPackage } from '../types';
 
 export const PaymentModal = ({ packageToBuy, onClose, onPaymentSuccess, pendingJob }: any) => {
   const [method, setMethod] = useState<'card' | 'bank_transfer'>('card');
@@ -28,11 +27,20 @@ export const PaymentModal = ({ packageToBuy, onClose, onPaymentSuccess, pendingJ
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/70 flex items-center justify-center p-4" dir="ltr">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+    <div 
+      className="fixed inset-0 z-50 bg-slate-950/70 flex items-center justify-center p-4" 
+      dir="ltr"
+      onClick={onClose} // يقفل لما تضغط في الخلفية
+    >
+      <div 
+        className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative"
+        onClick={(e) => e.stopPropagation()} // يمنع القفل لما تضغط جوه النافذة
+      >
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-bold flex items-center gap-2"><Lock className="w-4 h-4 text-emerald-600" /> Checkout</h3>
-          <button onClick={onClose}><X className="w-5 h-5 text-slate-500" /></button>
+          <button type="button" onClick={onClose} className="p-1 hover:bg-slate-100 rounded-lg transition-colors">
+            <X className="w-6 h-6 text-slate-500" />
+          </button>
         </div>
         
         <div className="bg-slate-50 p-4 rounded-xl mb-4 text-sm">
