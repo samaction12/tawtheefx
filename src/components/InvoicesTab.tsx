@@ -56,7 +56,7 @@ export const InvoicesTab: React.FC<InvoicesTabProps> = ({
                 className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors shadow-sm"
               >
                 <Wallet className="w-4 h-4" />
-                <span>حساب المالك والعوائد ({ownerFinancials?.availableBalanceSAR.toLocaleString('en-US')} ر.س)</span>
+                <span>حساب المالك والعوائد ({ownerFinancials?.availableBalanceSAR.toLocaleString('en-US')} $)</span>
               </button>
             )}
 

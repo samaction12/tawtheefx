@@ -199,7 +199,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
               <span className="text-[10px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-bold font-mono">100% للمالك</span>
             </div>
             <div className="text-2xl font-bold text-slate-900 font-mono tabular-nums">
-              {profile?.totalEarningsSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} ر.س
+              {profile?.totalEarningsSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} $
             </div>
             <div className="text-[10px] text-slate-400 font-mono">شامل كافة مبيعات الباقات وإعلانات التوظيف</div>
           </div>
@@ -210,7 +210,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
               <span className="text-[10px] text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded font-mono">جاهز للصرف</span>
             </div>
             <div className="text-2xl font-bold text-indigo-700 font-mono tabular-nums">
-              {profile?.availableBalanceSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} ر.س
+              {profile?.availableBalanceSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} $
             </div>
             <div className="text-[10px] text-slate-500 font-mono">
               سيتم التحويل للآيبان: {iban?.slice(0, 4)} **** {iban?.slice(-4)}
@@ -244,13 +244,13 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
             >
               <Zap className="w-3.5 h-3.5 text-amber-500" />
               <span>
-                {isSimulatingPayment ? 'جارٍ تحصيل اشتراك تجريبي...' : 'تجربة استقبال دفعة عميل جديدة (+699 ر.س)'}
+                {isSimulatingPayment ? 'جارٍ تحصيل اشتراك تجريبي...' : 'تجربة استقبال دفعة عميل جديدة (+699 $)'}
               </span>
             </button>
 
             {paymentSimulatedSuccess && (
               <div className="text-[10px] text-indigo-700 font-semibold text-center bg-indigo-50 py-0.5 rounded">
-                تم استقبال 699 ر.س بنجاح وأضيفت لرصيدك المربوط!
+                تم استقبال 699 $ بنجاح وأضيفت لرصيدك المربوط!
               </div>
             )}
           </div>
@@ -624,7 +624,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
               <div>
                 <h4 className="font-bold text-slate-900 text-sm flex items-center gap-2">
                   <Terminal className="w-4 h-4 text-indigo-600" />
-                  <span>كود البرمجة لربط بوابة الدفع وحساب المالك المالي</span>
+                  <span>تم ربط بوابة الدفع بنجاح</span>
                 </h4>
                 <p className="text-[11px] text-slate-500 mt-0.5">
                   أكواد تشغيلية جاهزة للواجهة الخلفية (Backend) تبيّن كيفية توجيه المبالغ لحسابك المعتمد
@@ -729,7 +729,7 @@ export const OwnerFinancialsModal: React.FC<OwnerFinancialsModalProps> = ({
                       <td className="py-3 px-3 font-semibold text-indigo-600">{po.referenceNumber}</td>
                       <td className="py-3 px-3 text-slate-600">{po.date}</td>
                       <td className="py-3 px-3 font-bold text-slate-900">
-                        {po.amountSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} ر.س
+                        {po.amountSAR.toLocaleString('en-US', { minimumFractionDigits: 2 })} $
                       </td>
                       <td className="py-3 px-3 text-slate-500">{po?.ibanMasked} ({po.bankName})</td>
                       <td className="py-3 px-3 font-sans">
