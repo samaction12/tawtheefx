@@ -11,7 +11,6 @@ import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { PACKAGES } from './data/mockData';
 
 function AppContent() {
-  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('jobs');
   const [jobs, setJobs] = useState<any[]>([]);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
@@ -32,8 +31,8 @@ function AppContent() {
         )}
       </main>
       <Footer onNavigate={setActiveTab} />
-      <PaymentModal packageToBuy={pkgForPayment} onClose={() => setIsPaymentOpen(false)} onPaymentSuccess={() => {}} />
-      <ReminderModal isOpen={isReminderOpen} onClose={() => setIsReminderOpen(false)} />
+      {isPaymentOpen && <PaymentModal packageToBuy={pkgForPayment} onClose={() => setIsPaymentOpen(false)} onPaymentSuccess={() => {}} />}
+      {isReminderOpen && <ReminderModal isOpen={isReminderOpen} onClose={() => setIsReminderOpen(false)} />}
     </div>
   );
 }
