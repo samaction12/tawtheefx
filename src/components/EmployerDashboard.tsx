@@ -226,7 +226,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                                 app.interviewScores.problemSolving +
                                 app.interviewScores.culturalFit) /
                               4
-                            ).toFixed(1)}{' '}
+                            )?.toFixed(1)}{' '}
                             / 5.0
                           </span>
                         </div>

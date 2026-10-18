@@ -124,7 +124,7 @@ export const OnlineInterviewRoom: React.FC<OnlineInterviewRoomProps> = ({
 
   const calculateOverall = () => {
     const avg = (technicalScore + communicationScore + problemSolvingScore + culturalFitScore) / 4;
-    return avg.toFixed(1);
+    return avg?.toFixed(1);
   };
 
   const handleFinish = () => {
