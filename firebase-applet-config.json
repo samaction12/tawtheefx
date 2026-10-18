@@ -4,8 +4,5 @@
   "apiKey": "AIzaSyAFQoGK6wO4_X2-0OYFyW5-DjVuxMOeU1U",
   "authDomain": "tawtheefx-production.firebaseapp.com",
   "storageBucket": "tawtheefx-production.firebasestorage.app",
-  "messagingSenderId": "1021292379224",
-  "measurementId": "",
-  "oAuthClientId": "",
-  "recaptchaSiteKey": ""
+  "messagingSenderId": "1021292379224"
 }
