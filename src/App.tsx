@@ -1,3 +1,4 @@
+import { LanguageProvider } from './contexts/LanguageContext';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { AdminAIAssistant } from './components/AdminAIAssistant';
 import React, { useState, useEffect } from 'react';
