@@ -42,9 +42,9 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenJobPost, onOpenReminders
                 </button>
               </div>
             ) : (
-              <button onClick={onGoogleLogin} className="flex items-center gap-1 bg-white border border-slate-300 text-slate-700 px-2 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold hover:bg-slate-50 transition-colors shadow-sm">
+              <button onClick={onGoogleLogin} className="flex items-center gap-1 bg-white border border-slate-300 text-slate-700 px-2 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-50 transition-colors shadow-sm">
                 <LogIn className="w-4 h-4" />
-                <span className="hidden sm:inline">تسجيل الدخول</span>
+                <span className="inline">تسجيل الدخول</span>
               </button>
             )}
           </div>
