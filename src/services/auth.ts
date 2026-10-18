@@ -1,16 +1,27 @@
-import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onIdTokenChanged, setPersistence, browserLocalPersistence } from 'firebase/auth';
+import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onIdTokenChanged, signInWithPopup, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { app } from './firebase';
 
 const auth = () => getAuth(app);
 
 export const googleSignIn = async () => {
   const authInstance = auth();
-  // إجبار المتصفح على حفظ الجلسة حتى بعد إغلاقه
   await setPersistence(authInstance, browserLocalPersistence);
   
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-  await signInWithRedirect(authInstance, provider);
+
+  try {
+    // محاولة الدخول بالنافذة المنبثقة أولاً (أفضل للموبايل)
+    await signInWithPopup(authInstance, provider);
+  } catch (error: any) {
+    // لو المتصفح منع النافذة، بنحول تلقائياً لطريقة التحويل
+    if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
+      console.warn('Popup blocked, falling back to redirect');
+      await signInWithRedirect(authInstance, provider);
+    } else {
+      throw error;
+    }
+  }
 };
 
 export const handleGoogleRedirectResult = async () => {
