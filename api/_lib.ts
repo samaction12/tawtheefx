@@ -3,10 +3,11 @@ import { initializeApp, cert, applicationDefault, getApps } from 'firebase-admin
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 
-export const VAT_RATE = 0;
+export const VAT_RATE = 0; // No VAT
 export const CATALOG: Record<string, { name: string; price: number }> = {
-  'pkg-standard': { name: 'باقة النشر القياسية (Standard)', price: 299 },
-  'pkg-pro-interview': { name: 'باقة التميز والمقابلات الرقمية (Pro Hire)', price: 699 },
+  'pkg-standard': { name: 'Standard Package', price: 19 },
+  'pkg-pro-interview': { name: 'Pro Hire Package', price: 49 },
+  'pkg-enterprise': { name: 'Enterprise Package', price: 149 },
 };
 
 let _db: any = null;
@@ -20,17 +21,13 @@ export function getDb() {
       projectId: process.env.FIREBASE_PROJECT_ID,
     });
   }
-  _db = process.env.FIRESTORE_DATABASE_ID
-    ? getFirestore(process.env.FIRESTORE_DATABASE_ID)
-    : getFirestore();
+  _db = process.env.FIRESTORE_DATABASE_ID ? getFirestore(process.env.FIRESTORE_DATABASE_ID) : getFirestore();
   return _db;
 }
 export const getAdminAuth = () => getAuth();
 export { FieldValue };
 
-export const str = (v: unknown, max: number) =>
-  typeof v === 'string' ? v.trim().slice(0, max) : '';
-
+export const str = (v: unknown, max: number) => typeof v === 'string' ? v.trim().slice(0, max) : '';
 export const safeEq = (a: string, b: string) => {
   const h = (s: string) => crypto.createHash('sha256').update(s).digest();
   return crypto.timingSafeEqual(h(a), h(b));
@@ -57,25 +54,12 @@ export async function markPaid(orderId: string, method: string, ref: string) {
     const d = o.data()!;
     tx.set(cRef, { n });
     tx.set(db.collection('invoices').doc(orderId), {
-      invoiceNumber: `INV-${new Date().getFullYear()}-${String(n).padStart(6, '0')}`,
-      orderId, customerName: d.company, email: d.email,
-      packageName: d.packageName, packageId: d.packageId,
-      amount: d.amount, vatAmount: d.vat, totalWithVat: d.total,
+      invoiceNumber: 'INV-' + new Date().getFullYear() + '-' + String(n).padStart(6, '0'),
+      orderId, customerName: d.company, email: d.email, packageName: d.packageName, packageId: d.packageId,
+      amount: d.amount, vatAmount: 0, totalWithVat: d.total,
       currency: 'USD', paymentMethod: method, paymentRef: ref,
-      status: 'مكتمل', date: new Date().toISOString().slice(0, 10),
+      status: 'paid', date: new Date().toISOString().slice(0, 10),
     });
     tx.update(oRef, { status: 'paid', paidAt: FieldValue.serverTimestamp(), paymentMethod: method });
-    if (d.job) {
-      const j = d.job;
-      tx.set(db.collection('jobs').doc(`job-${orderId}`), {
-        id: `job-${orderId}`, ...j, companyLogo: '',
-        department: j.department || 'عام', salary: j.salary || 'حسب الخبرة',
-        postedDate: new Date().toISOString().slice(0, 10),
-        deadline: new Date(Date.now() + 30 * 864e5).toISOString().slice(0, 10),
-        featured: d.packageId !== 'pkg-standard',
-        requiresVideoInterview: d.packageId !== 'pkg-pro-interview',
-        benefits: [], applicantsCount: 0, orderId,
-      });
-    }
   });
 }
