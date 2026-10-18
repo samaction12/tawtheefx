@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   aider:
-    if: github.event.comment.body == '/aider' && github.event.issue.pull_request == null
+    if: contains(github.event.comment.body, '/aider')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -30,15 +30,16 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
-          ISSUE_TITLE: ${{ github.event.issue.title }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
         run: |
           git config --global user.name "Aider Agent"
           git config --global user.email "aider-agent@bot.com"
           
-          # تشغيل Aider
-          aider --model gemini/gemini-1.5-pro --yes --message "Fix this issue: $ISSUE_TITLE. Details: $ISSUE_BODY" || true
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          ISSUE_BODY="${{ github.event.issue.body }}"
+          ISSUE_NUMBER="${{ github.event.issue.number }}"
+          
+          # تشغيل Aider مع تمرير تفاصيل المشكلة
+          aider --model gemini/gemini-1.5-pro --yes --message "Fix this issue. Title: $ISSUE_TITLE. Details: $ISSUE_BODY" || true
           
           # إنشاء فرع ورفع التعديلات
           git checkout -b ai-fix-$ISSUE_NUMBER
