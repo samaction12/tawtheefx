@@ -61,12 +61,7 @@ function AppContent() {
 
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} onOpenJobPost={() => setIsJobPostModalOpen(true)} onOpenReminders={() => setIsReminderModalOpen(true)} onGoogleLogin={googleSignIn} userEmail={userEmail} remindersCount={0} onOpenOwnerFinancials={() => isAdmin ? setIsOwnerFinancialsOpen(true) : setIsLoginOpen(true)} ownerFinancials={{}} onOpenAIOperations={() => setIsAIOperationsOpen(true)} isCleanSlateActive={isCleanSlateActive} />
 
-      {isAdmin && isCleanSlateActive && (
-        <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-4 py-2 text-xs flex justify-between items-center">
-          <span className="text-emerald-400">{t.clean_slate}</span>
-          <button onClick={() => { setJobs(INITIAL_JOBS); setApplicants(INITIAL_APPLICANTS); setIsCleanSlateActive(false); }} className="underline hover:text-white">{t.restore_demo}</button>
-        </div>
-      )}
+      
 
       <main className="flex-1">
         {activeTab === 'jobs' && (
