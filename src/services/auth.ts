@@ -1,12 +1,16 @@
-import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onIdTokenChanged } from 'firebase/auth';
+import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onIdTokenChanged, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { app } from './firebase';
 
 const auth = () => getAuth(app);
 
 export const googleSignIn = async () => {
+  const authInstance = auth();
+  // إجبار المتصفح على حفظ الجلسة حتى بعد إغلاقه
+  await setPersistence(authInstance, browserLocalPersistence);
+  
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-  await signInWithRedirect(auth(), provider);
+  await signInWithRedirect(authInstance, provider);
 };
 
 export const handleGoogleRedirectResult = async () => {
