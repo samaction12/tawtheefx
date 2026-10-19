@@ -13,7 +13,7 @@ import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { PACKAGES, INITIAL_OWNER_FINANCIALS } from './data/mockData';
 import { googleSignIn, handleGoogleRedirectResult, adminSignOut } from './services/auth';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { app } from './services/firebase';
+import { app, syncOwnerFinancialsToCloud } from './services/firebase';
 import { CheckCircle2 } from 'lucide-react';
 
 function AppContent() {
@@ -23,7 +23,6 @@ function AppContent() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [ownerFinancials, setOwnerFinancials] = useState<any>(INITIAL_OWNER_FINANCIALS);
   
-  // States for Modals
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isReminderOpen, setIsReminderOpen] = useState(false);
   const [isJobPostOpen, setIsJobPostOpen] = useState(false);
@@ -46,17 +45,28 @@ function AppContent() {
     });
   }, []);
 
-  // السطر ده هو اللي كان بيعمل المشكلة، واتصلح هنا
   const handleJobPostSubmit = (jobData: any, selectedPkg: any) => {
     setIsJobPostOpen(false);
     setPkgForPayment(selectedPkg);
     setIsPaymentOpen(true);
   };
 
+  // هنا بنحفظ البيانات في Firebase
+  const handleUpdateProfile = async (updated: any) => {
+    setOwnerFinancials(updated);
+    try {
+      await syncOwnerFinancialsToCloud(updated);
+      showToast('تم حفظ البيانات بنجاح في السيرفر!');
+    } catch (e) {
+      console.error(e);
+      showToast('تم الحفظ محلياً، لكن حدث خطأ في الاتصال بالسيرفر');
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-xl flex items-center gap-2">
+        <div className="fixed bottom-5 right-5 z-[60] bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-xl flex items-center gap-2">
           <CheckCircle2 className="w-5 h-5 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>
@@ -90,7 +100,6 @@ function AppContent() {
       
       <Footer onNavigate={setActiveTab} />
       
-      {/* --- النوافذ المنبثقة (Modals) --- */}
       {isJobPostOpen && (
         <JobPostModal 
           onClose={() => setIsJobPostOpen(false)} 
@@ -104,7 +113,7 @@ function AppContent() {
           onClose={() => setIsOwnerFinancialsOpen(false)} 
           profile={ownerFinancials} 
           payouts={[]} 
-          onUpdateProfile={(updated: any) => { setOwnerFinancials(updated); showToast('تم حفظ البيانات!'); }} 
+          onUpdateProfile={handleUpdateProfile} 
           onRequestPayout={() => {}} 
         />
       )}
@@ -133,4 +142,4 @@ export default function App() {
       <AppContent />
     </LanguageProvider>
   );
-      }
+}
