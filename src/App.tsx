@@ -45,7 +45,7 @@ function AppContent() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
-      setUserEmail(user?.email ? null);
+      setUserEmail(user?.email ?? null);
     });
     return () => unsubscribe();
   }, []);
