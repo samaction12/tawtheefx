@@ -154,22 +154,6 @@ export const INITIAL_TRANSACTIONS: PaymentTransaction[] = [
 ];
 
 export const INITIAL_REMINDERS: InterviewReminder[] = [];
-export const INITIAL_OWNER_FINANCIALS: OwnerFinancialProfile = {
-  ownerName: '',
-  ownerEmail: '',
-  merchantBusinessName: '',
-  crNumber: '',
-  vatNumber: '',
-  bankName: '',
-  iban: '',
-  accountNumber: '',
-  swiftCode: '',
-  payoutSchedule: 'weekly',
-  gatewayMode: 'live',
-  merchantKeyId: '',
-  totalEarningsSAR: 0,
-  availableBalanceSAR: 0,
-  totalPayoutsWithdrawnSAR: 0
-};
+export const INITIAL_OWNER_FINANCIALS: any = {};
 export const INITIAL_PAYOUTS: PayoutRecord[] = [];
 
