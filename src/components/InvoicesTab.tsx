@@ -141,13 +141,13 @@ export const InvoicesTab: React.FC<InvoicesTabProps> = ({
                       {tx.paymentMethod} {tx.cardLast4 ? `(**** ${tx.cardLast4})` : ''}
                     </td>
                     <td className="py-3.5 px-4 text-slate-700">
-                      {(tx.amount || 0).toLocaleString() || "0"} {tx.currency}
+                      {(tx.amount || 0)?.toLocaleString() || "0"} {tx.currency}
                     </td>
                     <td className="py-3.5 px-4 text-slate-500">
-                      {(tx.vatAmount || 0).toLocaleString() || "0"} {tx.currency}
+                      {(tx.vatAmount || 0)?.toLocaleString() || "0"} {tx.currency}
                     </td>
                     <td className="py-3.5 px-4 font-bold text-slate-900 text-sm">
-                      {(tx.totalWithVat || 0).toLocaleString() || "0"} {tx.currency}
+                      {(tx.totalWithVat || 0)?.toLocaleString() || "0"} {tx.currency}
                     </td>
                     <td className="py-3.5 px-4 font-sans">
                       <span className="text-emerald-700 font-semibold flex items-center gap-1">
@@ -218,15 +218,15 @@ export const InvoicesTab: React.FC<InvoicesTabProps> = ({
                 <div className="space-y-2 border-t border-slate-200 pt-3 font-mono tabular-nums">
                   <div className="flex justify-between font-sans">
                     <span>{selectedTx.packageName}</span>
-                    <span>{(selectedTx.amount || 0).toLocaleString() || "0"} {selectedTx.currency}</span>
+                    <span>{(selectedTx.amount || 0)?.toLocaleString() || "0"} {selectedTx.currency}</span>
                   </div>
                   <div className="flex justify-between text-slate-500 text-[11px] font-sans">
                     <span>ضريبة القيمة المضافة (15% VAT)</span>
-                    <span>{(selectedTx.vatAmount || 0).toLocaleString() || "0"} {selectedTx.currency}</span>
+                    <span>{(selectedTx.vatAmount || 0)?.toLocaleString() || "0"} {selectedTx.currency}</span>
                   </div>
                   <div className="flex justify-between font-bold text-slate-900 border-t border-slate-300 pt-2 text-sm font-sans">
                     <span>الإجمالي الكلي المسدد</span>
-                    <span className="text-indigo-700 font-mono">{(selectedTx.totalWithVat || 0).toLocaleString() || "0"} {selectedTx.currency}</span>
+                    <span className="text-indigo-700 font-mono">{(selectedTx.totalWithVat || 0)?.toLocaleString() || "0"} {selectedTx.currency}</span>
                   </div>
                 </div>
 
