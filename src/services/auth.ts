@@ -11,12 +11,9 @@ export const googleSignIn = async () => {
   provider.setCustomParameters({ prompt: 'select_account' });
 
   try {
-    // محاولة الدخول بالنافذة المنبثقة أولاً (أفضل للموبايل)
     await signInWithPopup(authInstance, provider);
   } catch (error: any) {
-    // لو المتصفح منع النافذة، بنحول تلقائياً لطريقة التحويل
     if (error.code === 'auth/popup-blocked' || error.code === 'auth/popup-closed-by-user') {
-      console.warn('Popup blocked, falling back to redirect');
       await signInWithRedirect(authInstance, provider);
     } else {
       throw error;
@@ -48,3 +45,12 @@ export function onAdminChange(cb: (isAdmin: boolean) => void) {
 export const adminSignIn = (email: string, password: string) => {
   console.log("Admin login not fully implemented yet");
 };
+
+// الدالة اللي كانت ناقصة واللي بوابة الدفع بتدور عليها
+export async function authedFetch(path: string, init: RequestInit = {}) {
+  const user = auth().currentUser;
+  const headers = new Headers(init.headers);
+  if (init.body && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+  if (user) headers.set('Authorization', `Bearer ${await user.getIdToken()}`);
+  return fetch(path, { ...init, headers });
+}
