@@ -16,7 +16,7 @@ export const JobPostModal: React.FC<JobPostModalProps> = ({
   const [company, setCompany] = useState('');
   const [location, setLocation] = useState('الرياض، Remote / Global');
   const [department, setDepartment] = useState('الهندسة والتقنية');
-  const [type, setType] = useState<'Full-time' | 'Remote' | 'Hybrid' | 'عقد'>('Full-time');
+  const [type, setType] = useState<JobListing['type']>('دوام كامل');
   const [salary, setSalary] = useState('Competitive Salary');
   const [description, setDescription] = useState('');
   const [requirements, setRequirements] = useState('');
@@ -129,13 +129,13 @@ export const JobPostModal: React.FC<JobPostModalProps> = ({
               <label className="block font-semibold text-slate-700 mb-1">نمط العمل</label>
               <select
                 value={type}
-                onChange={(e) => setType(e.target.value as any)}
+                onChange={(e) => setType(e.target.value as JobListing['type'])}
                 className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600 bg-white"
               >
-                <option value="Full-time">Full-time</option>
-                <option value="Hybrid">Hybrid</option>
-                <option value="Remote">Remote</option>
-                <option value="عقد">عقد سنوي</option>
+                <option value="دوام كامل">دوام كامل (Full-time)</option>
+                <option value="عن بُعد">عن بُعد (Remote)</option>
+                <option value="هجين">هجين (Hybrid)</option>
+                <option value="عقد">عقد سنوي (Contract)</option>
               </select>
             </div>
 

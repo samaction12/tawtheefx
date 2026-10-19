@@ -1,18 +1,103 @@
 import React from 'react';
-import { ShieldCheck, Mail, Globe, Lock } from 'lucide-react';
+import { ShieldCheck, Mail, Globe, Lock, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export const Footer = ({ onNavigate }: { onNavigate: (tab: any) => void }) => {
   const { t } = useLanguage();
   return (
-    <footer className="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="space-y-4"><h3 className="text-xl font-bold text-white">ThakiHire Global</h3><p className="text-sm text-slate-400">Global Smart Recruitment.</p></div>
-        <div><h4 className="text-white font-bold mb-4">{t.ftr_platform}</h4><ul className="space-y-2 text-sm"><li><button onClick={() => onNavigate('jobs')} className="hover:text-indigo-400">{t.nav_jobs}</button></li><li><button onClick={() => onNavigate('packages')} className="hover:text-indigo-400">{t.nav_packages}</button></li></ul></div>
-        <div><h4 className="text-white font-bold mb-4">{t.ftr_security}</h4><ul className="space-y-2 text-sm"><li><ShieldCheck className="inline w-4 h-4 mr-2"/> 256-Bit SSL</li><li><Lock className="inline w-4 h-4 mr-2"/> PCI-DSS</li></ul></div>
-        <div><h4 className="text-white font-bold mb-4">{t.ftr_support}</h4><ul className="space-y-2 text-sm"><li><Mail className="inline w-4 h-4 mr-2"/> support@thakihire.com</li><li><Globe className="inline w-4 h-4 mr-2"/> Global 24/7</li></ul></div>
+    <footer className="bg-slate-950 text-slate-300 pt-16 pb-12 border-t border-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+        
+        {/* Brand Column */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center text-white font-black text-lg shadow-md">
+              T
+            </div>
+            <span className="text-xl font-black text-white tracking-tight">ThakiHire Global</span>
+          </div>
+          <p className="text-xs text-slate-400 leading-relaxed">
+            المنصة الذكية المتكاملة لاستقطاب الكفاءات القيادية وإجراء المقابلات الرقمية بالذكاء الاصطناعي مع تقارير تقييم فورية.
+          </p>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>جميع الأنظمة تعمل بكفاءة 99.9%</span>
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <div>
+          <h4 className="text-white font-bold text-sm mb-4">{t.ftr_platform}</h4>
+          <ul className="space-y-2.5 text-xs text-slate-400">
+            <li>
+              <button onClick={() => onNavigate('jobs')} className="hover:text-indigo-400 transition-colors">
+                {t.nav_jobs}
+              </button>
+            </li>
+            <li>
+              <button onClick={() => onNavigate('packages')} className="hover:text-indigo-400 transition-colors">
+                {t.nav_packages}
+              </button>
+            </li>
+            <li>
+              <button onClick={() => onNavigate('interviews')} className="hover:text-indigo-400 transition-colors">
+                {t.nav_interviews}
+              </button>
+            </li>
+            <li>
+              <button onClick={() => onNavigate('employer')} className="hover:text-indigo-400 transition-colors">
+                {t.nav_admin}
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        {/* Security & Compliance */}
+        <div>
+          <h4 className="text-white font-bold text-sm mb-4">{t.ftr_security}</h4>
+          <ul className="space-y-2.5 text-xs text-slate-400">
+            <li className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>تشفير 256-Bit SSL للبيانات</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Lock className="w-4 h-4 text-indigo-400 shrink-0" />
+              <span>معايير أمان المدفوعات PCI-DSS</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0" />
+              <span>امتثال كامل لقوانين العمل والخصوصية</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Support & Contact */}
+        <div>
+          <h4 className="text-white font-bold text-sm mb-4">{t.ftr_support}</h4>
+          <ul className="space-y-2.5 text-xs text-slate-400">
+            <li className="flex items-center gap-2">
+              <Mail className="w-4 h-4 text-slate-400 shrink-0" />
+              <span>support@thakihire.com</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-slate-400 shrink-0" />
+              <span>دعم فني واستجابة ذكية 24/7</span>
+            </li>
+          </ul>
+        </div>
+
       </div>
-      <div className="max-w-7xl mx-auto px-4 mt-8 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">© 2026 ThakiHire. {t.ftr_rights}.</div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+        <div>© 2026 ThakiHire Global Inc. {t.ftr_rights}.</div>
+        <div className="flex items-center gap-4 text-slate-400">
+          <span>شروط الخدمة</span>
+          <span>•</span>
+          <span>سياسة الخصوصية</span>
+          <span>•</span>
+          <span>الأمان الرقمي</span>
+        </div>
+      </div>
     </footer>
   );
 };
