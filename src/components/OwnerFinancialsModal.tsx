@@ -4,7 +4,6 @@ import { X, Save, ShieldCheck } from 'lucide-react';
 export const OwnerFinancialsModal = ({ isOpen, onClose, profile, onUpdateProfile }: any) => {
   if (!isOpen) return null;
 
-  // تهيئة آمنة للبيانات عشان لو مش موجودة ميعملش كراش
   const [ownerName, setOwnerName] = useState(profile?.ownerName || '');
   const [ownerEmail, setOwnerEmail] = useState(profile?.ownerEmail || '');
   const [merchantBusinessName, setMerchantBusinessName] = useState(profile?.merchantBusinessName || '');
@@ -13,13 +12,16 @@ export const OwnerFinancialsModal = ({ isOpen, onClose, profile, onUpdateProfile
   const [bankName, setBankName] = useState(profile?.bankName || '');
   const [iban, setIban] = useState(profile?.iban || '');
   const [swiftCode, setSwiftCode] = useState(profile?.swiftCode || '');
+  const [isSaving, setIsSaving] = useState(false);
   
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    onUpdateProfile({
+    setIsSaving(true);
+    await onUpdateProfile({
       ...profile,
       ownerName, ownerEmail, merchantBusinessName, crNumber, vatNumber, bankName, iban, swiftCode
     });
+    setIsSaving(false);
     onClose();
   };
 
@@ -27,10 +29,11 @@ export const OwnerFinancialsModal = ({ isOpen, onClose, profile, onUpdateProfile
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/70 flex items-center justify-center p-4 overflow-y-auto" dir="rtl">
-      <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl my-8">
+      {/* تم زيادة المساحة من تحت (mb-24) عشان الزر ميتغطاش بأزرار الشات */}
+      <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl my-8 mb-24">
         <div className="flex justify-between items-center p-6 border-b">
           <h3 className="font-bold text-lg flex items-center gap-2"><ShieldCheck className="w-5 h-5 text-emerald-600" /> بيانات الحساب البنكي والمالك</h3>
-          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full"><X className="w-5 h-5 text-slate-500" /></button>
+          <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full"><X className="w-5 h-5 text-slate-500" /></button>
         </div>
         
         <form onSubmit={handleSave} className="p-6 space-y-4">
@@ -70,8 +73,8 @@ export const OwnerFinancialsModal = ({ isOpen, onClose, profile, onUpdateProfile
           </div>
           
           <div className="flex justify-end pt-4 border-t mt-6">
-            <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-bold flex items-center gap-2">
-              <Save className="w-4 h-4" /> حفظ وتحديث بيانات المالك
+            <button type="submit" disabled={isSaving} className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-bold flex items-center gap-2 disabled:opacity-50">
+              <Save className="w-4 h-4" /> {isSaving ? 'جاري الحفظ...' : 'حفظ وتحديث بيانات المالك'}
             </button>
           </div>
         </form>
