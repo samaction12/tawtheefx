@@ -222,7 +222,7 @@ export const JobPostModal: React.FC<JobPostModalProps> = ({
                     {selectedPkgId === pkg.id && <Check className="w-4 h-4 text-indigo-600" />}
                   </div>
                   <div className="text-sm font-bold font-mono tabular-nums text-slate-900">
-                    {pkg.priceUSD?.toLocaleString() || "0"} $
+                    {(pkg.priceUSD? || 0).toLocaleString() || "0"} $
                   </div>
                   <div className="text-[10px] text-slate-500 mt-1">
                     {pkg.interviewSlots > 0
