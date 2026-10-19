@@ -68,7 +68,7 @@ function AppContent() {
       postedDate: 'الآن',
       deadline: jobData.deadline || '2026-12-31',
       featured: selectedPkg?.popular || false,
-      requiresVideoInterview: jobData.requiresVideoInterview ? true,
+      requiresVideoInterview: jobData.requiresVideoInterview ?? true,
       description: jobData.description || '',
       requirements: jobData.requirements || [],
       benefits: jobData.benefits || [],
