@@ -1,253 +1,113 @@
 import React, { useState } from 'react';
-import { X, ArrowLeft, Video, Check, Sparkles, Briefcase, DollarSign, Building } from 'lucide-react';
+import { X, Briefcase } from 'lucide-react';
 import { JobListing, JobPackage } from '../types';
 import { PACKAGES } from '../data/mockData';
 
-interface JobPostModalProps {
+interface Props {
   onClose: () => void;
-  onProceedToPayment: (jobData: Partial<JobListing>, selectedPackage: JobPackage) => void;
+  onProceedToPayment: (jobData: Partial<JobListing>, selectedPkg: JobPackage) => void;
 }
 
-export const JobPostModal: React.FC<JobPostModalProps> = ({
-  onClose,
-  onProceedToPayment,
-}) => {
-  const [title, setTitle] = useState('');
-  const [company, setCompany] = useState('');
-  const [location, setLocation] = useState('الرياض، Remote / Global');
-  const [department, setDepartment] = useState('الهندسة والتقنية');
-  const [type, setType] = useState<JobListing['type']>('دوام كامل');
-  const [salary, setSalary] = useState('Competitive Salary');
-  const [description, setDescription] = useState('');
-  const [requirements, setRequirements] = useState('');
-  const [requiresVideoInterview, setRequiresVideoInterview] = useState(true);
-  const [selectedPkgId, setSelectedPkgId] = useState<string>('pkg-pro-interview');
+export const JobPostModal: React.FC<Props> = ({ onClose, onProceedToPayment }) => {
+  const [formData, setFormData] = useState({
+    title: '',
+    company: '',
+    location: '',
+    type: 'دوام كامل',
+    salary: '',
+    description: '',
+    requirements: ''
+  });
+  const [selectedPkg, setSelectedPkg] = useState<JobPackage>(PACKAGES[0]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const chosenPkg = PACKAGES.find((p) => p.id === selectedPkgId) || PACKAGES[1];
-    const reqArray = requirements
-      .split('\n')
-      .map((r) => r.trim())
-      .filter(Boolean);
-
-    const newJobPartial: Partial<JobListing> = {
-      title,
-      company,
-      location,
-      department,
-      type,
-      salary,
-      description: description || 'تفاصيل الوظيفة ومسؤوليات الدور القيادي في فريق العمل.',
-      requirements: reqArray.length > 0 ? reqArray : ['خبرة عملية ذات صلة لا تقل عن 3 سنوات', 'مهارات تواصل ممتازة'],
-      benefits: ['تأمين صحي عائلي شامل', 'مكافأة سنوية مجزية', 'بيئة عمل مرنة ومحفزة'],
-      requiresVideoInterview,
-      featured: chosenPkg.popular || false,
-      postedDate: 'الآن',
-      deadline: '2026-11-30',
-      applicantsCount: 0
+    // تحويل المتطلبات من نص إلى مصفوفة
+    const reqArray = formData.requirements.split('\n').filter(r => r.trim() !== '');
+    
+    const jobData: Partial<JobListing> = {
+      title: formData.title,
+      company: formData.company,
+      location: formData.location,
+      type: formData.type as any,
+      salary: formData.salary,
+      description: formData.description,
+      requirements: reqArray.length > 0 ? reqArray : ['خبرة عملية ذات صلة'],
+      requiresVideoInterview: selectedPkg.id !== 'pkg-standard'
     };
 
-    onProceedToPayment(newJobPartial, chosenPkg);
+    onProceedToPayment(jobData, selectedPkg);
   };
 
+  const inputClass = "w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500";
+
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden my-6">
-        {/* Header */}
-        <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
-              <Briefcase className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-slate-900">
-                نشر إعلان وظيفي وتفعيل المقابلات الإلكترونية
-              </h3>
-              <p className="text-xs text-slate-500">
-                أدخل تفاصيل الشاغر الوظيفي واختر باقة النشر لتوجيه الإعلان فوراً للمرشحين
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 transition-colors p-1"
-          >
-            <X className="w-5 h-5" />
-          </button>
+    <div className="fixed inset-0 z-50 bg-slate-950/70 flex items-center justify-center p-4 overflow-y-auto" dir="rtl">
+      <div className="bg-white rounded-2xl w-full max-w-3xl shadow-2xl my-8">
+        <div className="flex justify-between items-center p-6 border-b">
+          <h3 className="font-bold text-lg flex items-center gap-2"><Briefcase className="w-5 h-5 text-indigo-600" /> نشر إعلان وظيفي جديد</h3>
+          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full"><X className="w-5 h-5 text-slate-500" /></button>
         </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5 text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
-                المسمى الوظيفي *
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="مثال: مهندس أول أمن سيبراني"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600"
-              />
+              <label className="block text-sm font-bold mb-1">المسمى الوظيفي</label>
+              <input className={inputClass} value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} required placeholder="مثال: مطور واجهات أمامية" />
             </div>
-
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">
-                اسم الشركة أو المنشأة *
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="مثال: شركة التطوير الرقمي"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600"
-              />
+              <label className="block text-sm font-bold mb-1">اسم الشركة</label>
+              <input className={inputClass} value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} required placeholder="اسم شركتك" />
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">التخصص / الإدارة</label>
-              <select
-                value={department}
-                onChange={(e) => setDepartment(e.target.value)}
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600 bg-white"
-              >
-                <option value="الهندسة والتقنية">الهندسة والتقنية</option>
-                <option value="إدارة المنتجات">إدارة المنتجات</option>
-                <option value="الموارد البشرية">الموارد البشرية</option>
-                <option value="المالية والمحاسبة">المالية والمحاسبة</option>
-                <option value="التسويق والمبيعات">التسويق والمبيعات</option>
+              <label className="block text-sm font-bold mb-1">الموقع / المدينة</label>
+              <input className={inputClass} value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} required placeholder="الرياض، جدة، عن بعد..." />
+            </div>
+            <div>
+              <label className="block text-sm font-bold mb-1">نوع الدوام</label>
+              <select className={inputClass} value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})}>
+                <option value="دوام كامل">دوام كامل</option>
+                <option value="عن بُعد">عن بُعد</option>
+                <option value="هجين">هجين</option>
+                <option value="عقد">عقد</option>
               </select>
             </div>
-
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">نمط العمل</label>
-              <select
-                value={type}
-                onChange={(e) => setType(e.target.value as JobListing['type'])}
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600 bg-white"
-              >
-                <option value="دوام كامل">دوام كامل (Full-time)</option>
-                <option value="عن بُعد">عن بُعد (Remote)</option>
-                <option value="هجين">هجين (Hybrid)</option>
-                <option value="عقد">عقد سنوي (Contract)</option>
-              </select>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-bold mb-1">الراتب المتوقع</label>
+              <input className={inputClass} value={formData.salary} onChange={e => setFormData({...formData, salary: e.target.value})} required placeholder="مثال: 10,000 - 15,000 ريال" />
             </div>
-
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">المدينة أو النطاق</label>
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600"
-              />
+            <div className="md:col-span-2">
+              <label className="block text-sm font-bold mb-1">الوصف الوظيفي</label>
+              <textarea className={`${inputClass} h-24 resize-none`} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} required placeholder="وصف مختصر للمهام والمسؤوليات..." />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-bold mb-1">المتطلبات (كل متطلب في سطر جديد)</label>
+              <textarea className={`${inputClass} h-24 resize-none`} value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})} required placeholder="خبرة 3 سنوات...&#10;إجادة اللغة الإنجليزية..." />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">الراتب المتوقع</label>
-              <input
-                type="text"
-                value={salary}
-                onChange={(e) => setSalary(e.target.value)}
-                className="w-full px-3 py-2 text-xs font-mono tabular-nums border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600"
-              />
-            </div>
-
-            <div className="flex flex-col justify-end">
-              <label className="flex items-center gap-2 p-2.5 bg-indigo-50 border border-indigo-200 rounded-lg cursor-pointer text-indigo-900">
-                <input
-                  type="checkbox"
-                  checked={requiresVideoInterview}
-                  onChange={(e) => setRequiresVideoInterview(e.target.checked)}
-                  className="rounded text-indigo-600 focus:ring-0"
-                />
-                <span className="font-semibold text-xs flex items-center gap-1.5">
-                  <Video className="w-4 h-4 text-indigo-600" />
-                  تفعيل المقابلات الإلكترونية الفورية للوظيفة
-                </span>
-              </label>
-            </div>
-          </div>
-
-          <div>
-            <label className="block font-semibold text-slate-700 mb-1">الوصف العام للشاغر</label>
-            <textarea
-              rows={3}
-              placeholder="اكتب نبذة مختصرة عن الدور والمسؤوليات الرئيسية..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600 leading-relaxed"
-            />
-          </div>
-
-          <div>
-            <label className="block font-semibold text-slate-700 mb-1">
-              المؤهلات والشروط المطلوبة (سطر لكل شرط)
-            </label>
-            <textarea
-              rows={2}
-              placeholder="خبرة 4 سنوات في تطوير البرمجيات&#10;إتقان اللغة الإنجليزية والعمل الجماعي"
-              value={requirements}
-              onChange={(e) => setRequirements(e.target.value)}
-              className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:border-indigo-600 leading-relaxed"
-            />
-          </div>
-
-          {/* Package Selection */}
-          <div className="space-y-2 pt-2 border-t border-slate-200">
-            <label className="block font-semibold text-slate-700">
-              اختر باقة نشر الإعلان المناسبة
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {PACKAGES.map((pkg) => (
-                <div
+          <div className="border-t pt-6">
+            <h4 className="font-bold mb-4">اختر باقة النشر</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {PACKAGES.map(pkg => (
+                <div 
                   key={pkg.id}
-                  onClick={() => setSelectedPkgId(pkg.id)}
-                  className={`p-3 rounded-xl border cursor-pointer transition-all ${
-                    selectedPkgId === pkg.id
-                      ? 'border-indigo-600 bg-indigo-50/60 shadow-sm ring-1 ring-indigo-600'
-                      : 'border-slate-200 hover:border-slate-300 bg-white'
-                  }`}
+                  onClick={() => setSelectedPkg(pkg)}
+                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedPkg.id === pkg.id ? 'border-indigo-600 bg-indigo-50' : 'border-slate-200 hover:border-slate-300'}`}
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-bold text-slate-900 text-xs">{pkg.name.split('(')[0]}</span>
-                    {selectedPkgId === pkg.id && <Check className="w-4 h-4 text-indigo-600" />}
+                  <h5 className="font-bold text-slate-900">{pkg.name}</h5>
+                  <div className="text-2xl font-extrabold text-indigo-600 mt-2">
+                    {(pkg?.priceUSD || 0)} $
                   </div>
-                  <div className="text-sm font-bold font-mono tabular-nums text-slate-900">
-                    {(pkg.priceUSD || 0)(?? || 0).toLocaleString() || "0" || "0"} $
-                  </div>
-                  <div className="text-[10px] text-slate-500 mt-1">
-                    {pkg.interviewSlots > 0
-                      ? `${pkg.interviewSlots} مقابلة فيديو متضمنة`
-                      : 'نشر وظيفي أساسي'}
-                  </div>
+                  <p className="text-xs text-slate-500 mt-2">لمدة {pkg.durationDays} يوم</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="flex gap-2 pt-3 border-t border-slate-100">
-            <button
-              type="submit"
-              className="flex-1 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
-            >
-              <span>المتابعة إلى الدفع الإلكتروني الآمن وتأكيد النشر</span>
-              <ArrowLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium"
-            >
-              إلغاء
+          <div className="flex justify-end pt-4 border-t mt-6">
+            <button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-bold text-lg w-full md:w-auto">
+              المتابعة للدفع
             </button>
           </div>
         </form>
