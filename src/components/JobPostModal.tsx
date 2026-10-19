@@ -22,7 +22,6 @@ export const JobPostModal: React.FC<Props> = ({ onClose, onProceedToPayment }) =
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // تحويل المتطلبات من نص إلى مصفوفة
     const reqArray = formData.requirements.split('\n').filter(r => r.trim() !== '');
     
     const jobData: Partial<JobListing> = {
