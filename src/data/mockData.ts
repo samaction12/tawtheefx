@@ -155,21 +155,21 @@ export const INITIAL_TRANSACTIONS: PaymentTransaction[] = [
 
 export const INITIAL_REMINDERS: InterviewReminder[] = [];
 export const INITIAL_OWNER_FINANCIALS: OwnerFinancialProfile = {
-  ownerName: 'المدير التنفيذي', 
-  ownerEmail: 'owner@thakihire.com', 
-  merchantBusinessName: 'ThakiHire Global Recruitment Corp', 
-  crNumber: '1010884920', 
-  vatNumber: '31098492000003', 
-  bankName: 'مصرف الراجحي / Al Rajhi Bank', 
-  iban: 'SA4480000492608010098765', 
-  accountNumber: '492608010098765', 
-  swiftCode: 'RJHISARI', 
-  payoutSchedule: 'weekly', 
-  gatewayMode: 'live', 
-  merchantKeyId: 'live_sec_thaki_9941', 
-  totalEarningsSAR: 12500, 
-  availableBalanceSAR: 4850, 
-  totalPayoutsWithdrawnSAR: 7650
+  ownerName: '',
+  ownerEmail: '',
+  merchantBusinessName: '',
+  crNumber: '',
+  vatNumber: '',
+  bankName: '',
+  iban: '',
+  accountNumber: '',
+  swiftCode: '',
+  payoutSchedule: 'weekly',
+  gatewayMode: 'live',
+  merchantKeyId: '',
+  totalEarningsSAR: 0,
+  availableBalanceSAR: 0,
+  totalPayoutsWithdrawnSAR: 0
 };
 export const INITIAL_PAYOUTS: PayoutRecord[] = [];
 
