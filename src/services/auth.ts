@@ -6,10 +6,8 @@ const auth = () => getAuth(app);
 export const googleSignIn = async () => {
   const authInstance = auth();
   await setPersistence(authInstance, browserLocalPersistence);
-  
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: 'select_account' });
-
   try {
     await signInWithPopup(authInstance, provider);
   } catch (error: any) {
@@ -22,12 +20,7 @@ export const googleSignIn = async () => {
 };
 
 export const handleGoogleRedirectResult = async () => {
-  try {
-    return await getRedirectResult(auth());
-  } catch (error) {
-    console.error('Google redirect error:', error);
-    throw error;
-  }
+  try { return await getRedirectResult(auth()); } catch (error) { throw error; }
 };
 
 export const adminSignOut = () => signOut(auth());
@@ -43,10 +36,10 @@ export function onAdminChange(cb: (isAdmin: boolean) => void) {
 }
 
 export const adminSignIn = (email: string, password: string) => {
-  console.log("Admin login not fully implemented yet");
+  console.log("Admin login not fully implemented");
 };
 
-// الدالة اللي كانت ناقصة واللي بوابة الدفع بتدور عليها
+// الدالة المفقودة اللي بتعمل المشكلة
 export async function authedFetch(path: string, init: RequestInit = {}) {
   const user = auth().currentUser;
   const headers = new Headers(init.headers);
