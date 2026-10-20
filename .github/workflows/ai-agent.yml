@@ -35,7 +35,11 @@ jobs:
           BRANCH_NAME="ai-fix-issue-${{ github.event.issue.number }}"
           git checkout -b $BRANCH_NAME
           
-          aider --model groq/llama-3.3-70b-versatile --yes --no-gitignore --message "Fix this issue. Title: ${{ github.event.issue.title }}. Details: ${{ github.event.issue.body }}"
+          # تم تغيير الموديل هنا إلى llama-3.1-70b-versatile
+          aider --model groq/llama-3.1-70b-versatile --yes --no-gitignore --message "Fix this issue. Title: ${{ github.event.issue.title }}. Details: ${{ github.event.issue.body }}"
+          
+          # مسح أي ملفات غريبة اتخلقت بالخطأ
+          rm -f "Global to ThakiHire" "AI." || true
           
           git add .
           git commit -m "AI Fix for issue #${{ github.event.issue.number }}" || echo "No changes made"
