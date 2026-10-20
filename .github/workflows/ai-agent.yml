@@ -36,8 +36,8 @@ jobs:
           BRANCH_NAME="ai-fix-issue-${{ github.event.issue.number }}"
           git checkout -b $BRANCH_NAME
           
-          # هنا بنجبر الوكيل يقرا الملف ده بالذات ويعدله
-          aider src/components/Footer.tsx --model groq/llama-3.1-70b-versatile --yes --no-gitignore --message "You must modify the file src/components/Footer.tsx. Change the text 'ThakiHire' to 'ThakiHire AI'. Do not create new files, only edit this file. Issue details: $ISSUE_BODY"
+          # الموديل الجديد: llama-3.3-70b-versatile
+          aider src/components/Footer.tsx --model groq/llama-3.3-70b-versatile --yes --no-gitignore --message "You must modify the file src/components/Footer.tsx. Change the text 'ThakiHire' to 'ThakiHire AI'. Do not create new files, only edit this file. Issue details: $ISSUE_BODY"
           
           git add .
           git commit -m "AI Fix for issue #${{ github.event.issue.number }}" || echo "No changes made"
