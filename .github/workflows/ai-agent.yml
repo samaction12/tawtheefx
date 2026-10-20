@@ -28,6 +28,8 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           git config --global user.name "AI Agent"
           git config --global user.email "ai@tawtheefx.com"
@@ -35,11 +37,11 @@ jobs:
           BRANCH_NAME="ai-fix-issue-${{ github.event.issue.number }}"
           git checkout -b $BRANCH_NAME
           
-          # تم تغيير الموديل هنا إلى llama-3.1-70b-versatile
-          aider --model groq/llama-3.1-70b-versatile --yes --no-gitignore --message "Fix this issue. Title: ${{ github.event.issue.title }}. Details: ${{ github.event.issue.body }}"
+          # هنستخدم متغيرات البيئة عشان نتجنب مشاكل علامات التنصيص
+          aider --model groq/llama-3.1-70b-versatile --yes --no-gitignore --message "Fix this issue. Title: $ISSUE_TITLE. Details: $ISSUE_BODY"
           
-          # مسح أي ملفات غريبة اتخلقت بالخطأ
-          rm -f "Global to ThakiHire" "AI." || true
+          # مسح أي ملفات غريبة الوكيل ممكن يكون خلقها بالغلط
+          rm -f "Global to ThakiHire" "AI." "AI. Do not create new files." || true
           
           git add .
           git commit -m "AI Fix for issue #${{ github.event.issue.number }}" || echo "No changes made"
