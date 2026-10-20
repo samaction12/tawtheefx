@@ -13,7 +13,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { PACKAGES, INITIAL_OWNER_FINANCIALS } from './data/mockData';
 import { googleSignIn, handleGoogleRedirectResult, adminSignOut } from './services/auth';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { app } from './services/firebase';
+import { app, loadOwnerFinancialsFromCloud, syncOwnerFinancialsToCloud } from './services/firebase';
 import { CheckCircle2 } from 'lucide-react';
 
 function AppContent() {
@@ -22,25 +22,53 @@ function AppContent() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [ownerFinancials, setOwnerFinancials] = useState<any>(INITIAL_OWNER_FINANCIALS);
+  
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isReminderOpen, setIsReminderOpen] = useState(false);
   const [isJobPostOpen, setIsJobPostOpen] = useState(false);
   const [isOwnerFinancialsOpen, setIsOwnerFinancialsOpen] = useState(false);
+  
   const [pkgForPayment, setPkgForPayment] = useState(PACKAGES[0]);
 
   const showToast = (msg: string) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 4000); };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(getAuth(app), (user) => setUserEmail(user?.email ?? null));
+    const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
+      setUserEmail(user?.email ?? null);
+    });
     return () => unsubscribe();
   }, []);
 
+  // هنا السحر: أول ما تسجل دخول، بيسحب البيانات من Firebase
   useEffect(() => {
-    handleGoogleRedirectResult().catch((err) => { if (err.code !== 'auth/no-auth-event') console.error(err); });
+    if (userEmail) {
+      loadOwnerFinancialsFromCloud().then((data) => {
+        if (data) {
+          setOwnerFinancials(data);
+        }
+      }).catch(console.error);
+    }
+  }, [userEmail]);
+
+  useEffect(() => {
+    handleGoogleRedirectResult().catch((err) => {
+      if (err.code !== 'auth/no-auth-event') console.error(err);
+    });
   }, []);
 
   const handleJobPostSubmit = (jobData: any, selectedPkg: any) => {
     setIsJobPostOpen(false); setPkgForPayment(selectedPkg); setIsPaymentOpen(true);
+  };
+
+  // عند الحفظ: بيحدث الشاشة + بيبعت لـ Firebase
+  const handleUpdateProfile = async (updated: any) => {
+    setOwnerFinancials(updated);
+    try {
+      await syncOwnerFinancialsToCloud(updated);
+      showToast('تم حفظ البيانات بنجاح في السيرفر!');
+    } catch (e) {
+      showToast('حدث خطأ في الحفظ');
+    }
   };
 
   return (
@@ -63,7 +91,7 @@ function AppContent() {
       </main>
       <Footer onNavigate={setActiveTab} />
       {isJobPostOpen && <JobPostModal onClose={() => setIsJobPostOpen(false)} onProceedToPayment={handleJobPostSubmit} />}
-      {isOwnerFinancialsOpen && <OwnerFinancialsModal isOpen={isOwnerFinancialsOpen} onClose={() => setIsOwnerFinancialsOpen(false)} profile={ownerFinancials} payouts={[]} onUpdateProfile={(u:any) => setOwnerFinancials(u)} onRequestPayout={() => {}} />}
+      {isOwnerFinancialsOpen && <OwnerFinancialsModal isOpen={isOwnerFinancialsOpen} onClose={() => setIsOwnerFinancialsOpen(false)} profile={ownerFinancials} payouts={[]} onUpdateProfile={handleUpdateProfile} onRequestPayout={() => {}} />}
       {isPaymentOpen && <PaymentModal packageToBuy={pkgForPayment} onClose={() => setIsPaymentOpen(false)} onPaymentSuccess={() => {}} />}
       {isReminderOpen && <ReminderModal isOpen={isReminderOpen} onClose={() => setIsReminderOpen(false)} />}
     </div>
