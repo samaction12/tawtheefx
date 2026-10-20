@@ -8,6 +8,8 @@ import { initializeApp, cert, applicationDefault } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import { GoogleGenAI } from '@google/genai';
+import { orchestrator } from './src/agents/orchestrator.js';
+import { handleMcp } from './src/mcp.js';
 
 const PROD = process.env.NODE_ENV === 'production';
 const PORT = Number(process.env.PORT || 3000);
@@ -231,6 +233,44 @@ app.get('/api/admin/gateway-status', requireAdmin, wrap(async (_req, res) => {
   res.json({ card: !!process.env.MOYASAR_SECRET_KEY && !!process.env.MOYASAR_WEBHOOK_SECRET, bank: !!iban, ai: !!ai,
     bankName: process.env.BANK_NAME || '', ibanMasked: iban ? `${iban.slice(0, 4)} **** **** ${iban.slice(-4)}` : '' });
 }));
+
+// Agent orchestrator (admin-only)
+app.post('/api/admin/agents/tasks', requireAdmin, wrap(async (req, res) => {
+  const type = String(req.body?.type || '');
+  const goal = str(req.body?.goal, 2000);
+  if (!goal) return res.status(400).json({ error: 'empty_goal' });
+  const allowed = ['research', 'coding', 'security', 'testing'];
+  if (!allowed.includes(type)) return res.status(400).json({ error: 'invalid_type' });
+  const raw = req.body?.maxRetries;
+  const maxRetries = Number.isInteger(raw) ? Math.min(2, Math.max(0, raw)) : 2;
+  const task = orchestrator.createTask(type as any, { goal, context: req.body?.context, maxRetries });
+  const run = req.body?.run === true;
+  if (run) await orchestrator.runTask(task.id);
+  await audit(req.uid!, 'agent_task_create', { id: task.id, type });
+  res.json(task);
+}));
+app.get('/api/admin/agents/tasks', requireAdmin, wrap(async (_req, res) => {
+  res.json(orchestrator.listTasks());
+}));
+app.get('/api/admin/agents/tasks/:id', requireAdmin, wrap(async (req, res) => {
+  const t = orchestrator.getTask(req.params.id);
+  if (!t) return res.status(404).json({ error: 'not_found' });
+  res.json(t);
+}));
+app.post('/api/admin/agents/tasks/:id/run', requireAdmin, wrap(async (req, res) => {
+  const t = await orchestrator.runTask(req.params.id);
+  await audit(req.uid!, 'agent_task_run', { id: t.id });
+  res.json(t);
+}));
+app.post('/api/admin/agents/tasks/:id/cancel', requireAdmin, wrap(async (req, res) => {
+  const ok = orchestrator.cancelTask(req.params.id);
+  res.json({ ok });
+}));
+app.get('/api/admin/agents', requireAdmin, wrap(async (_req, res) => {
+  res.json(orchestrator.listAgents().map((a) => ({ name: a.name, description: a.description })));
+}));
+
+app.all('/mcp', wrap(async (req, res) => { await handleMcp(req, res); }));
 
 app.use('/api', (_req, res) => res.status(404).json({ error: 'not_found' }));
 

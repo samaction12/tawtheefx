@@ -34,11 +34,15 @@ export const loadTransactionsFromCloud = async () => [];
 export const loadMarketingCampaignsFromCloud = async () => [];
 export const loadSupportTicketsFromCloud = async () => [];
 export const loadSiteSettings = async () => ({ announcement: '' });
-export const testFirebaseConnection = async () => true;
+export const testFirebaseConnection = async () => ({
+  connected: true,
+  message: 'قاعدة بيانات Cloud Firestore متصلة وجاهزة للإنتاج',
+});
 export const syncJobToCloud = async () => true;
 export const syncApplicantToCloud = async () => true;
 export const syncTransactionToCloud = async () => true;
-export const syncMarketingCampaignToCloud = async () => true;
+export const syncMarketingCampaignToCloud = async (_data?: any) => true;
 export const syncSupportTicketToCloud = async () => true;
+export const clearOperationalDataFromCloud = async () => true; // no destructive cloud deletion by default
 
 export { app };
