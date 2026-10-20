@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Save, ShieldCheck } from 'lucide-react';
 
 export const OwnerFinancialsModal = ({ isOpen, onClose, profile, onUpdateProfile }: any) => {
-  if (!isOpen) return null;
-
   const [ownerName, setOwnerName] = useState(profile?.ownerName || '');
   const [ownerEmail, setOwnerEmail] = useState(profile?.ownerEmail || '');
   const [merchantBusinessName, setMerchantBusinessName] = useState(profile?.merchantBusinessName || '');
@@ -13,6 +11,19 @@ export const OwnerFinancialsModal = ({ isOpen, onClose, profile, onUpdateProfile
   const [iban, setIban] = useState(profile?.iban || '');
   const [swiftCode, setSwiftCode] = useState(profile?.swiftCode || '');
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    setOwnerName(profile?.ownerName || '');
+    setOwnerEmail(profile?.ownerEmail || '');
+    setMerchantBusinessName(profile?.merchantBusinessName || '');
+    setCrNumber(profile?.crNumber || '');
+    setVatNumber(profile?.vatNumber || '');
+    setBankName(profile?.bankName || '');
+    setIban(profile?.iban || '');
+    setSwiftCode(profile?.swiftCode || '');
+  }, [profile]);
+
+  if (!isOpen) return null;
   
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
