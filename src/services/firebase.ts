@@ -8,7 +8,7 @@ const db = getFirestore(app);
 // حفظ بيانات المالك في السيرفر
 export const syncOwnerFinancialsToCloud = async (data: any) => {
   try {
-    await setDoc(doc(db, 'owner_financials', 'main'), data, { merge: true });
+    await setDoc(doc(db, 'main', 'main'), data, { merge: true });
     return true;
   } catch (e) {
     console.error('Error saving owner financials:', e);
@@ -19,7 +19,7 @@ export const syncOwnerFinancialsToCloud = async (data: any) => {
 // جلب بيانات المالك من السيرفر
 export const loadOwnerFinancialsFromCloud = async () => {
   try {
-    const snap = await getDoc(doc(db, 'owner_financials', 'main'));
+    const snap = await getDoc(doc(db, 'main', 'main'));
     return snap.exists() ? snap.data() : null;
   } catch (e) {
     console.error('Error loading owner financials:', e);
