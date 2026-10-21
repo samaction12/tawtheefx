@@ -14,7 +14,7 @@ import { PACKAGES, INITIAL_OWNER_FINANCIALS } from './data/mockData';
 import { googleSignIn, handleGoogleRedirectResult, adminSignOut } from './services/auth';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app, loadOwnerFinancialsFromCloud, syncOwnerFinancialsToCloud } from './services/firebase';
-import { CheckCircle2, ShieldCheck, LogOut } from 'lucide-react';
+import { CheckCircle2, ShieldCheck, LogOut, Wallet, Briefcase, Users, Settings } from 'lucide-react';
 import { AdminLoginModal } from './components/AdminLoginModal';
 
 function AppContent() {
@@ -27,28 +27,30 @@ function AppContent() {
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [isReminderOpen, setIsReminderOpen] = useState(false);
   const [isJobPostOpen, setIsJobPostOpen] = useState(false);
+  
+  // حالة لوحة التحكم
   const [isOwnerFinancialsOpen, setIsOwnerFinancialsOpen] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isAdminRoute, setIsAdminRoute] = useState(false);
+  const [adminTab, setAdminTab] = useState<'financials' | 'jobs' | 'users'>('financials');
 
   const [pkgForPayment, setPkgForPayment] = useState(PACKAGES[0]);
 
   const showToast = (msg: string) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 4000); };
 
-  // التحقق من الرابط المخفي
   useEffect(() => {
     if (window.location.pathname === '/admin' || window.location.search.includes('admin=true')) {
-      setIsLoginOpen(true);
+      setIsAdminRoute(true);
     }
-  }, []);
 
-  useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
       setUserEmail(user?.email ?? null);
+      if ((window.location.pathname === '/admin' || window.location.search.includes('admin=true')) && user?.email === 'janatamall559@gmail.com') {
+        setIsOwnerFinancialsOpen(true);
+      }
     });
     return () => unsubscribe();
   }, []);
 
-  // تحميل بيانات المالك
   useEffect(() => {
     if (userEmail === 'janatamall559@gmail.com') {
       loadOwnerFinancialsFromCloud().then((data) => {
@@ -71,50 +73,81 @@ function AppContent() {
     setOwnerFinancials(updated);
     try {
       await syncOwnerFinancialsToCloud(updated);
-      showToast('تم حفظ البيانات بنجاح في السيرفر!');
+      showToast('تم حفظ البيانات بنجاح!');
     } catch (e) {
       showToast('حدث خطأ في الحفظ');
     }
   };
 
-  // لما الأدمن يسجل دخول، بنقفل شاشة الدخول، وبنفتح لوحة المالك
-  const handleAdminLoginSuccess = () => {
-    setIsLoginOpen(false);
-    setIsOwnerFinancialsOpen(true);
-  };
-
-  // --- لوحة تحكم المالك (صفحة كاملة) ---
+  // --- 1. لوحة تحكم المالك (شكل جديد تماماً - Admin Dashboard) ---
   if (isOwnerFinancialsOpen) {
     return (
-      <div className="min-h-screen bg-slate-50 font-sans" dir="rtl">
-        <nav className="bg-slate-900 text-white p-4 flex justify-between items-center shadow-lg">
-          <div className="flex items-center gap-3">
-            <ShieldCheck className="w-6 h-6 text-emerald-400" />
-            <h1 className="text-xl font-bold">لوحة تحكم المالك - ThakiHire</h1>
+      <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex" dir="rtl">
+        {/* القائمة الجانبية */}
+        <aside className="w-64 bg-slate-900 border-l border-slate-800 p-6 flex flex-col gap-2">
+          <div className="flex items-center gap-3 mb-8 text-white">
+            <ShieldCheck className="w-8 h-8 text-emerald-400" />
+            <h1 className="text-xl font-bold">لوحة الإدارة</h1>
           </div>
-          <button 
-            onClick={() => { adminSignOut(); setIsOwnerFinancialsOpen(false); window.location.href = '/'; }}
-            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-            تسجيل الخروج
+          
+          <button onClick={() => setAdminTab('financials')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'financials' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}>
+            <Wallet className="w-5 h-5" /> البيانات المالية
           </button>
-        </nav>
-        <div className="p-8 max-w-7xl mx-auto">
-          <OwnerFinancialsModal 
-            isOpen={isOwnerFinancialsOpen} 
-            onClose={() => {}} // مفيش إغلاق دلوقتي عشان هي صفحة كاملة
-            profile={ownerFinancials} 
-            payouts={[]} 
-            onUpdateProfile={handleUpdateProfile} 
-            onRequestPayout={() => {}} 
-          />
-        </div>
+          <button onClick={() => setAdminTab('jobs')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'jobs' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}>
+            <Briefcase className="w-5 h-5" /> إدارة الوظائف
+          </button>
+          <button onClick={() => setAdminTab('users')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'users' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}>
+            <Users className="w-5 h-5" /> إدارة المرشحين
+          </button>
+
+          <div className="mt-auto pt-6 border-t border-slate-800">
+             <button onClick={() => { adminSignOut(); setIsOwnerFinancialsOpen(false); window.location.href = '/'; }} className="flex items-center gap-3 w-full p-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-colors">
+              <LogOut className="w-5 h-5" /> تسجيل الخروج
+            </button>
+          </div>
+        </aside>
+
+        {/* المحتوى */}
+        <main className="flex-1 p-10 overflow-y-auto">
+          <header className="flex justify-between items-center mb-8">
+            <h2 className="text-3xl font-bold text-white">
+              {adminTab === 'financials' ? 'البيانات المالية للمالك' : adminTab === 'jobs' ? 'الوظائف المنشورة' : 'قائمة المرشحين'}
+            </h2>
+            <div className="flex items-center gap-2 bg-slate-900 px-4 py-2 rounded-full border border-slate-800">
+              <span className="text-sm text-slate-400">مرحباً،</span>
+              <span className="text-sm font-bold text-indigo-400">المالك</span>
+            </div>
+          </header>
+
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 min-h-[500px]">
+            {adminTab === 'financials' && (
+              <OwnerFinancialsModal 
+                isOpen={true} 
+                onClose={() => {}} 
+                profile={ownerFinancials} 
+                payouts={[]} 
+                onUpdateProfile={handleUpdateProfile} 
+                onRequestPayout={() => {}} 
+              />
+            )}
+            {adminTab === 'jobs' && <p className="text-center text-slate-500 py-20">وظائفك ستظهر هنا (قيد التطوير).</p>}
+            {adminTab === 'users' && <p className="text-center text-slate-500 py-20">قائمة المرشحين ستظهر هنا (قيد التطوير).</p>}
+          </div>
+        </main>
       </div>
     );
   }
 
-  // --- الموقع العادي (للزوار) ---
+  // --- 2. شاشة تسجيل دخول الأدمن (صفحة كاملة) ---
+  if (isAdminRoute && !userEmail) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+        <AdminLoginModal isOpen={true} onClose={() => window.location.href = '/'} onLoginSuccess={() => {}} />
+      </div>
+    );
+  }
+
+  // --- 3. الموقع العادي للزوار (لم يتغير فيه شيء) ---
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
       {toastMessage && (
@@ -122,22 +155,10 @@ function AppContent() {
           <CheckCircle2 className="w-5 h-5 text-emerald-400" /><span>{toastMessage}</span>
         </div>
       )}
-      
       <div className="w-full bg-slate-900 py-2 px-4 flex justify-center">
         <LanguageSwitcher />
       </div>
-      
-      <Navbar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-        onOpenJobPost={() => setIsJobPostOpen(true)} 
-        onOpenReminders={() => setIsReminderOpen(true)} 
-        onGoogleLogin={() => googleSignIn().catch(console.error)} 
-        onLogout={() => adminSignOut().then(() => showToast('تم تسجيل الخروج'))} 
-        userEmail={userEmail} 
-        remindersCount={0} 
-      />
-      
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} onOpenJobPost={() => setIsJobPostOpen(true)} onOpenReminders={() => setIsReminderOpen(true)} onGoogleLogin={() => googleSignIn().catch(console.error)} onLogout={() => adminSignOut().then(() => showToast('تم تسجيل الخروج'))} userEmail={userEmail} remindersCount={0} />
       <main className="flex-1">
         {activeTab === 'jobs' && (
           <>
@@ -147,14 +168,10 @@ function AppContent() {
           </>
         )}
       </main>
-      
       <Footer onNavigate={setActiveTab} />
-      
       {isJobPostOpen && <JobPostModal onClose={() => setIsJobPostOpen(false)} onProceedToPayment={handleJobPostSubmit} />}
       {isPaymentOpen && <PaymentModal packageToBuy={pkgForPayment} onClose={() => setIsPaymentOpen(false)} onPaymentSuccess={() => {}} />}
       {isReminderOpen && <ReminderModal isOpen={isReminderOpen} onClose={() => setIsReminderOpen(false)} />}
-      
-      {isLoginOpen && <AdminLoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLoginSuccess={handleAdminLoginSuccess} />}
     </div>
   );
 }
