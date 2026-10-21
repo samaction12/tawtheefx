@@ -14,7 +14,7 @@ import { PACKAGES, INITIAL_OWNER_FINANCIALS } from './data/mockData';
 import { googleSignIn, handleGoogleRedirectResult, adminSignOut } from './services/auth';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app, loadOwnerFinancialsFromCloud, syncOwnerFinancialsToCloud } from './services/firebase';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, ShieldCheck, LogOut } from 'lucide-react';
 import { AdminLoginModal } from './components/AdminLoginModal';
 
 function AppContent() {
@@ -28,13 +28,18 @@ function AppContent() {
   const [isReminderOpen, setIsReminderOpen] = useState(false);
   const [isJobPostOpen, setIsJobPostOpen] = useState(false);
   const [isOwnerFinancialsOpen, setIsOwnerFinancialsOpen] = useState(false);
-  
-  // حالة شاشة تسجيل دخول الأدمن
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const [pkgForPayment, setPkgForPayment] = useState(PACKAGES[0]);
 
   const showToast = (msg: string) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 4000); };
+
+  // التحقق من الرابط المخفي
+  useEffect(() => {
+    if (window.location.pathname === '/admin' || window.location.search.includes('admin=true')) {
+      setIsLoginOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
@@ -43,14 +48,7 @@ function AppContent() {
     return () => unsubscribe();
   }, []);
 
-  // هنا السر: لو الرابط فيه admin، بنفتح شاشة تسجيل الدخول الأول
-  useEffect(() => {
-    if (window.location.pathname === '/admin' || window.location.search.includes('admin=true')) {
-      setIsLoginOpen(true);
-    }
-  }, []);
-
-  // سحب البيانات من Firebase لما المالك يسجل دخول
+  // تحميل بيانات المالك
   useEffect(() => {
     if (userEmail === 'janatamall559@gmail.com') {
       loadOwnerFinancialsFromCloud().then((data) => {
@@ -79,12 +77,44 @@ function AppContent() {
     }
   };
 
-  // دالة بتتنفذ بعد ما المالك يسجل دخول من شاشة الأدمن
+  // لما الأدمن يسجل دخول، بنقفل شاشة الدخول، وبنفتح لوحة المالك
   const handleAdminLoginSuccess = () => {
     setIsLoginOpen(false);
     setIsOwnerFinancialsOpen(true);
   };
 
+  // --- لوحة تحكم المالك (صفحة كاملة) ---
+  if (isOwnerFinancialsOpen) {
+    return (
+      <div className="min-h-screen bg-slate-50 font-sans" dir="rtl">
+        <nav className="bg-slate-900 text-white p-4 flex justify-between items-center shadow-lg">
+          <div className="flex items-center gap-3">
+            <ShieldCheck className="w-6 h-6 text-emerald-400" />
+            <h1 className="text-xl font-bold">لوحة تحكم المالك - ThakiHire</h1>
+          </div>
+          <button 
+            onClick={() => { adminSignOut(); setIsOwnerFinancialsOpen(false); window.location.href = '/'; }}
+            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            تسجيل الخروج
+          </button>
+        </nav>
+        <div className="p-8 max-w-7xl mx-auto">
+          <OwnerFinancialsModal 
+            isOpen={isOwnerFinancialsOpen} 
+            onClose={() => {}} // مفيش إغلاق دلوقتي عشان هي صفحة كاملة
+            profile={ownerFinancials} 
+            payouts={[]} 
+            onUpdateProfile={handleUpdateProfile} 
+            onRequestPayout={() => {}} 
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // --- الموقع العادي (للزوار) ---
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
       {toastMessage && (
@@ -120,13 +150,10 @@ function AppContent() {
       
       <Footer onNavigate={setActiveTab} />
       
-      {/* النوافذ المنبثقة */}
       {isJobPostOpen && <JobPostModal onClose={() => setIsJobPostOpen(false)} onProceedToPayment={handleJobPostSubmit} />}
-      {isOwnerFinancialsOpen && <OwnerFinancialsModal isOpen={isOwnerFinancialsOpen} onClose={() => setIsOwnerFinancialsOpen(false)} profile={ownerFinancials} payouts={[]} onUpdateProfile={handleUpdateProfile} onRequestPayout={() => {}} />}
       {isPaymentOpen && <PaymentModal packageToBuy={pkgForPayment} onClose={() => setIsPaymentOpen(false)} onPaymentSuccess={() => {}} />}
       {isReminderOpen && <ReminderModal isOpen={isReminderOpen} onClose={() => setIsReminderOpen(false)} />}
       
-      {/* شاشة تسجيل دخول الأدمن */}
       {isLoginOpen && <AdminLoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLoginSuccess={handleAdminLoginSuccess} />}
     </div>
   );
