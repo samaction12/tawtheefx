@@ -1,0 +1,43 @@
+name: AI Reviewer Agent
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Aider
+        run: pip install aider-chat
+
+      - name: Run Reviewer Agent
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          # الوكيل بيقرا الدستور
+          cat AGENTS.md
+          
+          # الوكيل بيجيب الكود اللي اتغير في الـ PR
+          git fetch origin main
+          git diff origin/main...HEAD > pr_changes.diff
+          
+          # الوكيل بيراجع التغييرات
+          aider --model groq/openai/gpt-oss-120b --yes --no-gitignore --message "You are the Reviewer Agent. Read AGENTS.md. Review the changes in pr_changes.diff. If you find any syntax errors, security issues, or violations of AGENTS.md, output 'REJECTED' followed by the reasons. If it is safe, output 'APPROVED'. Do not modify any files."
+          
+          # الوكيل بيكتب تعليق على الـ PR بالنتيجة
+          # (هنا ممكن نستخدم gh cli لو عايزين نكتب تعليق تلقائي، بس حالياً ده كافي للمراجعة)
