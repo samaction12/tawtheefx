@@ -69,6 +69,7 @@ export const AdminAIAssistant = () => {
       {/* مربع الكتابة - تم تعديله ليكون داكن وواضح */}
       <div className="p-4 bg-slate-950 border-t border-slate-800 flex gap-2">
         <input
+          autoComplete="off"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
