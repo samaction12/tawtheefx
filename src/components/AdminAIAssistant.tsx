@@ -73,7 +73,7 @@ export const AdminAIAssistant = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
           placeholder="الصق كود الخطأ هنا أو اسأل سؤالاً..."
-          className="flex-1 bg-slate-800 text-white placeholder-slate-400 px-4 py-3 rounded-xl text-sm border border-slate-700 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+          className="flex-1 bg-slate-800 text-white placeholder-slate-400 border border-slate-700 px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
         />
         <button
           onClick={handleSend}
