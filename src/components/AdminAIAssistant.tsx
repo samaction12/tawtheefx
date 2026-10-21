@@ -1,71 +1,83 @@
 import React, { useState } from 'react';
-import { Bot, X, Send, Loader2, Code } from 'lucide-react';
+import { Send, Loader2, Code } from 'lucide-react';
 
 export const AdminAIAssistant = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
-  const [reply, setReply] = useState('');
+  const [messages, setMessages] = useState<{ role: 'user' | 'bot', text: string }[]>([
+    { role: 'bot', text: 'مرحباً بك في مساعد المطور. الصق كود الخطأ أو اسألني عن أي مشكلة تقنية في المشروع.' }
+  ]);
   const [loading, setLoading] = useState(false);
 
-  const handleAsk = async () => {
-    if (!input.trim()) return;
+  const handleSend = async () => {
+    if (!input.trim() || loading) return;
+    const userMsg = input;
+    setInput('');
+    setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setLoading(true);
-    setReply('');
+
     try {
       const res = await fetch('/api/ai/debug', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ errorLog: input }),
+        body: JSON.stringify({ errorLog: userMsg }),
       });
       const data = await res.json();
-      if (data.reply) setReply(data.reply);
-      else setReply('عذراً، لم أستطع تحليل هذا الخطأ.');
+      if (data.reply) {
+        setMessages(prev => [...prev, { role: 'bot', text: data.reply }]);
+      } else {
+        setMessages(prev => [...prev, { role: 'bot', text: 'عذراً، لم أستطع تحليل هذا.' }]);
+      }
     } catch (e) {
-      setReply('حدث خطأ في الاتصال بالمساعد الذكي.');
+      setMessages(prev => [...prev, { role: 'bot', text: 'خطأ في الاتصال بالخادم.' }]);
     } finally {
       setLoading(false);
     }
   };
 
-  if (!isOpen) {
-    return (
-      <button 
-        onClick={() => setIsOpen(true)} 
-        className="fixed bottom-20 right-4 z-50 bg-slate-900 text-white p-3 rounded-full shadow-2xl hover:bg-slate-800"
-        title="مساعد المطور الذكي"
-      >
-        <Code className="w-6 h-6" />
-      </button>
-    );
-  }
-
   return (
-    <div className="fixed bottom-20 right-4 z-50 w-80 bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden flex flex-col" dir="rtl">
-      <div className="bg-slate-800 p-3 flex justify-between items-center text-white border-b border-slate-700">
-        <div className="flex items-center gap-2 font-bold text-sm"><Bot className="w-4 h-4 text-emerald-400" /> مساعد المطور الذكي</div>
-        <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white"><X className="w-4 h-4" /></button>
+    <div className="flex flex-col h-[600px] bg-white rounded-2xl border border-slate-200 overflow-hidden">
+      <div className="bg-slate-900 p-4 flex items-center gap-2 text-white font-bold">
+        <Code className="w-5 h-5 text-emerald-400" />
+        مساعد المطور الذكي
       </div>
       
-      <div className="p-3 space-y-3 max-h-96 overflow-y-auto">
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="الصق كود الخطأ هنا (Error Log) أو اسأل سؤالاً تقنياً..."
-          className="w-full bg-slate-950 text-slate-300 text-xs p-2 rounded-lg border border-slate-700 focus:outline-none h-24"
-        />
-        <button 
-          onClick={handleAsk} 
-          disabled={loading}
-          className="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2 rounded-lg flex items-center justify-center gap-2"
-        >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />} حلل المشكلة
-        </button>
-        
-        {reply && (
-          <div className="bg-slate-800 p-3 rounded-lg text-xs text-slate-200 border border-slate-700 whitespace-pre-wrap leading-relaxed">
-            {reply}
+      <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-slate-50">
+        {messages.map((msg, i) => (
+          <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed ${
+              msg.role === 'user' 
+                ? 'bg-indigo-600 text-white rounded-br-none' 
+                : 'bg-white border text-slate-800 rounded-bl-none shadow-sm'
+            }`}>
+              {msg.text}
+            </div>
+          </div>
+        ))}
+        {loading && (
+          <div className="flex justify-start">
+            <div className="bg-white p-4 rounded-2xl rounded-bl-none border flex items-center gap-2 shadow-sm">
+              <Loader2 className="w-4 h-4 animate-spin text-indigo-600" />
+              <span className="text-sm text-slate-500">جاري التحليل...</span>
+            </div>
           </div>
         )}
+      </div>
+
+      <div className="p-4 bg-white border-t flex gap-2">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+          placeholder="الصق كود الخطأ هنا أو اسأل سؤالاً..."
+          className="flex-1 bg-slate-100 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <button
+          onClick={handleSend}
+          disabled={loading}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-xl disabled:opacity-50 transition-colors"
+        >
+          <Send className="w-5 h-5" />
+        </button>
       </div>
     </div>
   );
