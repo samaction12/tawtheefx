@@ -7,7 +7,8 @@ import { PaymentModal } from './components/PaymentModal';
 import { ReminderModal } from './components/ReminderModal';
 import { JobPostModal } from './components/JobPostModal';
 import { OwnerFinancialsModal } from './components/OwnerFinancialsModal';
-import { AdminOrdersTab } from './components/AdminOrdersTab'; // ضفنا ده
+import { AdminOrdersTab } from './components/AdminOrdersTab';
+import { AdminAIAssistant } from './components/AdminAIAssistant';
 import { Footer } from './components/Footer';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -30,6 +31,7 @@ function AppContent() {
   const [isReminderOpen, setIsReminderOpen] = useState(false);
   const [isJobPostOpen, setIsJobPostOpen] = useState(false);
   
+  // حالة لوحة تحكم المالك
   const [isOwnerFinancialsOpen, setIsOwnerFinancialsOpen] = useState(false);
   const [isAdminRoute, setIsAdminRoute] = useState(false);
   const [adminTab, setAdminTab] = useState<'financials' | 'orders' | 'jobs' | 'users' | 'messages' | 'ai'>('financials');
@@ -79,13 +81,11 @@ function AppContent() {
     }
   };
 
-  // لتأكيد الحوالة البنكية (مؤقتاً)
   const handleConfirmPayment = async (id: string) => {
-    // سيتم تطويرها لاحقاً للتأكيد الفعلي
     showToast(`تم تأكيد الطلب ${id.slice(0,8)}`);
   };
 
-  // --- لوحة تحكم المالك ---
+  // --- لوحة تحكم المالك (Full Page Dashboard) ---
   if (isOwnerFinancialsOpen) {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex" dir="rtl">
@@ -120,13 +120,11 @@ function AppContent() {
 
           <div className="bg-white rounded-2xl p-6 min-h-[500px]">
             {adminTab === 'financials' && <OwnerFinancialsModal isOpen={true} onClose={() => {}} profile={ownerFinancials} payouts={[]} onUpdateProfile={handleUpdateProfile} onRequestPayout={() => {}} />}
-            
             {adminTab === 'orders' && <AdminOrdersTab orders={orders} onConfirmPayment={handleConfirmPayment} />}
-            
             {adminTab === 'jobs' && <p className="text-center text-slate-500 py-20">قائمة الوظائف ستظهر هنا.</p>}
             {adminTab === 'users' && <p className="text-center text-slate-500 py-20">قائمة المستخدمين ستظهر هنا.</p>}
             {adminTab === 'messages' && <p className="text-center text-slate-500 py-20">صندوق الرسائل سيكون هنا.</p>}
-            {adminTab === 'ai' && <p className="text-center text-slate-500 py-20">مساعد المطور سيكون هنا.</p>}
+            {adminTab === 'ai' && <AdminAIAssistant />}
           </div>
         </main>
       </div>
