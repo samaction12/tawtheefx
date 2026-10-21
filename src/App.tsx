@@ -39,13 +39,18 @@ function AppContent() {
     return () => unsubscribe();
   }, []);
 
-  // هنا السحر: أول ما تسجل دخول، بيسحب البيانات من Firebase
+  // هنا السر: فتح لوحة المالك لو الرابط فيه /admin
+  useEffect(() => {
+    if (window.location.pathname === '/admin' || window.location.search.includes('admin=true')) {
+      setIsOwnerFinancialsOpen(true);
+    }
+  }, []);
+
+  // سحب البيانات من Firebase
   useEffect(() => {
     if (userEmail) {
       loadOwnerFinancialsFromCloud().then((data) => {
-        if (data) {
-          setOwnerFinancials(data);
-        }
+        if (data) setOwnerFinancials(data);
       }).catch(console.error);
     }
   }, [userEmail]);
@@ -60,7 +65,6 @@ function AppContent() {
     setIsJobPostOpen(false); setPkgForPayment(selectedPkg); setIsPaymentOpen(true);
   };
 
-  // عند الحفظ: بيحدث الشاشة + بيبعت لـ Firebase
   const handleUpdateProfile = async (updated: any) => {
     setOwnerFinancials(updated);
     try {
@@ -78,8 +82,22 @@ function AppContent() {
           <CheckCircle2 className="w-5 h-5 text-emerald-400" /><span>{toastMessage}</span>
         </div>
       )}
-      <div className="w-full bg-slate-900 py-2 px-4 flex justify-center"><LanguageSwitcher /></div>
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} onOpenJobPost={() => setIsJobPostOpen(true)} onOpenReminders={() => setIsReminderOpen(true)} onGoogleLogin={() => googleSignIn().catch(console.error)} onLogout={() => adminSignOut().then(() => showToast('تم تسجيل الخروج'))} userEmail={userEmail} remindersCount={0} onOpenOwnerFinancials={() => setIsOwnerFinancialsOpen(true)} />
+      
+      <div className="w-full bg-slate-900 py-2 px-4 flex justify-center">
+        <LanguageSwitcher />
+      </div>
+      
+      <Navbar 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        onOpenJobPost={() => setIsJobPostOpen(true)} 
+        onOpenReminders={() => setIsReminderOpen(true)} 
+        onGoogleLogin={() => googleSignIn().catch(console.error)} 
+        onLogout={() => adminSignOut().then(() => showToast('تم تسجيل الخروج'))} 
+        userEmail={userEmail} 
+        remindersCount={0} 
+      />
+      
       <main className="flex-1">
         {activeTab === 'jobs' && (
           <>
@@ -89,7 +107,9 @@ function AppContent() {
           </>
         )}
       </main>
+      
       <Footer onNavigate={setActiveTab} />
+      
       {isJobPostOpen && <JobPostModal onClose={() => setIsJobPostOpen(false)} onProceedToPayment={handleJobPostSubmit} />}
       {isOwnerFinancialsOpen && <OwnerFinancialsModal isOpen={isOwnerFinancialsOpen} onClose={() => setIsOwnerFinancialsOpen(false)} profile={ownerFinancials} payouts={[]} onUpdateProfile={handleUpdateProfile} onRequestPayout={() => {}} />}
       {isPaymentOpen && <PaymentModal packageToBuy={pkgForPayment} onClose={() => setIsPaymentOpen(false)} onPaymentSuccess={() => {}} />}
