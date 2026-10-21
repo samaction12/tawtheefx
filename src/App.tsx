@@ -7,19 +7,21 @@ import { PaymentModal } from './components/PaymentModal';
 import { ReminderModal } from './components/ReminderModal';
 import { JobPostModal } from './components/JobPostModal';
 import { OwnerFinancialsModal } from './components/OwnerFinancialsModal';
+import { AdminOrdersTab } from './components/AdminOrdersTab'; // ضفنا ده
 import { Footer } from './components/Footer';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { PACKAGES, INITIAL_OWNER_FINANCIALS } from './data/mockData';
 import { googleSignIn, handleGoogleRedirectResult, adminSignOut } from './services/auth';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { app, loadOwnerFinancialsFromCloud, syncOwnerFinancialsToCloud } from './services/firebase';
-import { CheckCircle2, ShieldCheck, LogOut, Wallet, Briefcase, Users, Settings } from 'lucide-react';
+import { app, loadOwnerFinancialsFromCloud, syncOwnerFinancialsToCloud, loadTransactionsFromCloud } from './services/firebase';
+import { CheckCircle2, ShieldCheck, LogOut, Wallet, Briefcase, Users, MessageSquare, Bot, CreditCard } from 'lucide-react';
 import { AdminLoginModal } from './components/AdminLoginModal';
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState('jobs');
   const [jobs, setJobs] = useState<any[]>([]);
+  const [orders, setOrders] = useState<any[]>([]);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [ownerFinancials, setOwnerFinancials] = useState<any>(INITIAL_OWNER_FINANCIALS);
@@ -28,10 +30,9 @@ function AppContent() {
   const [isReminderOpen, setIsReminderOpen] = useState(false);
   const [isJobPostOpen, setIsJobPostOpen] = useState(false);
   
-  // حالة لوحة التحكم
   const [isOwnerFinancialsOpen, setIsOwnerFinancialsOpen] = useState(false);
   const [isAdminRoute, setIsAdminRoute] = useState(false);
-  const [adminTab, setAdminTab] = useState<'financials' | 'jobs' | 'users'>('financials');
+  const [adminTab, setAdminTab] = useState<'financials' | 'orders' | 'jobs' | 'users' | 'messages' | 'ai'>('financials');
 
   const [pkgForPayment, setPkgForPayment] = useState(PACKAGES[0]);
 
@@ -53,9 +54,8 @@ function AppContent() {
 
   useEffect(() => {
     if (userEmail === 'janatamall559@gmail.com') {
-      loadOwnerFinancialsFromCloud().then((data) => {
-        if (data) setOwnerFinancials(data);
-      }).catch(console.error);
+      loadOwnerFinancialsFromCloud().then((data) => { if (data) setOwnerFinancials(data); }).catch(console.error);
+      loadTransactionsFromCloud().then((data) => { if (data) setOrders(data); }).catch(console.error);
     }
   }, [userEmail]);
 
@@ -79,66 +79,61 @@ function AppContent() {
     }
   };
 
-  // --- 1. لوحة تحكم المالك (شكل جديد تماماً - Admin Dashboard) ---
+  // لتأكيد الحوالة البنكية (مؤقتاً)
+  const handleConfirmPayment = async (id: string) => {
+    // سيتم تطويرها لاحقاً للتأكيد الفعلي
+    showToast(`تم تأكيد الطلب ${id.slice(0,8)}`);
+  };
+
+  // --- لوحة تحكم المالك ---
   if (isOwnerFinancialsOpen) {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex" dir="rtl">
-        {/* القائمة الجانبية */}
         <aside className="w-64 bg-slate-900 border-l border-slate-800 p-6 flex flex-col gap-2">
           <div className="flex items-center gap-3 mb-8 text-white">
             <ShieldCheck className="w-8 h-8 text-emerald-400" />
             <h1 className="text-xl font-bold">لوحة الإدارة</h1>
           </div>
           
-          <button onClick={() => setAdminTab('financials')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'financials' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}>
-            <Wallet className="w-5 h-5" /> البيانات المالية
-          </button>
-          <button onClick={() => setAdminTab('jobs')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'jobs' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}>
-            <Briefcase className="w-5 h-5" /> إدارة الوظائف
-          </button>
-          <button onClick={() => setAdminTab('users')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'users' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}>
-            <Users className="w-5 h-5" /> إدارة المرشحين
-          </button>
+          <button onClick={() => setAdminTab('financials')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'financials' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}><Wallet className="w-5 h-5" /> البيانات المالية</button>
+          <button onClick={() => setAdminTab('orders')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'orders' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}><CreditCard className="w-5 h-5" /> الطلبات والمدفوعات</button>
+          <button onClick={() => setAdminTab('jobs')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'jobs' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}><Briefcase className="w-5 h-5" /> إدارة الوظائف</button>
+          <button onClick={() => setAdminTab('users')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'users' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}><Users className="w-5 h-5" /> إدارة المستخدمين</button>
+          <button onClick={() => setAdminTab('messages')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'messages' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}><MessageSquare className="w-5 h-5" /> صندوق الرسائل</button>
+          <button onClick={() => setAdminTab('ai')} className={`flex items-center gap-3 p-3 rounded-xl transition-colors ${adminTab === 'ai' ? 'bg-indigo-600 text-white' : 'hover:bg-slate-800'}`}><Bot className="w-5 h-5" /> مساعد المطور</button>
 
           <div className="mt-auto pt-6 border-t border-slate-800">
-             <button onClick={() => { adminSignOut(); setIsOwnerFinancialsOpen(false); window.location.href = '/'; }} className="flex items-center gap-3 w-full p-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-colors">
-              <LogOut className="w-5 h-5" /> تسجيل الخروج
-            </button>
+             <button onClick={() => { adminSignOut(); setIsOwnerFinancialsOpen(false); window.location.href = '/'; }} className="flex items-center gap-3 w-full p-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-colors"><LogOut className="w-5 h-5" /> تسجيل الخروج</button>
           </div>
         </aside>
 
-        {/* المحتوى */}
         <main className="flex-1 p-10 overflow-y-auto">
           <header className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold text-white">
-              {adminTab === 'financials' ? 'البيانات المالية للمالك' : adminTab === 'jobs' ? 'الوظائف المنشورة' : 'قائمة المرشحين'}
+              {adminTab === 'financials' ? 'البيانات المالية' : 
+               adminTab === 'orders' ? 'الطلبات والمدفوعات' :
+               adminTab === 'jobs' ? 'إدارة الوظائف' : 
+               adminTab === 'users' ? 'إدارة المستخدمين' :
+               adminTab === 'messages' ? 'صندوق الرسائل' : 'مساعد المطور'}
             </h2>
-            <div className="flex items-center gap-2 bg-slate-900 px-4 py-2 rounded-full border border-slate-800">
-              <span className="text-sm text-slate-400">مرحباً،</span>
-              <span className="text-sm font-bold text-indigo-400">المالك</span>
-            </div>
           </header>
 
-          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 min-h-[500px]">
-            {adminTab === 'financials' && (
-              <OwnerFinancialsModal 
-                isOpen={true} 
-                onClose={() => {}} 
-                profile={ownerFinancials} 
-                payouts={[]} 
-                onUpdateProfile={handleUpdateProfile} 
-                onRequestPayout={() => {}} 
-              />
-            )}
-            {adminTab === 'jobs' && <p className="text-center text-slate-500 py-20">وظائفك ستظهر هنا (قيد التطوير).</p>}
-            {adminTab === 'users' && <p className="text-center text-slate-500 py-20">قائمة المرشحين ستظهر هنا (قيد التطوير).</p>}
+          <div className="bg-white rounded-2xl p-6 min-h-[500px]">
+            {adminTab === 'financials' && <OwnerFinancialsModal isOpen={true} onClose={() => {}} profile={ownerFinancials} payouts={[]} onUpdateProfile={handleUpdateProfile} onRequestPayout={() => {}} />}
+            
+            {adminTab === 'orders' && <AdminOrdersTab orders={orders} onConfirmPayment={handleConfirmPayment} />}
+            
+            {adminTab === 'jobs' && <p className="text-center text-slate-500 py-20">قائمة الوظائف ستظهر هنا.</p>}
+            {adminTab === 'users' && <p className="text-center text-slate-500 py-20">قائمة المستخدمين ستظهر هنا.</p>}
+            {adminTab === 'messages' && <p className="text-center text-slate-500 py-20">صندوق الرسائل سيكون هنا.</p>}
+            {adminTab === 'ai' && <p className="text-center text-slate-500 py-20">مساعد المطور سيكون هنا.</p>}
           </div>
         </main>
       </div>
     );
   }
 
-  // --- 2. شاشة تسجيل دخول الأدمن (صفحة كاملة) ---
+  // --- شاشة تسجيل دخول الأدمن ---
   if (isAdminRoute && !userEmail) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
@@ -147,17 +142,13 @@ function AppContent() {
     );
   }
 
-  // --- 3. الموقع العادي للزوار (لم يتغير فيه شيء) ---
+  // --- الموقع العادي للزوار ---
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-[60] bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-xl flex items-center gap-2">
-          <CheckCircle2 className="w-5 h-5 text-emerald-400" /><span>{toastMessage}</span>
-        </div>
+        <div className="fixed bottom-5 right-5 z-[60] bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-xl flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-emerald-400" /><span>{toastMessage}</span></div>
       )}
-      <div className="w-full bg-slate-900 py-2 px-4 flex justify-center">
-        <LanguageSwitcher />
-      </div>
+      <div className="w-full bg-slate-900 py-2 px-4 flex justify-center"><LanguageSwitcher /></div>
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} onOpenJobPost={() => setIsJobPostOpen(true)} onOpenReminders={() => setIsReminderOpen(true)} onGoogleLogin={() => googleSignIn().catch(console.error)} onLogout={() => adminSignOut().then(() => showToast('تم تسجيل الخروج'))} userEmail={userEmail} remindersCount={0} />
       <main className="flex-1">
         {activeTab === 'jobs' && (
