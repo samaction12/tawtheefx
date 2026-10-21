@@ -68,6 +68,7 @@ export const AdminAIAssistant = () => {
 
       {/* مربع الكتابة - تم تعديله ليكون داكن وواضح */}
       <div className="p-4 bg-slate-950 border-t border-slate-800 flex gap-2">
+        {/* TODO: Review Agent Test - Please verify this input */}
         <input
           autoComplete="off"
           value={input}
