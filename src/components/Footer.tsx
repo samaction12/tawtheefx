@@ -4,6 +4,12 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 export const Footer = ({ onNavigate }: { onNavigate: (tab: any) => void }) => {
   const { t } = useLanguage();
+
+  // Retrieve the owner email from environment variables.
+  // In Vite projects, env variables that should be exposed to the client must start with VITE_.
+  // Example: VITE_OWNER_EMAIL=janatamall559@gmail.com in the .env file.
+  const ownerEmail = import.meta.env.VITE_OWNER_EMAIL as string | undefined;
+
   return (
     <footer className="bg-slate-950 text-slate-300 pt-16 pb-12 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -89,7 +95,12 @@ export const Footer = ({ onNavigate }: { onNavigate: (tab: any) => void }) => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-        <div>© 2026 ThakiHire Global Inc. {t.ftr_rights}.</div>
+        <div>
+          © 2026 ThakiHire Global Inc. {t.ftr_rights}.
+          {ownerEmail && (
+            <span className="block mt-1">Contact Owner: {ownerEmail}</span>
+          )}
+        </div>
         <div className="flex items-center gap-4 text-slate-400">
           <span>شروط الخدمة</span>
           <span>•</span>
