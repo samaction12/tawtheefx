@@ -15,6 +15,7 @@ import { googleSignIn, handleGoogleRedirectResult, adminSignOut } from './servic
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { app, loadOwnerFinancialsFromCloud, syncOwnerFinancialsToCloud } from './services/firebase';
 import { CheckCircle2 } from 'lucide-react';
+import { AdminLoginModal } from './components/AdminLoginModal';
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState('jobs');
@@ -28,6 +29,9 @@ function AppContent() {
   const [isJobPostOpen, setIsJobPostOpen] = useState(false);
   const [isOwnerFinancialsOpen, setIsOwnerFinancialsOpen] = useState(false);
   
+  // حالة شاشة تسجيل دخول الأدمن
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+
   const [pkgForPayment, setPkgForPayment] = useState(PACKAGES[0]);
 
   const showToast = (msg: string) => { setToastMessage(msg); setTimeout(() => setToastMessage(null), 4000); };
@@ -39,16 +43,16 @@ function AppContent() {
     return () => unsubscribe();
   }, []);
 
-  // هنا السر: فتح لوحة المالك لو الرابط فيه /admin
+  // هنا السر: لو الرابط فيه admin، بنفتح شاشة تسجيل الدخول الأول
   useEffect(() => {
     if (window.location.pathname === '/admin' || window.location.search.includes('admin=true')) {
-      setIsOwnerFinancialsOpen(true);
+      setIsLoginOpen(true);
     }
   }, []);
 
-  // سحب البيانات من Firebase
+  // سحب البيانات من Firebase لما المالك يسجل دخول
   useEffect(() => {
-    if (userEmail) {
+    if (userEmail === 'janatamall559@gmail.com') {
       loadOwnerFinancialsFromCloud().then((data) => {
         if (data) setOwnerFinancials(data);
       }).catch(console.error);
@@ -73,6 +77,12 @@ function AppContent() {
     } catch (e) {
       showToast('حدث خطأ في الحفظ');
     }
+  };
+
+  // دالة بتتنفذ بعد ما المالك يسجل دخول من شاشة الأدمن
+  const handleAdminLoginSuccess = () => {
+    setIsLoginOpen(false);
+    setIsOwnerFinancialsOpen(true);
   };
 
   return (
@@ -110,10 +120,14 @@ function AppContent() {
       
       <Footer onNavigate={setActiveTab} />
       
+      {/* النوافذ المنبثقة */}
       {isJobPostOpen && <JobPostModal onClose={() => setIsJobPostOpen(false)} onProceedToPayment={handleJobPostSubmit} />}
       {isOwnerFinancialsOpen && <OwnerFinancialsModal isOpen={isOwnerFinancialsOpen} onClose={() => setIsOwnerFinancialsOpen(false)} profile={ownerFinancials} payouts={[]} onUpdateProfile={handleUpdateProfile} onRequestPayout={() => {}} />}
       {isPaymentOpen && <PaymentModal packageToBuy={pkgForPayment} onClose={() => setIsPaymentOpen(false)} onPaymentSuccess={() => {}} />}
       {isReminderOpen && <ReminderModal isOpen={isReminderOpen} onClose={() => setIsReminderOpen(false)} />}
+      
+      {/* شاشة تسجيل دخول الأدمن */}
+      {isLoginOpen && <AdminLoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onLoginSuccess={handleAdminLoginSuccess} />}
     </div>
   );
 }
