@@ -24,7 +24,7 @@ jobs:
       - name: Install Aider
         run: pip install aider-chat
 
-      - name: Run Developer Agent (Groq)
+      - name: Run Developer Agent (Groq GPT-OSS)
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -40,10 +40,9 @@ jobs:
           
           cat AGENTS.md
           
-          # الموديل الجديد: llama3-70b-8192
-          aider --model groq/llama3-70b-8192 --yes --no-gitignore --message "You are the Developer Agent. Follow AGENTS.md strictly. Fix this issue: $ISSUE_TITLE. Details: $ISSUE_BODY"
+          # الموديل الجديد القوي
+          aider --model groq/openai/gpt-oss-120b --yes --no-gitignore --message "You are the Developer Agent. Follow AGENTS.md strictly. Fix this issue: $ISSUE_TITLE. Details: $ISSUE_BODY"
           
-          # مسح الملفات المؤقتة
           rm -rf .aider*
           
           git add .
