@@ -1,25 +1,43 @@
 import React, { useState } from 'react';
-import { adminSignIn } from '../services/auth';
+import { Lock, X } from 'lucide-react';
+import { googleSignIn } from '../services/auth';
 
-export const AdminLoginModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
-  const [email, setEmail] = useState(''); const [pw, setPw] = useState(''); const [err, setErr] = useState(''); const [busy, setBusy] = useState(false);
+export const AdminLoginModal = ({ isOpen, onClose }: any) => {
+  const [busy, setBusy] = useState(false);
   if (!isOpen) return null;
-  const go = async (e: React.FormEvent) => {
-    e.preventDefault(); setBusy(true); setErr('');
-    try { await adminSignIn(email, pw); onClose(); } catch { setErr('بيانات الدخول غير صحيحة.'); } finally { setBusy(false); }
+
+  const handleLogin = async () => {
+    setBusy(true);
+    try {
+      await googleSignIn();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setBusy(false);
+    }
   };
+
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/70 flex items-center justify-center p-4" role="dialog" aria-modal="true">
-      <form onSubmit={go} className="bg-white rounded-2xl p-6 w-full max-w-sm space-y-3">
-        <h3 className="font-bold">دخول الإدارة</h3>
-        <input className="w-full px-3 py-2 border rounded-lg text-sm" type="email" placeholder="البريد" value={email} onChange={(e) => setEmail(e.target.value)} required dir="ltr" autoComplete="username" />
-        <input className="w-full px-3 py-2 border rounded-lg text-sm" type="password" placeholder="كلمة المرور" value={pw} onChange={(e) => setPw(e.target.value)} required dir="ltr" autoComplete="current-password" />
-        {err && <p className="text-xs text-red-600" role="alert">{err}</p>}
-        <div className="flex gap-2">
-          <button disabled={busy} className="flex-1 py-2 rounded-lg bg-indigo-600 text-white text-sm font-bold">دخول</button>
-          <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg border text-sm">إلغاء</button>
+    <div className="fixed inset-0 z-[200] bg-slate-950/90 flex items-center justify-center p-4" dir="rtl">
+      <div className="bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl relative">
+        <button onClick={onClose} className="absolute top-4 left-4 p-2 text-slate-400 hover:bg-slate-100 rounded-full">
+          <X className="w-5 h-5" />
+        </button>
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Lock className="w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900">دخول الإدارة</h2>
+          <p className="text-slate-500 text-sm mt-2">هذه الصفحة مخصصة لمالك المنصة فقط.</p>
         </div>
-      </form>
+        <button 
+          onClick={handleLogin} 
+          disabled={busy}
+          className="w-full py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+        >
+          {busy ? 'جاري التحقق...' : 'تسجيل الدخول بجوجل'}
+        </button>
+      </div>
     </div>
   );
 };
