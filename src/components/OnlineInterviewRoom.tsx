@@ -18,6 +18,7 @@ import {
   Download
 } from 'lucide-react';
 import { Applicant } from '../types';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface OnlineInterviewRoomProps {
   candidate?: Applicant;
@@ -30,20 +31,23 @@ export const OnlineInterviewRoom: React.FC<OnlineInterviewRoomProps> = ({
   onClose,
   onSaveEvaluation,
 }) => {
+  const { t } = useLanguage();
+
   // Candidate info fallback
-  const activeCandidate = candidate || {
+  const fallbackCandidate: Applicant = {
     id: 'app-sarah',
-    name: 'مرشح تجريبي',
+    name: 'Demo Candidate',
     email: 'sarah.alshammari@example.com',
-    role: 'مهندس أول حلول سحابية وبرمجيات',
+    roleKey: 'seed_job_cloud_lead_title',
     experienceYears: 6,
-    currentCompany: 'التقنية الموحدة للاتصالات',
+    currentCompanyKey: 'seed_app_sarah_company',
     avatar: '/src/assets/images/avatar_candidate_talent_1791989553197.jpg',
     matchScore: 94,
     appliedDate: '2026-10-12',
-    status: 'مؤهل للمقابلة',
+    status: 'qualified',
     phone: '+966 50 123 4567'
   };
+  const activeCandidate: Applicant = candidate || fallbackCandidate;
 
   // Video and audio stream states
   const [micEnabled, setMicEnabled] = useState(true);
@@ -154,7 +158,7 @@ export const OnlineInterviewRoom: React.FC<OnlineInterviewRoomProps> = ({
               <span className="text-xs font-mono text-emerald-400 font-normal">مشفرة بالكامل</span>
             </h1>
             <div className="text-xs text-slate-400">
-              الوظيفة: {activeCandidate.role} · الرمز: TX-ROOM-8821
+              الوظيفة: {t[activeCandidate.roleKey]} · الرمز: TX-ROOM-8821
             </div>
           </div>
         </div>
@@ -292,7 +296,7 @@ export const OnlineInterviewRoom: React.FC<OnlineInterviewRoomProps> = ({
               <div>
                 <h3 className="text-base font-bold text-white">{activeCandidate.name}</h3>
                 <div className="text-xs text-slate-400 mt-0.5">
-                  {activeCandidate.experienceYears} سنوات خبرة · {activeCandidate.currentCompany}
+                  {activeCandidate.experienceYears} سنوات خبرة · {t[activeCandidate.currentCompanyKey]}
                 </div>
               </div>
 

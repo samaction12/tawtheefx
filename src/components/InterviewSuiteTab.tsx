@@ -16,34 +16,26 @@ import {
   Mail,
   Smartphone
 } from 'lucide-react';
-import { Applicant } from '../types';
+import { Applicant, InterviewCategory } from '../types';
 import { INTERVIEW_QUESTIONS } from '../data/mockData';
 import { useLanguage } from '../contexts/LanguageContext';
-import type { TranslationDict, TranslationKey } from '../locales/translations';
+import type { TranslationKey } from '../locales/translations';
 
-/** Question categories are stored in Arabic in the data layer; map them for display. */
-const CATEGORY_LABEL_KEYS = new Map<string, TranslationKey>([
-  ['تقني', 'its_cat_technical'],
-  ['سلوكي', 'its_cat_behavioral'],
-  ['قيادي', 'its_cat_leadership'],
-  ['عام', 'its_cat_general'],
-]);
+/** Categories are language-neutral ids in the data layer; map them for display. */
+const CATEGORY_LABEL_KEYS: Record<InterviewCategory, TranslationKey> = {
+  technical: 'its_cat_technical',
+  behavioral: 'its_cat_behavioral',
+  leadership: 'its_cat_leadership',
+  general: 'its_cat_general',
+};
 
 const CATEGORY_FILTERS: { id: string; labelKey: TranslationKey }[] = [
   { id: 'all', labelKey: 'its_cat_all' },
-  ...Array.from(CATEGORY_LABEL_KEYS.entries()).map(([id, labelKey]) => ({ id, labelKey })),
+  ...(Object.keys(CATEGORY_LABEL_KEYS) as InterviewCategory[]).map((id) => ({
+    id,
+    labelKey: CATEGORY_LABEL_KEYS[id],
+  })),
 ];
-
-const translateCategory = (category: string, t: TranslationDict): string => {
-  const labelKey = CATEGORY_LABEL_KEYS.get(category);
-  return labelKey ? t[labelKey] : category;
-};
-
-/** Suggested durations arrive from the data layer as Arabic strings (e.g. "3 دقائق"). */
-const translateDuration = (duration: string, t: TranslationDict): string => {
-  const value = duration.match(/\d+/)?.[0];
-  return value ? `${value} ${t.its_minutes}` : duration;
-};
 
 interface InterviewSuiteTabProps {
   onLaunchLiveRoom: (applicant?: Applicant) => void;
@@ -195,7 +187,7 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
                       />
                       <div>
                         <div className="text-xs font-bold text-slate-900">{app.name}</div>
-                        <div className="text-[11px] text-slate-500">{app.role}</div>
+                        <div className="text-[11px] text-slate-500">{t[app.roleKey]}</div>
                         <div className="text-[10px] text-indigo-600 font-mono">
                           {app.interviewScheduled?.date} ({app.interviewScheduled?.time})
                         </div>
@@ -319,11 +311,11 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
                 className="p-3.5 rounded-lg border border-slate-200 bg-slate-50/50 space-y-1.5"
               >
                 <div className="flex items-center justify-between text-[11px] text-slate-400">
-                  <span className="font-semibold text-indigo-600">{translateCategory(q.category, t)}</span>
-                  <span className="font-mono tabular-nums">{t.its_duration_label} {translateDuration(q.suggestedDuration, t)}</span>
+                  <span className="font-semibold text-indigo-600">{t[CATEGORY_LABEL_KEYS[q.category]]}</span>
+                  <span className="font-mono tabular-nums">{t.its_duration_label} {q.suggestedMinutes} {t.its_minutes}</span>
                 </div>
                 <div className="text-xs font-medium text-slate-800 leading-relaxed">
-                  {q.question}
+                  {t[q.questionKey]}
                 </div>
               </div>
             ))}

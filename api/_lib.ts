@@ -58,7 +58,7 @@ export async function markPaid(orderId: string, method: string, ref: string) {
       orderId, customerName: d.company, email: d.email, packageName: d.packageName, packageId: d.packageId,
       amount: d.amount, vatAmount: 0, totalWithVat: d.total,
       currency: 'USD', paymentMethod: method, paymentRef: ref,
-      status: 'paid', date: new Date().toISOString().slice(0, 10),
+      status: 'completed', date: new Date().toISOString().slice(0, 10),
     });
     tx.update(oRef, { status: 'paid', paidAt: FieldValue.serverTimestamp(), paymentMethod: method });
   });

@@ -22,7 +22,7 @@ export default async function handler(req: any, res: any) {
       title: str(job.title, 120),
       company: comp,
       location: str(job.location, 80),
-      type: ['دوام كامل', 'عن بُعد', 'هجين', 'عقد'].includes(job.type) ? job.type : 'دوام كامل',
+      type: ['fulltime', 'remote', 'hybrid', 'contract'].includes(job.type) ? job.type : 'fulltime',
       description: str(job.description, 4000),
       requirements: Array.isArray(job.requirements)
         ? job.requirements.slice(0, 20).map((r: unknown) => str(r, 200))

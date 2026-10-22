@@ -1,4 +1,4 @@
-import { JobPackage, JobListing, Applicant, InterviewQuestion, PaymentTransaction, InterviewReminder, OwnerFinancialProfile, PayoutRecord } from '../types';
+import { JobPackage, SeededJob, Applicant, InterviewQuestion, PaymentTransaction, InterviewReminder, OwnerFinancialProfile, PayoutRecord } from '../types';
 
 export const PACKAGES: JobPackage[] = [
   {
@@ -28,59 +28,59 @@ export const PACKAGES: JobPackage[] = [
     interviewSlots: 999, durationDays: 365, popular: false,
   }
 ];
-export const INITIAL_JOBS: JobListing[] = [
+export const INITIAL_JOBS: SeededJob[] = [
   {
     id: 'job-cloud-lead',
-    title: 'مهندس أول حلول سحابية وDevOps',
-    company: 'سحابة المستقبل للتقنية (CloudFuture)',
+    titleKey: 'seed_job_cloud_lead_title',
+    companyKey: 'seed_job_cloud_lead_company',
     companyLogo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80',
-    location: 'الرياض / عن بُعد (Global)',
-    type: 'عن بُعد',
-    department: 'الهندسة والتقنية',
-    salary: '$6,500 - $8,500 / شهرياً',
-    postedDate: 'منذ يومين',
+    locationKey: 'seed_job_cloud_lead_location',
+    type: 'remote',
+    departmentKey: 'seed_job_cloud_lead_department',
+    salaryKey: 'seed_job_cloud_lead_salary',
+    postedDateKey: 'seed_job_cloud_lead_posted',
     deadline: '2026-11-30',
     featured: true,
     requiresVideoInterview: true,
-    description: 'قيادة تصميم وتوسيع البنية التحتية السحابية الموزعة بالاعتماد على Kubernetes وAWS وTerraform مع تطبيق أعلى معايير الأمان.',
-    requirements: ['خبرة 5+ سنوات في بنية السحابة وإدارة الحاويات', 'معرفة متقدمة في CI/CD وأتمتة النشر', 'إتقان مراقبة النظم وحل المشكلات المعقدة'],
-    benefits: ['عمل مرن عن بُعد 100%', 'تأمين طبي عائلي متميز', 'ميزانية سنوية للأجهزة والتعليم'],
+    descriptionKey: 'seed_job_cloud_lead_description',
+    requirementKeys: ['seed_job_cloud_lead_req1', 'seed_job_cloud_lead_req2', 'seed_job_cloud_lead_req3'],
+    benefitKeys: ['seed_job_cloud_lead_ben1', 'seed_job_cloud_lead_ben2', 'seed_job_cloud_lead_ben3'],
     applicantsCount: 18
   },
   {
     id: 'job-fullstack-ai',
-    title: 'مطور واجهات ومصمم نظم React & AI',
-    company: 'نيكسوس للحلول الذكية (Nexus AI)',
+    titleKey: 'seed_job_fullstack_ai_title',
+    companyKey: 'seed_job_fullstack_ai_company',
     companyLogo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80',
-    location: 'دبي / هجين',
-    type: 'هجين',
-    department: 'الهندسة والتقنية',
-    salary: '$5,000 - $7,000 / شهرياً',
-    postedDate: 'منذ 4 أيام',
+    locationKey: 'seed_job_fullstack_ai_location',
+    type: 'hybrid',
+    departmentKey: 'seed_job_fullstack_ai_department',
+    salaryKey: 'seed_job_fullstack_ai_salary',
+    postedDateKey: 'seed_job_fullstack_ai_posted',
     deadline: '2026-12-15',
     featured: true,
     requiresVideoInterview: true,
-    description: 'تطوير تجارب مستخدم تفاعلية من الجيل الجديد ودمج واجهات برمجية ونماذج الذكاء الاصطناعي التوليدي.',
-    requirements: ['إتقان React 19، TypeScript وTailwind CSS', 'خبرة في ربط واجهات LLMs وتقنيات البث الصوتي/المرئي', 'شغف بتصميم واجهات جذابة وسلسة'],
-    benefits: ['مكافآت أداء ربع سنوية', 'بدل سفر وتنقل', 'ساعات عمل مرنة'],
+    descriptionKey: 'seed_job_fullstack_ai_description',
+    requirementKeys: ['seed_job_fullstack_ai_req1', 'seed_job_fullstack_ai_req2', 'seed_job_fullstack_ai_req3'],
+    benefitKeys: ['seed_job_fullstack_ai_ben1', 'seed_job_fullstack_ai_ben2', 'seed_job_fullstack_ai_ben3'],
     applicantsCount: 24
   },
   {
     id: 'job-product-manager',
-    title: 'مدير منتجات رقمية أول (Senior PM)',
-    company: 'فينتك المبتكرة (InnoFintech)',
+    titleKey: 'seed_job_product_manager_title',
+    companyKey: 'seed_job_product_manager_company',
     companyLogo: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=120&q=80',
-    location: 'الرياض، السعودية',
-    type: 'دوام كامل',
-    department: 'المنتج والتصميم',
-    salary: '$7,000 - $9,500 / شهرياً',
-    postedDate: 'منذ 5 أيام',
+    locationKey: 'seed_job_product_manager_location',
+    type: 'fulltime',
+    departmentKey: 'seed_job_product_manager_department',
+    salaryKey: 'seed_job_product_manager_salary',
+    postedDateKey: 'seed_job_product_manager_posted',
     deadline: '2026-11-20',
     featured: false,
     requiresVideoInterview: true,
-    description: 'قيادة استراتيجية المنتجات المالية وتوجيه فرق التطوير والتسويق لتقديم حلول دفع متطورة وسلسة.',
-    requirements: ['خبرة 4+ سنوات في قيادة المنتجات في قطاع Fintech أو SaaS', 'مهارات استثنائية في تحليل البيانات واختبارات A/B', 'قدرة قيادية وتواصل ممتاز'],
-    benefits: ['حوافز ملكية وأسهم', 'تغطية طبية شاملة', 'إجازات سنوية مدفوعة 30 يوماً'],
+    descriptionKey: 'seed_job_product_manager_description',
+    requirementKeys: ['seed_job_product_manager_req1', 'seed_job_product_manager_req2', 'seed_job_product_manager_req3'],
+    benefitKeys: ['seed_job_product_manager_ben1', 'seed_job_product_manager_ben2', 'seed_job_product_manager_ben3'],
     applicantsCount: 12
   }
 ];
@@ -91,17 +91,17 @@ export const INITIAL_APPLICANTS: Applicant[] = [
     name: 'سارة الشمري',
     email: 'sarah.alshammari@example.com',
     phone: '+966 50 123 4567',
-    role: 'مهندس أول حلول سحابية وDevOps',
+    roleKey: 'seed_job_cloud_lead_title',
     experienceYears: 6,
-    currentCompany: 'التقنية الموحدة للاتصالات',
+    currentCompanyKey: 'seed_app_sarah_company',
     avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
     appliedDate: '2026-10-18',
-    status: 'مؤهل للمقابلة',
+    status: 'qualified',
     matchScore: 96,
     interviewScheduled: {
       date: '2026-10-22',
       time: '14:00',
-      interviewType: 'مباشر',
+      interviewType: 'live',
       roomCode: 'THAKI-ROOM-882'
     },
     interviewScores: {
@@ -109,7 +109,7 @@ export const INITIAL_APPLICANTS: Applicant[] = [
       communication: 9.5,
       problemSolving: 9.6,
       culturalFit: 9.4,
-      notes: 'مرشحة متميزة للغاية، فهم عميق لمعمارية السحابة وأسلوب تواصل قيادي راقٍ.'
+      notesKey: 'seed_app_sarah_notes'
     }
   },
   {
@@ -117,20 +117,20 @@ export const INITIAL_APPLICANTS: Applicant[] = [
     name: 'طارق عبد العزيز',
     email: 'tariq.aziz@example.com',
     phone: '+971 52 987 6543',
-    role: 'مطور واجهات ومصمم نظم React & AI',
+    roleKey: 'seed_job_fullstack_ai_title',
     experienceYears: 4,
-    currentCompany: 'ديجيتال ماتريكس',
+    currentCompanyKey: 'seed_app_tariq_company',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
     appliedDate: '2026-10-17',
-    status: 'جديد',
+    status: 'new',
     matchScore: 91
   }
 ];
 
 export const INTERVIEW_QUESTIONS: InterviewQuestion[] = [
-  { id: 'q1', question: 'حدثنا عن أعقد مشروع بنيته وما التحديات المعمارية التي واجهتك؟', category: 'تقني', suggestedDuration: '3 دقائق' },
-  { id: 'q2', question: 'كيف تدير تضارب الأولويات والمواعيد الضيقة بين أصحاب المصلحة؟', category: 'سلوكي', suggestedDuration: '2 دقيقة' },
-  { id: 'q3', question: 'صف موقفاً قمت فيه بتحسين أداء تطبيق بنسبة ملحوظة وما الأدوات المستعملة؟', category: 'تقني', suggestedDuration: '3 دقائق' }
+  { id: 'q1', questionKey: 'its_q1_question', category: 'technical', suggestedMinutes: 3 },
+  { id: 'q2', questionKey: 'its_q2_question', category: 'behavioral', suggestedMinutes: 2 },
+  { id: 'q3', questionKey: 'its_q3_question', category: 'technical', suggestedMinutes: 3 }
 ];
 
 export const INITIAL_TRANSACTIONS: PaymentTransaction[] = [
@@ -139,9 +139,9 @@ export const INITIAL_TRANSACTIONS: PaymentTransaction[] = [
     invoiceNumber: 'INV-2026-001',
     date: '2026-10-19',
     customerName: 'فيصل المطيري',
-    companyName: 'سحابة المستقبل للتقنية',
+    companyName: 'CloudFuture Technology',
     email: 'hr@cloudfuture.io',
-    packageName: 'باقة التميز والمقابلات الرقمية (Pro Hire)',
+    packageName: 'Pro Hire Package',
     packageId: 'pkg-pro-interview',
     amount: 49,
     currency: 'USD',
@@ -149,7 +149,7 @@ export const INITIAL_TRANSACTIONS: PaymentTransaction[] = [
     totalWithVat: 56.35,
     paymentMethod: 'visa',
     cardLast4: '4242',
-    status: 'مكتمل'
+    status: 'completed'
   }
 ];
 

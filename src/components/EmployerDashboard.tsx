@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Applicant, JobListing } from '../types';
+import { useLanguage } from '../contexts/LanguageContext';
 import {
   Users,
   Video,
@@ -34,6 +35,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
   onPostJob,
   onOpenReminder,
 }) => {
+  const { t } = useLanguage();
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(null);
 
@@ -117,10 +119,10 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
           <div className="p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
               {[
-                { id: 'all', label: 'كافة المتقدمين' },
-                { id: 'مؤهل للمقابلة', label: 'مؤهلين للمقابلة' },
-                { id: 'تمت المقابلة', label: 'تمت مقابلتهم' },
-                { id: 'جديد', label: 'طلبات جديدة' },
+                { id: 'all', label: t.app_filter_all },
+                { id: 'qualified', label: t.app_status_qualified },
+                { id: 'interviewed', label: t.app_status_interviewed },
+                { id: 'new', label: t.app_status_new }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -175,7 +177,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
 
                     {/* Role */}
                     <td className="py-3.5 px-4 text-slate-700">
-                      <div className="font-medium text-slate-900">{app.role}</div>
+                      <div className="font-medium text-slate-900">{t[app.roleKey]}</div>
                       <div className="text-[11px] text-slate-400">{app.experienceYears} سنوات خبرة</div>
                     </td>
 
@@ -300,7 +302,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                   />
                   <div>
                     <h3 className="text-base font-bold text-slate-900">{selectedApplicant.name}</h3>
-                    <p className="text-xs text-slate-500">{selectedApplicant.role}</p>
+                    <p className="text-xs text-slate-500">{t[selectedApplicant.roleKey]}</p>
                   </div>
                 </div>
 
@@ -322,7 +324,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                   </div>
                   <div>
                     <span className="text-slate-400 block">جهة العمل السابقة:</span>
-                    <span className="font-semibold text-slate-900">{selectedApplicant.currentCompany}</span>
+                    <span className="font-semibold text-slate-900">{t[selectedApplicant.currentCompanyKey]}</span>
                   </div>
                   <div>
                     <span className="text-slate-400 block">البريد الإلكتروني:</span>
@@ -340,7 +342,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                   <div className="p-3 bg-amber-50/50 border border-amber-200 rounded-lg space-y-2">
                     <h4 className="font-bold text-amber-900 text-xs">تقييم وملاحظات المقابلة:</h4>
                     <p className="text-slate-700 leading-relaxed text-xs">
-                      {selectedApplicant.interviewScores.notes}
+                      {t[selectedApplicant.interviewScores.notesKey]}
                     </p>
                   </div>
                 )}

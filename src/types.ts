@@ -1,3 +1,5 @@
+import type { TranslationKey } from './locales/translations';
+
 export type Currency = 'USD';
 
 export interface JobPackage {
@@ -14,13 +16,16 @@ export interface JobPackage {
   popular?: boolean;
 }
 
+/** Neutral identifiers for the employment type (labels live in the dictionaries). */
+export type JobType = 'fulltime' | 'remote' | 'hybrid' | 'contract';
+
 export interface JobListing {
   id: string;
   title: string;
   company: string;
   companyLogo?: string;
   location: string;
-  type: 'دوام كامل' | 'عن بُعد' | 'هجين' | 'عقد';
+  type: JobType;
   department: string;
   salary: string;
   postedDate: string;
@@ -33,23 +38,54 @@ export interface JobListing {
   applicantsCount: number;
 }
 
+/**
+ * Seeded job entries keep their copy as translation keys so the data layer
+ * stays language neutral; `localizeJob` resolves them into a `JobListing`.
+ */
+export interface SeededJob {
+  id: string;
+  titleKey: TranslationKey;
+  companyKey: TranslationKey;
+  companyLogo?: string;
+  locationKey: TranslationKey;
+  type: JobType;
+  departmentKey: TranslationKey;
+  salaryKey: TranslationKey;
+  postedDateKey: TranslationKey;
+  deadline: string;
+  featured: boolean;
+  requiresVideoInterview: boolean;
+  descriptionKey: TranslationKey;
+  requirementKeys: TranslationKey[];
+  benefitKeys: TranslationKey[];
+  applicantsCount: number;
+}
+
+/** Neutral identifiers for the candidate pipeline stages. */
+export type ApplicantStatus = 'new' | 'qualified' | 'interviewed' | 'accepted' | 'rejected';
+
+/** Neutral identifiers for the interview format. */
+export type InterviewType = 'live' | 'recorded';
+
 export interface Applicant {
   id: string;
   name: string;
   email: string;
   phone: string;
-  role: string;
+  /** Key of the localized role title stored in the translation dictionaries. */
+  roleKey: TranslationKey;
   experienceYears: number;
-  currentCompany: string;
+  /** Key of the localized previous employer stored in the translation dictionaries. */
+  currentCompanyKey: TranslationKey;
   avatar: string;
   appliedDate: string;
-  status: 'جديد' | 'مؤهل للمقابلة' | 'تمت المقابلة' | 'مقبول' | 'مرفوض';
+  status: ApplicantStatus;
   matchScore: number;
   resumeFileName?: string;
   interviewScheduled?: {
     date: string;
     time: string;
-    interviewType: 'مباشر' | 'مسجل مسبقاً';
+    interviewType: InterviewType;
     roomCode: string;
     reminderSent?: boolean;
     reminderSentAt?: string;
@@ -59,7 +95,8 @@ export interface Applicant {
     communication: number;
     problemSolving: number;
     culturalFit: number;
-    notes: string;
+    /** Key of the localized evaluator notes stored in the translation dictionaries. */
+    notesKey: TranslationKey;
   };
 }
 
@@ -96,15 +133,18 @@ export interface PaymentTransaction {
   totalWithVat: number;
   paymentMethod: 'mada' | 'visa' | 'mastercard' | 'apple_pay' | 'stc_pay';
   cardLast4?: string;
-  status: 'مكتمل' | 'قيد المعالجة' | 'مسترجع';
+  status: 'completed' | 'processing' | 'refunded';
   receiptUrl?: string;
 }
 
+export type InterviewCategory = 'general' | 'technical' | 'behavioral' | 'leadership';
+
 export interface InterviewQuestion {
   id: string;
-  question: string;
-  category: 'عام' | 'تقني' | 'سلوكي' | 'قيادي';
-  suggestedDuration: string;
+  /** Key of the localized question text stored in the translation dictionaries. */
+  questionKey: TranslationKey;
+  category: InterviewCategory;
+  suggestedMinutes: number;
 }
 
 export interface OwnerFinancialProfile {
