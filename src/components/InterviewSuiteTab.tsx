@@ -16,8 +16,26 @@ import {
   Mail,
   Smartphone
 } from 'lucide-react';
-import { Applicant } from '../types';
+import { Applicant, InterviewCategory } from '../types';
 import { INTERVIEW_QUESTIONS } from '../data/mockData';
+import { useLanguage } from '../contexts/LanguageContext';
+import type { TranslationKey } from '../locales/translations';
+
+/** Categories are language-neutral ids in the data layer; map them for display. */
+const CATEGORY_LABEL_KEYS: Record<InterviewCategory, TranslationKey> = {
+  technical: 'its_cat_technical',
+  behavioral: 'its_cat_behavioral',
+  leadership: 'its_cat_leadership',
+  general: 'its_cat_general',
+};
+
+const CATEGORY_FILTERS: { id: string; labelKey: TranslationKey }[] = [
+  { id: 'all', labelKey: 'its_cat_all' },
+  ...(Object.keys(CATEGORY_LABEL_KEYS) as InterviewCategory[]).map((id) => ({
+    id,
+    labelKey: CATEGORY_LABEL_KEYS[id],
+  })),
+];
 
 interface InterviewSuiteTabProps {
   onLaunchLiveRoom: (applicant?: Applicant) => void;
@@ -30,6 +48,7 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
   applicants,
   onOpenReminder,
 }) => {
+  const { t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [playingAsyncVideo, setPlayingAsyncVideo] = useState(false);
 
@@ -45,15 +64,15 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs text-indigo-700 font-semibold tracking-wide">
-              <span>منظومة المقابلات الوظيفية الرقمية</span>
+              <span>{t.its_badge}</span>
               <span>·</span>
-              <span>تذكيرات SMS وبريد إلكتروني آلية قبل ساعة</span>
+              <span>{t.its_badge_sub}</span>
             </div>
             <h2 className="text-2xl font-bold text-slate-900 mt-1">
-              حلول المقابلات الإلكترونية المباشرة والمسجلة
+              {t.its_title}
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              أجرِ مقابلات فيديو مشفرة، قيّم المهارات بنماذج معيارية، وفعل نظام التذكير التلقائي للمرشحين.
+              {t.its_subtitle}
             </p>
           </div>
 
@@ -63,7 +82,7 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
               className="px-4 py-2.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors shadow-sm"
             >
               <Bell className="w-4 h-4 text-indigo-600" />
-              <span>إرسال ومعاينة التذكيرات</span>
+              <span>{t.its_btn_reminders}</span>
             </button>
 
             <button
@@ -71,7 +90,7 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
               className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors shadow-sm"
             >
               <Video className="w-4 h-4" />
-              <span>فتح غرفة المقابلة الافتراضية</span>
+              <span>{t.its_btn_open_room}</span>
             </button>
           </div>
         </div>
@@ -81,15 +100,15 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
           <div className="lg:col-span-7 space-y-4">
             <div className="flex items-center gap-2 text-xs text-indigo-400 font-mono">
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span>غرف مقابلات فيديو فائقة الأمان (1080p HD)</span>
+              <span>{t.its_hero_secure}</span>
             </div>
 
             <h3 className="text-xl sm:text-2xl font-bold text-white leading-snug">
-              تجربة مقابلة تفاعلية متكاملة دون الحاجة لتحميل أي برامج
+              {t.its_hero_title}
             </h3>
 
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              يدخل المُحاور والمرشح مباشرة عبر رابط متصفح مشفر، مع أدوات تقييم معيارية فورية (Technical, Communication, Culture Fit)، تدوين الملاحظات المتزامنة، ومؤقت دقيق لضمان عدالة المقابلات.
+              {t.its_hero_desc}
             </p>
 
             <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -98,7 +117,7 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
                 className="px-5 py-2.5 bg-white text-slate-950 hover:bg-slate-100 rounded-lg text-xs font-bold transition-colors flex items-center gap-2"
               >
                 <Video className="w-4 h-4 text-indigo-600" />
-                <span>دخول غرفة المقابلة الحية (Live Room)</span>
+                <span>{t.its_btn_live_room}</span>
               </button>
             </div>
           </div>
@@ -106,25 +125,25 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
           {/* Right Preview Card */}
           <div className="lg:col-span-5 bg-slate-900/80 border border-slate-700/60 rounded-xl p-4 space-y-3">
             <div className="flex items-center justify-between text-xs pb-2 border-b border-slate-800">
-              <span className="text-slate-300 font-semibold">المقابلة الجارية الآن:</span>
-              <span className="text-emerald-400 font-mono text-[11px]">مباشر · 11:30 ص</span>
+              <span className="text-slate-300 font-semibold">{t.its_live_now}</span>
+              <span className="text-emerald-400 font-mono text-[11px]">{t.its_live_status}</span>
             </div>
 
             <div className="flex items-center gap-3">
               <img
                 src="/src/assets/images/avatar_candidate_talent_1791989553197.jpg"
-                alt="المرشحة"
+                alt={t.its_alt_candidate}
                 className="w-12 h-12 rounded-full object-cover border border-indigo-500"
               />
               <div>
-                <div className="text-xs font-bold text-white">سارة عبد الله الشمري</div>
-                <div className="text-[11px] text-slate-400">مهندس أول حلول سحابية وبرمجيات</div>
-                <div className="text-[11px] text-emerald-400 font-mono">تطابق المتطلبات: 94%</div>
+                <div className="text-xs font-bold text-white">{t.its_candidate_name}</div>
+                <div className="text-[11px] text-slate-400">{t.its_candidate_role}</div>
+                <div className="text-[11px] text-emerald-400 font-mono">{t.its_match_label} 94%</div>
               </div>
             </div>
 
             <div className="p-2.5 bg-slate-800/80 rounded-lg text-[11px] text-slate-300 flex items-center justify-between">
-              <span>درجة التقييم التقني:</span>
+              <span>{t.its_score_label}</span>
               <span className="font-mono tabular-nums text-amber-400 font-bold">4.8 / 5.0</span>
             </div>
           </div>
@@ -138,11 +157,11 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-indigo-600" />
                 <h3 className="text-sm font-bold text-slate-900">
-                  المقابلات الإلكترونية المجدولة اليوم
+                  {t.its_scheduled_title}
                 </h3>
               </div>
               <span className="text-xs text-slate-400 font-mono tabular-nums">
-                {applicants.filter((a) => a.interviewScheduled)?.length} مقابلات
+                {applicants.filter((a) => a.interviewScheduled)?.length} {t.its_count_interviews}
               </span>
             </div>
 
@@ -150,9 +169,9 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
               {applicants.filter((a) => a.interviewScheduled)?.length === 0 ? (
                 <div className="py-8 text-center text-xs text-slate-500 bg-slate-50 rounded-xl p-4">
                   <Video className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-                  <p className="font-semibold text-slate-700">لا توجد مقابلات رقمية مجدولة حالياً</p>
+                  <p className="font-semibold text-slate-700">{t.its_empty_title}</p>
                   <p className="text-[11px] text-slate-400 mt-0.5">
-                    المنصة في وضع الإنتاج جاهزة لربط المرشحين بغرف المقابلات المشفرة تلقائياً.
+                    {t.its_empty_desc}
                   </p>
                 </div>
               ) : (
@@ -168,7 +187,7 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
                       />
                       <div>
                         <div className="text-xs font-bold text-slate-900">{app.name}</div>
-                        <div className="text-[11px] text-slate-500">{app.role}</div>
+                        <div className="text-[11px] text-slate-500">{t[app.roleKey]}</div>
                         <div className="text-[10px] text-indigo-600 font-mono">
                           {app.interviewScheduled?.date} ({app.interviewScheduled?.time})
                         </div>
@@ -185,13 +204,13 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
                         }`}
                         title={
                           app.interviewScheduled?.reminderSent
-                            ? 'تم إرسال تذكير قبل ساعة (SMS/Mail)'
-                            : 'إرسال تذكير المقابلة (قبل 1 ساعة)'
+                            ? t.its_tooltip_sent
+                            : t.its_tooltip_send
                         }
                       >
                         <Bell className="w-3.5 h-3.5" />
                         <span className="hidden sm:inline text-[11px]">
-                          {app.interviewScheduled?.reminderSent ? 'أُرسل التذكير' : 'تذكير'}
+                          {app.interviewScheduled?.reminderSent ? t.its_reminder_sent : t.its_reminder_send}
                         </span>
                       </button>
 
@@ -200,7 +219,7 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
                         className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors shrink-0"
                       >
                         <Video className="w-3.5 h-3.5" />
-                        <span>انضمام للمقابلة</span>
+                        <span>{t.its_btn_join}</span>
                       </button>
                     </div>
                   </div>
@@ -216,26 +235,26 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
               <div className="flex items-center gap-2">
                 <Play className="w-5 h-5 text-indigo-600" />
                 <h3 className="text-sm font-bold text-slate-900">
-                  المقابلات المسجلة مسبقاً (Video Screening)
+                  {t.its_video_title}
                 </h3>
               </div>
-              <span className="text-[11px] text-slate-400 font-medium">فرز أوتوماتيكي</span>
+              <span className="text-[11px] text-slate-400 font-medium">{t.its_video_badge}</span>
             </div>
 
             <p className="text-xs text-slate-600 leading-relaxed">
-              وفّر أكثر من 70% من وقت لجان التوظيف! يستلم المرشح رابطاً مخصصاً لتسجيل إجابات مرئية على 3 إلى 5 أسئلة وظيفية، وتستعرض اللجنة التسجيلات والتقارير في أي وقت.
+              {t.its_video_desc}
             </p>
 
             <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-slate-800">نموذج إجابة مسجلة مرئياً:</span>
-                <span className="text-slate-500 font-mono">03:42 دقيقة</span>
+                <span className="font-semibold text-slate-800">{t.its_video_sample_label}</span>
+                <span className="text-slate-500 font-mono">{t.its_video_sample_duration}</span>
               </div>
 
               <div className="relative aspect-video rounded-lg overflow-hidden bg-slate-900 flex items-center justify-center">
                 <img
                   src="/src/assets/images/avatar_candidate_talent_1791989553197.jpg"
-                  alt="تسجيل المقابلة"
+                  alt={t.its_alt_recording}
                   className="w-full h-full object-cover opacity-80"
                 />
                 <button
@@ -248,8 +267,8 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
 
               {playingAsyncVideo && (
                 <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-xs flex items-center justify-between">
-                  <span>جارٍ تشغيل الإجابة المرئية للسؤال التقني الثاني...</span>
-                  <span className="font-mono tabular-nums text-[11px]">88% توافق</span>
+                  <span>{t.its_video_playing}</span>
+                  <span className="font-mono tabular-nums text-[11px]">{t.its_video_match}</span>
                 </div>
               )}
             </div>
@@ -261,21 +280,15 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h3 className="text-sm font-bold text-slate-900">
-                بنك أسئلة مقابلات التوظيف المعتمد
+                {t.its_bank_title}
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                مجموعة أسئلة استرشادية مصنفة لتوجيه المقابلة وقياس الكفاءات بدقة
+                {t.its_bank_sub}
               </p>
             </div>
 
             <div className="flex items-center gap-1.5">
-              {[
-                { id: 'all', label: 'الكل' },
-                { id: 'تقني', label: 'تقني' },
-                { id: 'سلوكي', label: 'سلوكي' },
-                { id: 'قيادي', label: 'قيادي' },
-                { id: 'عام', label: 'عام' }
-              ].map((c) => (
+              {CATEGORY_FILTERS.map((c) => (
                 <button
                   key={c.id}
                   onClick={() => setSelectedCategory(c.id)}
@@ -285,7 +298,7 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
                       : 'bg-slate-100 text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  {c.label}
+                  {t[c.labelKey]}
                 </button>
               ))}
             </div>
@@ -298,11 +311,11 @@ export const InterviewSuiteTab: React.FC<InterviewSuiteTabProps> = ({
                 className="p-3.5 rounded-lg border border-slate-200 bg-slate-50/50 space-y-1.5"
               >
                 <div className="flex items-center justify-between text-[11px] text-slate-400">
-                  <span className="font-semibold text-indigo-600">{q.category}</span>
-                  <span className="font-mono tabular-nums">المدة المقترحة: {q.suggestedDuration}</span>
+                  <span className="font-semibold text-indigo-600">{t[CATEGORY_LABEL_KEYS[q.category]]}</span>
+                  <span className="font-mono tabular-nums">{t.its_duration_label} {q.suggestedMinutes} {t.its_minutes}</span>
                 </div>
                 <div className="text-xs font-medium text-slate-800 leading-relaxed">
-                  {q.question}
+                  {t[q.questionKey]}
                 </div>
               </div>
             ))}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { JobListing } from '../types';
 import { INITIAL_JOBS } from '../data/mockData';
+import { JOB_TYPE_LABEL_KEYS, localizeJob } from '../locales/jobs';
 import { Briefcase, MapPin, DollarSign, Video, Sparkles, Building2, CheckCircle2, Clock, Filter, Search, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -10,22 +11,6 @@ interface Props {
   onApplySuccess: (jobId: string, candidateData: any) => void;
   onPostJobClick: () => void;
 }
-
-/** Job type values are stored in Arabic in the data layer; map them for display. */
-const translateJobType = (type: string, t: any): string => {
-  switch (type) {
-    case 'دوام كامل':
-      return t.jobs_type_fulltime;
-    case 'عن بُعد':
-      return t.jobs_type_remote;
-    case 'هجين':
-      return t.jobs_type_hybrid;
-    case 'عقد':
-      return t.post_type_contract;
-    default:
-      return type;
-  }
-};
 
 export const JobListings: React.FC<Props> = ({ 
   jobs = [], 
@@ -40,7 +25,7 @@ export const JobListings: React.FC<Props> = ({
   const [appliedSuccessId, setAppliedSuccessId] = useState<string | null>(null);
 
   // If passed jobs is empty, fallback to rich INITIAL_JOBS so site is vibrant
-  const displayJobs = (jobs && jobs.length > 0) ? jobs : INITIAL_JOBS;
+  const displayJobs = (jobs && jobs.length > 0) ? jobs : INITIAL_JOBS.map((job) => localizeJob(job, t));
 
   const filteredJobs = displayJobs.filter((job) => {
     const matchesType = selectedType === 'all' || job.type === selectedType;
@@ -108,9 +93,9 @@ export const JobListings: React.FC<Props> = ({
           <div className="flex overflow-x-auto gap-2 pb-1 scrollbar-none">
             {[
               { id: 'all', label: t.jobs_type_all },
-              { id: 'عن بُعد', label: t.jobs_type_remote },
-              { id: 'دوام كامل', label: t.jobs_type_fulltime },
-              { id: 'هجين', label: t.jobs_type_hybrid }
+              { id: 'remote', label: t.jobs_type_remote },
+              { id: 'fulltime', label: t.jobs_type_fulltime },
+              { id: 'hybrid', label: t.jobs_type_hybrid }
             ].map((type) => (
               <button
                 key={type.id}
@@ -203,7 +188,7 @@ export const JobListings: React.FC<Props> = ({
 
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-medium">
                         <Briefcase className="w-3.5 h-3.5 text-indigo-500" />
-                        <span>{translateJobType(job.type, t)}</span>
+                        <span>{t[JOB_TYPE_LABEL_KEYS[job.type]]}</span>
                       </span>
                     </div>
 

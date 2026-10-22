@@ -7,13 +7,13 @@ import { getPackageCopy } from '../locales/packages';
 
 export const JobPostModal = ({ onClose, onProceedToPayment }: any) => {
   const { t, dir } = useLanguage();
-  const [formData, setFormData] = useState({ title: '', company: '', location: '', type: 'دوام كامل', salary: '', description: '', requirements: '' });
+  const [formData, setFormData] = useState({ title: '', company: '', location: '', type: 'fulltime', salary: '', description: '', requirements: '' });
   const [selectedPkg, setSelectedPkg] = useState<JobPackage>(PACKAGES[0]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const reqArray = formData.requirements.split('\n').filter(r => r.trim() !== '');
-    onProceedToPayment({ ...formData, requirements: reqArray.length > 0 ? reqArray : ['خبرة عملية'], requiresVideoInterview: selectedPkg.id !== 'pkg-standard' }, selectedPkg);
+    onProceedToPayment({ ...formData, requirements: reqArray.length > 0 ? reqArray : [t.post_default_requirement], requiresVideoInterview: selectedPkg.id !== 'pkg-standard' }, selectedPkg);
   };
 
   const inputClass = "w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500";
@@ -30,7 +30,7 @@ export const JobPostModal = ({ onClose, onProceedToPayment }: any) => {
             <div><label className="block text-sm font-bold mb-1">{t.post_field_title}</label><input className={inputClass} value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} required /></div>
             <div><label className="block text-sm font-bold mb-1">{t.post_field_company}</label><input className={inputClass} value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} required /></div>
             <div><label className="block text-sm font-bold mb-1">{t.post_field_location}</label><input className={inputClass} value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} required /></div>
-            <div><label className="block text-sm font-bold mb-1">{t.post_field_type}</label><select className={inputClass} value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})}><option value="دوام كامل">{t.post_type_fulltime}</option><option value="عن بُعد">{t.post_type_remote}</option><option value="هجين">{t.post_type_hybrid}</option><option value="عقد">{t.post_type_contract}</option></select></div>
+            <div><label className="block text-sm font-bold mb-1">{t.post_field_type}</label><select className={inputClass} value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})}><option value="fulltime">{t.post_type_fulltime}</option><option value="remote">{t.post_type_remote}</option><option value="hybrid">{t.post_type_hybrid}</option><option value="contract">{t.post_type_contract}</option></select></div>
             <div className="md:col-span-2"><label className="block text-sm font-bold mb-1">{t.post_field_salary}</label><input className={inputClass} value={formData.salary} onChange={e => setFormData({...formData, salary: e.target.value})} required /></div>
             <div className="md:col-span-2"><label className="block text-sm font-bold mb-1">{t.post_field_description}</label><textarea className={`${inputClass} h-24 resize-none`} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} required /></div>
             <div className="md:col-span-2"><label className="block text-sm font-bold mb-1">{t.post_field_requirements}</label><textarea className={`${inputClass} h-24 resize-none`} value={formData.requirements} onChange={e => setFormData({...formData, requirements: e.target.value})} required /></div>

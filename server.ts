@@ -89,7 +89,7 @@ async function markPaid(orderId: string, method: string, ref: string) {
       invoiceNumber: `INV-${new Date().getFullYear()}-${String(n).padStart(6, '0')}`,
       orderId, customerName: d.company, email: d.email, packageName: d.packageName, packageId: d.packageId,
       amount: d.amount, vatAmount: d.vat, totalWithVat: d.total, currency: 'SAR',
-      paymentMethod: method, paymentRef: ref, status: 'مكتمل', date: new Date().toISOString().slice(0, 10),
+      paymentMethod: method, paymentRef: ref, status: 'completed', date: new Date().toISOString().slice(0, 10),
     });
     tx.update(oRef, { status: 'paid', paidAt: FieldValue.serverTimestamp(), paymentMethod: method });
     if (d.job) {
@@ -119,7 +119,7 @@ app.post('/api/orders', strict, wrap(async (req, res) => {
   if (job && typeof job === 'object') {
     cleanJob = {
       title: str(job.title, 120), company: comp, location: str(job.location, 80),
-      type: ['دوام كامل', 'عن بُعد', 'هجين', 'عقد'].includes(job.type) ? job.type : 'دوام كامل',
+      type: ['fulltime', 'remote', 'hybrid', 'contract'].includes(job.type) ? job.type : 'fulltime',
       description: str(job.description, 4000),
       requirements: Array.isArray(job.requirements) ? job.requirements.slice(0, 20).map((r: unknown) => str(r, 200)) : [],
     };
