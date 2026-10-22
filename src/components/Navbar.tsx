@@ -30,18 +30,18 @@ export const Navbar = ({ activeTab, setActiveTab, onOpenJobPost, onOpenReminders
             </button>
             
             {userEmail ? (
-              <div className="flex items-center gap-1 sm:gap-2 bg-slate-50 border border-slate-200 rounded-full pl-2 pr-1 py-1">
+              <div className="flex items-center gap-1 sm:gap-2 bg-slate-50 border border-slate-200 rounded-full ps-2 pe-1 py-1">
                 <span className="text-xs font-bold text-indigo-700 max-w-[80px] truncate">
                   {userEmail.split('@')[0]}
                 </span>
-                <button onClick={onLogout} className="p-1 text-red-500 hover:bg-red-50 rounded-full transition-colors" title="تسجيل الخروج">
+                <button onClick={onLogout} className="p-1 text-red-500 hover:bg-red-50 rounded-full transition-colors" title={t.nav_signout_title}>
                   <LogOut className="w-4 h-4" />
                 </button>
               </div>
             ) : (
               <button onClick={onGoogleLogin} className="flex items-center gap-1 bg-white border border-slate-300 text-slate-700 px-2 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-50 transition-colors shadow-sm">
                 <LogIn className="w-4 h-4" />
-                <span className="inline">تسجيل الدخول</span>
+                <span className="inline">{t.nav_signin}</span>
               </button>
             )}
           </div>

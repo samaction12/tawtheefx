@@ -2,6 +2,7 @@ import React from 'react';
 import { Check, Sparkles, Zap, Building2, ShieldCheck, Video, Clock } from 'lucide-react';
 import { PACKAGES } from '../data/mockData';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getPackageCopy } from '../locales/packages';
 
 export const PackagesSection = ({ onSelectPackage }: { onSelectPackage: (pkg: any, currency?: string) => void }) => {
   const { t } = useLanguage();
@@ -17,7 +18,7 @@ export const PackagesSection = ({ onSelectPackage }: { onSelectPackage: (pkg: an
         <div className="max-w-3xl mx-auto text-center mb-16 space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-100 shadow-xs">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>باقات توظيف مرنة ومضمونة</span>
+            <span>{t.pkg_badge}</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
             {t.pkg_title}
@@ -31,6 +32,7 @@ export const PackagesSection = ({ onSelectPackage }: { onSelectPackage: (pkg: an
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
           {PACKAGES.map((pkg) => {
             const isPopular = pkg.popular;
+            const copy = getPackageCopy(pkg.id, t);
             return (
               <div 
                 key={pkg.id} 
@@ -43,14 +45,14 @@ export const PackagesSection = ({ onSelectPackage }: { onSelectPackage: (pkg: an
                 {/* Popular Pill */}
                 {isPopular && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 text-white text-[11px] font-black uppercase tracking-wider shadow-md">
-                    {pkg.badge || 'الأكثر طلباً للشركات'}
+                    {t.pkg_popular_badge}
                   </div>
                 )}
 
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold tracking-tight">
-                      {pkg.name}
+                      {copy?.name || pkg.name}
                     </h3>
                     {isPopular ? (
                       <span className="p-2 rounded-xl bg-indigo-500/20 text-indigo-300">
@@ -64,18 +66,18 @@ export const PackagesSection = ({ onSelectPackage }: { onSelectPackage: (pkg: an
                   </div>
 
                   <p className={`text-xs mb-6 leading-relaxed ${isPopular ? 'text-slate-300' : 'text-slate-500'}`}>
-                    {pkg.description}
+                    {copy?.desc || pkg.description}
                   </p>
 
                   {/* Price */}
                   <div className="flex items-baseline gap-1 mb-6 pb-6 border-b border-slate-100/20">
                     <span className="text-5xl font-black tracking-tight">${pkg.priceUSD}</span>
-                    <span className={`text-xs font-semibold ${isPopular ? 'text-slate-400' : 'text-slate-500'}`}>/ للإعلان الكامل</span>
+                    <span className={`text-xs font-semibold ${isPopular ? 'text-slate-400' : 'text-slate-500'}`}>{t.pkg_per_listing}</span>
                   </div>
 
                   {/* Features List */}
                   <div className="space-y-3.5 mb-8">
-                    {pkg.features.map((feature, i) => (
+                    {(copy?.features.length ? copy.features : pkg.features).map((feature, i) => (
                       <div key={i} className="flex items-start gap-3 text-xs leading-normal">
                         <div className={`rounded-full p-0.5 mt-0.5 shrink-0 ${isPopular ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`}>
                           <Check className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -101,7 +103,7 @@ export const PackagesSection = ({ onSelectPackage }: { onSelectPackage: (pkg: an
                     {t.pkg_btn}
                   </button>
                   <p className={`text-[11px] text-center mt-2.5 ${isPopular ? 'text-slate-400' : 'text-slate-400'}`}>
-                    تفعيل فوري وفاتورة ضريبية معتمدة
+                    {t.pkg_invoice_note}
                   </p>
                 </div>
 
@@ -114,15 +116,15 @@ export const PackagesSection = ({ onSelectPackage }: { onSelectPackage: (pkg: an
         <div className="mt-14 p-6 rounded-2xl bg-slate-50 border border-slate-200 flex flex-wrap items-center justify-around gap-6 text-xs text-slate-600">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>بوابات دفع مشفرة 256-Bit SSL</span>
+            <span>{t.pkg_ssl}</span>
           </div>
           <div className="flex items-center gap-2">
             <Video className="w-4 h-4 text-indigo-600" />
-            <span>تسجيل وتوثيق المقابلات بجودة 1080p</span>
+            <span>{t.pkg_recording}</span>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-sky-600" />
-            <span>نشر فوري وظهور عالمي خلال دقيقة واحدة</span>
+            <span>{t.pkg_instant}</span>
           </div>
         </div>
 

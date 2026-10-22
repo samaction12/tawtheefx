@@ -9,6 +9,8 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
+    "verify:i18n": "node scripts/verify-i18n.ts",
+    "verify:agents": "node scripts/verify-agents.ts",
     "start": "NODE_ENV=production tsx server.ts"
   },
   "dependencies": {

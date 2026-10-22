@@ -1,4 +1,4 @@
-import { orchestrator } from './agents/orchestrator';
+import { orchestrator } from './agents/orchestrator.ts';
 
 function getToken(req: any): string | null {
   const h = req.headers?.authorization || '';

@@ -1,4 +1,4 @@
-import { orchestrator } from '../src/agents/orchestrator';
+import { orchestrator } from '../src/agents/orchestrator.ts';
 
 async function main() {
   // overlapping scopes

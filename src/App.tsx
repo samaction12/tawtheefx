@@ -10,8 +10,8 @@ import { OwnerFinancialsModal } from './components/OwnerFinancialsModal';
 import { AdminOrdersTab } from './components/AdminOrdersTab';
 import { AdminAIAssistant } from './components/AdminAIAssistant';
 import { Footer } from './components/Footer';
-import { LanguageSwitcher } from './components/LanguageSwitcher';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { LanguageSelector } from './components/LanguageSelector';
+import { useLanguage, LanguageProvider } from './contexts/LanguageContext';
 import { PACKAGES, INITIAL_OWNER_FINANCIALS } from './data/mockData';
 import { googleSignIn, handleGoogleRedirectResult, adminSignOut } from './services/auth';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -20,6 +20,7 @@ import { CheckCircle2, ShieldCheck, LogOut, Wallet, Briefcase, Users, MessageSqu
 import { AdminLoginModal } from './components/AdminLoginModal';
 
 function AppContent() {
+  const { t, dir } = useLanguage();
   const [activeTab, setActiveTab] = useState('jobs');
   const [jobs, setJobs] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
@@ -88,7 +89,7 @@ function AppContent() {
   // --- لوحة تحكم المالك (Full Page Dashboard) ---
   if (isOwnerFinancialsOpen) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex" dir="rtl">
+      <div className="min-h-screen bg-slate-950 text-slate-200 font-sans flex" dir={dir}>
         <aside className="w-64 bg-slate-900 border-l border-slate-800 p-6 flex flex-col gap-2">
           <div className="flex items-center gap-3 mb-8 text-white">
             <ShieldCheck className="w-8 h-8 text-emerald-400" />
@@ -142,12 +143,12 @@ function AppContent() {
 
   // --- الموقع العادي للزوار ---
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
+    <div className="min-h-screen flex flex-col bg-slate-50 font-sans" dir={dir}>
       {toastMessage && (
         <div className="fixed bottom-5 right-5 z-[60] bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-xl flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-emerald-400" /><span>{toastMessage}</span></div>
       )}
-      <div className="w-full bg-slate-900 py-2 px-4 flex justify-center"><LanguageSwitcher /></div>
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} onOpenJobPost={() => setIsJobPostOpen(true)} onOpenReminders={() => setIsReminderOpen(true)} onGoogleLogin={() => googleSignIn().catch(console.error)} onLogout={() => adminSignOut().then(() => showToast('تم تسجيل الخروج'))} userEmail={userEmail} remindersCount={0} />
+      <div className="w-full bg-slate-900 py-2 px-4 flex justify-center"><LanguageSelector /></div>
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} onOpenJobPost={() => setIsJobPostOpen(true)} onOpenReminders={() => setIsReminderOpen(true)} onGoogleLogin={() => googleSignIn().catch(console.error)} onLogout={() => adminSignOut().then(() => showToast(t.toast_logout))} userEmail={userEmail} remindersCount={0} />
       <main className="flex-1">
         {activeTab === 'jobs' && (
           <>
