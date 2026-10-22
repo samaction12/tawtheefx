@@ -11,13 +11,29 @@ interface Props {
   onPostJobClick: () => void;
 }
 
+/** Job type values are stored in Arabic in the data layer; map them for display. */
+const translateJobType = (type: string, t: any): string => {
+  switch (type) {
+    case 'دوام كامل':
+      return t.jobs_type_fulltime;
+    case 'عن بُعد':
+      return t.jobs_type_remote;
+    case 'هجين':
+      return t.jobs_type_hybrid;
+    case 'عقد':
+      return t.post_type_contract;
+    default:
+      return type;
+  }
+};
+
 export const JobListings: React.FC<Props> = ({ 
   jobs = [], 
   onOpenInterviewRoomForJob, 
   onApplySuccess, 
   onPostJobClick 
 }) => {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const [selectedType, setSelectedType] = useState<string>('all');
   const [keyword, setKeyword] = useState<string>('');
   const [appliedJobIds, setAppliedJobIds] = useState<string[]>([]);
@@ -52,7 +68,7 @@ export const JobListings: React.FC<Props> = ({
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-bold mb-3 border border-indigo-100">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>فرص وظيفية معتمدة عالمياً</span>
+              <span>{t.jobs_badge}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               {t.jobs_title}
@@ -83,7 +99,7 @@ export const JobListings: React.FC<Props> = ({
               type="text" 
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
-              placeholder="فلترة بالاسم أو التخصص أو الشركة..."
+              placeholder={t.jobs_filter_placeholder}
               className="w-full bg-white border border-slate-200 rounded-xl px-10 py-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-xs"
             />
           </div>
@@ -91,10 +107,10 @@ export const JobListings: React.FC<Props> = ({
           {/* Type Filter Pills */}
           <div className="flex overflow-x-auto gap-2 pb-1 scrollbar-none">
             {[
-              { id: 'all', label: 'الكل' },
-              { id: 'عن بُعد', label: 'عن بُعد (Remote)' },
-              { id: 'دوام كامل', label: 'دوام كامل' },
-              { id: 'هجين', label: 'هجين (Hybrid)' }
+              { id: 'all', label: t.jobs_type_all },
+              { id: 'عن بُعد', label: t.jobs_type_remote },
+              { id: 'دوام كامل', label: t.jobs_type_fulltime },
+              { id: 'هجين', label: t.jobs_type_hybrid }
             ].map((type) => (
               <button
                 key={type.id}
@@ -115,7 +131,7 @@ export const JobListings: React.FC<Props> = ({
         {appliedSuccessId && (
           <div className="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2 animate-in fade-in duration-300">
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>تم استلام طلب تقديمك بنجاح! تم حفظ ملفك وجدولتك للمراجعة الذكية.</span>
+            <span>{t.jobs_success}</span>
           </div>
         )}
 
@@ -144,7 +160,7 @@ export const JobListings: React.FC<Props> = ({
                 >
                   {job.featured && (
                     <div className="absolute top-0 right-0 bg-gradient-to-l from-indigo-600 to-violet-600 text-white text-[10px] font-bold px-3 py-0.5 rounded-bl-xl shadow-xs">
-                      وظيفة مميزة
+                      {t.jobs_featured}
                     </div>
                   )}
 
@@ -187,7 +203,7 @@ export const JobListings: React.FC<Props> = ({
 
                       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-medium">
                         <Briefcase className="w-3.5 h-3.5 text-indigo-500" />
-                        <span>{job.type}</span>
+                        <span>{translateJobType(job.type, t)}</span>
                       </span>
                     </div>
 
@@ -222,7 +238,7 @@ export const JobListings: React.FC<Props> = ({
                       {isApplied ? (
                         <>
                           <CheckCircle2 className="w-4 h-4" />
-                          <span>تم التقديم</span>
+                          <span>{t.jobs_applied}</span>
                         </>
                       ) : (
                         <span>{t.jobs_apply}</span>
@@ -233,10 +249,10 @@ export const JobListings: React.FC<Props> = ({
                       <button 
                         onClick={() => onOpenInterviewRoomForJob(job)} 
                         className="px-3.5 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl border border-indigo-200 transition-colors flex items-center gap-1 text-xs font-semibold"
-                        title="تجربة المقابلة الرقمية بالذكاء الاصطناعي"
+                        title={t.jobs_ai_interview_title}
                       >
                         <Video className="w-4 h-4" />
-                        <span className="hidden sm:inline">مقابلة AI</span>
+                        <span className="hidden sm:inline">{t.jobs_ai_interview}</span>
                       </button>
                     )}
                   </div>

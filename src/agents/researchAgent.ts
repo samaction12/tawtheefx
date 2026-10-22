@@ -1,4 +1,4 @@
-import { Agent, AgentTask, AgentResult } from './types';
+import type { Agent, AgentTask, AgentResult } from './types.ts';
 
 export const researchAgent: Agent = {
   name: 'research',

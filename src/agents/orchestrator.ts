@@ -1,10 +1,10 @@
 import { randomUUID } from 'node:crypto';
-import { AgentTask, AgentTaskInput, AgentName, TaskPriority, TaskStatus } from './types';
-import { registerAgent, getAgent, listAgents } from './registry';
-import { researchAgent } from './researchAgent';
-import { codingAgent } from './codingAgent';
-import { securityAgent } from './securityAgent';
-import { testingAgent } from './testingAgent';
+import type { AgentTask, AgentTaskInput, AgentName, TaskPriority, TaskStatus } from './types.ts';
+import { registerAgent, getAgent, listAgents } from './registry.ts';
+import { researchAgent } from './researchAgent.ts';
+import { codingAgent } from './codingAgent.ts';
+import { securityAgent } from './securityAgent.ts';
+import { testingAgent } from './testingAgent.ts';
 
 registerAgent(researchAgent);
 registerAgent(codingAgent);

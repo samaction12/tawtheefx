@@ -84,10 +84,10 @@ export const HeroSection: React.FC<Props> = ({
             {/* Main Headline with Modern Gradient */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.15] sm:leading-[1.15]">
               <span className="block text-white">
-                {isRtl ? 'منصة التوظيف الذكية' : 'Smart Global Hiring'}
+                {t.hero_title_line1}
               </span>
               <span className="block mt-1 bg-gradient-to-r from-indigo-300 via-sky-300 to-emerald-300 bg-clip-text text-transparent">
-                {isRtl ? 'والمقابلات الرقمية بالذكاء الاصطناعي' : 'Powered by AI Video Suite'}
+                {t.hero_title_line2}
               </span>
             </h1>
 
@@ -119,10 +119,10 @@ export const HeroSection: React.FC<Props> = ({
                     onChange={(e) => setSelectedDept(e.target.value)}
                     className="bg-transparent text-slate-300 text-xs font-medium focus:outline-none cursor-pointer"
                   >
-                    <option value="all" className="bg-slate-900 text-white">جميع المجالات</option>
-                    <option value="engineering" className="bg-slate-900 text-white">الهندسة والتقنية</option>
-                    <option value="product" className="bg-slate-900 text-white">المنتج والتصميم</option>
-                    <option value="business" className="bg-slate-900 text-white">المبيعات والأعمال</option>
+                    <option value="all" className="bg-slate-900 text-white">{t.hero_dept_all}</option>
+                    <option value="engineering" className="bg-slate-900 text-white">{t.hero_dept_engineering}</option>
+                    <option value="product" className="bg-slate-900 text-white">{t.hero_dept_product}</option>
+                    <option value="business" className="bg-slate-900 text-white">{t.hero_dept_business}</option>
                   </select>
                 </div>
 
@@ -197,7 +197,7 @@ export const HeroSection: React.FC<Props> = ({
                   <Star className="w-3.5 h-3.5 fill-current" />
                 </div>
                 <span className="font-semibold text-slate-200">4.9/5</span>
-                <span>من قبل أكثر من 2,400 جهة توظيف عالمية</span>
+                <span>{t.hero_social_proof}</span>
               </div>
             </div>
 
@@ -226,7 +226,7 @@ export const HeroSection: React.FC<Props> = ({
                   </div>
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-medium">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>HD 1080p مشفر</span>
+                    <span>{t.hero_secure_hd}</span>
                   </div>
                 </div>
 
@@ -245,10 +245,10 @@ export const HeroSection: React.FC<Props> = ({
                   <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
                     <div>
                       <h4 className="text-xs sm:text-sm font-bold flex items-center gap-1.5">
-                        <span>سارة الشمري</span>
+                        <span>{t.hero_candidate_name}</span>
                         <CheckCircle2 className="w-3.5 h-3.5 text-sky-400 fill-sky-400/20" />
                       </h4>
-                      <p className="text-[11px] text-slate-300">مهندس أول بنية تحتية سحابية وDevOps</p>
+                      <p className="text-[11px] text-slate-300">{t.hero_candidate_role}</p>
                     </div>
 
                     {/* AI Score Badge */}
@@ -271,7 +271,7 @@ export const HeroSection: React.FC<Props> = ({
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 space-y-1">
                     <div className="flex items-center justify-between text-slate-400 text-[11px]">
-                      <span>المهارات التقنية</span>
+                      <span>{t.hero_rubric_technical}</span>
                       <span className="text-indigo-300 font-bold">9.8/10</span>
                     </div>
                     <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
@@ -281,7 +281,7 @@ export const HeroSection: React.FC<Props> = ({
 
                   <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 space-y-1">
                     <div className="flex items-center justify-between text-slate-400 text-[11px]">
-                      <span>التواصل والقيادة</span>
+                      <span>{t.hero_rubric_communication}</span>
                       <span className="text-emerald-300 font-bold">9.5/10</span>
                     </div>
                     <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
@@ -297,15 +297,15 @@ export const HeroSection: React.FC<Props> = ({
                       <TrendingUp className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="block font-bold text-white">جاهزية التعيين الفوري</span>
-                      <span className="text-[10px] text-slate-400">تقييم معتمد متوافق مع نظام العمل الدولي</span>
+                      <span className="block font-bold text-white">{t.hero_fast_hiring_title}</span>
+                      <span className="text-[10px] text-slate-400">{t.hero_fast_hiring_sub}</span>
                     </div>
                   </div>
                   <button 
                     onClick={onOpenInterviewRoom}
                     className="text-[11px] font-bold text-indigo-300 hover:text-white px-2 py-1 rounded-md bg-white/10 hover:bg-white/20 transition-colors"
                   >
-                    تجربة الغرفة
+                    {t.hero_try_room}
                   </button>
                 </div>
 
@@ -338,7 +338,7 @@ export const HeroSection: React.FC<Props> = ({
 
           <div className="space-y-1">
             <div className="text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-300">
-              &lt; 30 دقيقة
+              {t.hero_stat_speed_value}
             </div>
             <div className="text-xs sm:text-sm text-slate-400 font-medium">
               {t.hero_stat_speed}
@@ -347,10 +347,10 @@ export const HeroSection: React.FC<Props> = ({
 
           <div className="space-y-1">
             <div className="text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-indigo-300">
-              +40 دولة
+              {t.hero_stat_countries_value}
             </div>
             <div className="text-xs sm:text-sm text-slate-400 font-medium">
-              تغطية توظيف عالمية
+              {t.hero_stat_countries_label}
             </div>
           </div>
         </div>
