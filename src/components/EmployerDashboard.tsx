@@ -35,9 +35,11 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
   onPostJob,
   onOpenReminder,
 }) => {
-  const { t } = useLanguage();
+  const { t, dir } = useLanguage();
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(null);
+
+  const align = dir === 'rtl' ? 'text-right' : 'text-left';
 
   const filteredApplicants = applicants.filter((app) => {
     if (statusFilter === 'all') return true;
@@ -45,21 +47,21 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
   });
 
   return (
-    <section className="py-10 bg-slate-50 min-h-[600px]">
+    <section dir={dir} className="py-10 bg-slate-50 min-h-[600px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Top Header of Employer Portal */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-xs text-slate-500 font-mono">
-              <span>بوابة إدارة التوظيف</span>
+              <span>{t.emp_breadcrumb_portal}</span>
               <span>/</span>
-              <span>مركز المقابلات والمرشحين</span>
+              <span>{t.emp_breadcrumb_center}</span>
             </div>
             <h2 className="text-2xl font-bold text-slate-900 mt-1">
-              لوحة تحكم جهة العمل واستقطاب الكفاءات
+              {t.emp_title}
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              متابعة طلبات التوظيف الواردة، إدارة جداول المقابلات الرقمية، واعتماد تقارير اللجان.
+              {t.emp_subtitle}
             </p>
           </div>
 
@@ -69,7 +71,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
               className="px-3.5 py-2.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors shadow-sm"
             >
               <Bell className="w-4 h-4 text-indigo-600" />
-              <span>نظام التذكيرات (SMS/Email)</span>
+              <span>{t.emp_reminders_btn}</span>
             </button>
 
             <button
@@ -77,7 +79,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
               className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors shadow-sm"
             >
               <Plus className="w-4 h-4" />
-              <span>نشر شاغر وظيفي جديد</span>
+              <span>{t.emp_post_job_btn}</span>
             </button>
           </div>
         </div>
@@ -85,28 +87,28 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
         {/* Metric Cards Row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <div className="text-xs text-slate-500 font-medium">الوظائف النشطة حالياً</div>
+            <div className="text-xs text-slate-500 font-medium">{t.emp_metric_active_jobs}</div>
             <div className="text-2xl font-bold text-slate-900 font-mono tabular-nums">
               {jobs?.length}
             </div>
           </div>
 
           <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <div className="text-xs text-slate-500 font-medium">إجمالي المتقدمين الجدد</div>
+            <div className="text-xs text-slate-500 font-medium">{t.emp_metric_new_applicants}</div>
             <div className="text-2xl font-bold text-indigo-600 font-mono tabular-nums">
               {applicants?.length}
             </div>
           </div>
 
           <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <div className="text-xs text-slate-500 font-medium">مقابلات رقمية مجدولة</div>
+            <div className="text-xs text-slate-500 font-medium">{t.emp_metric_scheduled_interviews}</div>
             <div className="text-2xl font-bold text-emerald-600 font-mono tabular-nums">
               {applicants.filter((a) => a.interviewScheduled)?.length}
             </div>
           </div>
 
           <div className="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <div className="text-xs text-slate-500 font-medium">تذكيرات أُرسلت (قبل ساعة)</div>
+            <div className="text-xs text-slate-500 font-medium">{t.emp_metric_reminders_sent}</div>
             <div className="text-2xl font-bold text-indigo-600 font-mono tabular-nums">
               {applicants.filter((a) => a.interviewScheduled?.reminderSent)?.length}
             </div>
@@ -139,21 +141,21 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
             </div>
 
             <div className="text-xs text-slate-400 font-mono tabular-nums">
-              عدد النتائج: {filteredApplicants?.length}
+              {`${t.emp_results_count} ${filteredApplicants?.length}`}
             </div>
           </div>
 
           {/* Table */}
           <div className="overflow-x-auto">
-            <table className="w-full text-right text-xs">
+            <table className={`w-full ${align} text-xs`}>
               <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
                 <tr>
-                  <th className="py-3 px-4">اسم المرشح</th>
-                  <th className="py-3 px-4">الوظيفة المتقدم لها</th>
-                  <th className="py-3 px-4">نسبة التطابق</th>
-                  <th className="py-3 px-4">حالة المقابلة والتذكير</th>
-                  <th className="py-3 px-4">التقييم المعياري</th>
-                  <th className="py-3 px-4 text-center">الإجراء الفوري</th>
+                  <th className="py-3 px-4">{t.emp_table_candidate}</th>
+                  <th className="py-3 px-4">{t.emp_table_role}</th>
+                  <th className="py-3 px-4">{t.emp_table_match}</th>
+                  <th className="py-3 px-4">{t.emp_table_interview_status}</th>
+                  <th className="py-3 px-4">{t.emp_table_score}</th>
+                  <th className="py-3 px-4 text-center">{t.emp_table_action}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -178,7 +180,9 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                     {/* Role */}
                     <td className="py-3.5 px-4 text-slate-700">
                       <div className="font-medium text-slate-900">{t[app.roleKey]}</div>
-                      <div className="text-[11px] text-slate-400">{app.experienceYears} سنوات خبرة</div>
+                      <div className="text-[11px] text-slate-400">
+                        {app.experienceYears} {t.emp_years_experience}
+                      </div>
                     </td>
 
                     {/* Match Score */}
@@ -199,7 +203,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                           {app.interviewScheduled.reminderSent ? (
                             <div className="text-[11px] text-emerald-600 font-medium flex items-center gap-1">
                               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                              <span>أُرسل تذكير قبل ساعة (SMS/Mail)</span>
+                              <span>{t.emp_reminder_sent_badge}</span>
                             </div>
                           ) : (
                             <button
@@ -207,12 +211,12 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                               className="text-[11px] text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 underline underline-offset-2"
                             >
                               <Bell className="w-3 h-3" />
-                              <span>إرسال تذكير المقابلة</span>
+                              <span>{t.emp_send_reminder}</span>
                             </button>
                           )}
                         </div>
                       ) : (
-                        <span className="text-slate-400">بانتظار الجدولة</span>
+                        <span className="text-slate-400">{t.emp_awaiting_schedule}</span>
                       )}
                     </td>
 
@@ -233,7 +237,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                           </span>
                         </div>
                       ) : (
-                        <span className="text-slate-400 text-[11px]">لم يتم التقييم</span>
+                        <span className="text-slate-400 text-[11px]">{t.emp_not_evaluated}</span>
                       )}
                     </td>
 
@@ -245,13 +249,13 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                           className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
                         >
                           <Video className="w-3.5 h-3.5" />
-                          <span>دخول المقابلة</span>
+                          <span>{t.emp_enter_interview}</span>
                         </button>
 
                         <button
                           onClick={() => onOpenReminder(app)}
                           className="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition-colors"
-                          title="إرسال أو استعراض تذكير المقابلة"
+                          title={t.emp_title_send_reminder}
                         >
                           <Bell className="w-4 h-4" />
                         </button>
@@ -259,7 +263,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                         <button
                           onClick={() => setSelectedApplicant(app)}
                           className="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
-                          title="عرض ملف السيرة الذاتية والملاحظات"
+                          title={t.emp_title_view_resume}
                         >
                           <Eye className="w-4 h-4" />
                         </button>
@@ -274,10 +278,10 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                       <div className="max-w-sm mx-auto space-y-2">
                         <Users className="w-8 h-8 text-slate-400 mx-auto" />
                         <h4 className="text-xs font-bold text-slate-800">
-                          لا يوجد مرشحون حالياً في هذه القائمة
+                          {t.emp_empty_title}
                         </h4>
                         <p className="text-[11px] text-slate-500 leading-relaxed">
-                          المنصة مهيأة لاستقبال طلبات التوظيف الحقيقية. فور تقديم أي مرشح، ستتلقى تنبيهاً فورياً وتُحدث هذه القائمة لحظياً.
+                          {t.emp_empty_body}
                         </p>
                       </div>
                     </td>
@@ -291,7 +295,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
 
         {/* Applicant Details Modal */}
         {selectedApplicant && (
-          <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4" dir={dir}>
             <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-5 border border-slate-200 shadow-2xl">
               <div className="flex items-start justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-3">
@@ -310,28 +314,28 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                   onClick={() => setSelectedApplicant(null)}
                   className="text-slate-400 hover:text-slate-600 text-xs px-2 py-1"
                 >
-                  إغلاق
+                  {t.emp_modal_close}
                 </button>
               </div>
 
               <div className="space-y-3 text-xs text-slate-700">
                 <div className="grid grid-cols-2 gap-3 p-3 bg-slate-50 rounded-lg">
                   <div>
-                    <span className="text-slate-400 block">سنوات الخبرة:</span>
+                    <span className="text-slate-400 block">{t.emp_label_experience}</span>
                     <span className="font-semibold text-slate-900 font-mono tabular-nums">
-                      {selectedApplicant.experienceYears} سنوات
+                      {selectedApplicant.experienceYears} {t.emp_years_experience}
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">جهة العمل السابقة:</span>
+                    <span className="text-slate-400 block">{t.emp_label_prev_company}</span>
                     <span className="font-semibold text-slate-900">{t[selectedApplicant.currentCompanyKey]}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">البريد الإلكتروني:</span>
+                    <span className="text-slate-400 block">{t.emp_label_email}</span>
                     <span className="font-mono text-slate-900">{selectedApplicant.email}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 block">ملف الـ CV:</span>
+                    <span className="text-slate-400 block">{t.emp_label_cv}</span>
                     <span className="font-semibold text-indigo-600">
                       {selectedApplicant.resumeFileName || 'Resume.pdf'}
                     </span>
@@ -340,7 +344,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
 
                 {selectedApplicant.interviewScores && (
                   <div className="p-3 bg-amber-50/50 border border-amber-200 rounded-lg space-y-2">
-                    <h4 className="font-bold text-amber-900 text-xs">تقييم وملاحظات المقابلة:</h4>
+                    <h4 className="font-bold text-amber-900 text-xs">{t.emp_label_evaluation}</h4>
                     <p className="text-slate-700 leading-relaxed text-xs">
                       {t[selectedApplicant.interviewScores.notesKey]}
                     </p>
@@ -358,7 +362,7 @@ export const EmployerDashboard: React.FC<EmployerDashboardProps> = ({
                   className="flex-1 py-2.5 bg-indigo-600 text-white rounded-lg text-xs font-semibold hover:bg-indigo-700 flex items-center justify-center gap-2"
                 >
                   <Video className="w-4 h-4" />
-                  <span>بدء جلسة مقابلة فيديو الآن</span>
+                  <span>{t.emp_start_video_interview}</span>
                 </button>
               </div>
             </div>
